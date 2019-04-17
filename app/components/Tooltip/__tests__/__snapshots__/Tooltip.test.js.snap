@@ -1,0 +1,289 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tool tip Component Tooltip visually looks the same 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "borderRadius": 4,
+        "elevation": 1,
+        "height": 25,
+        "shadowColor": "#000",
+        "shadowOffset": Object {
+          "height": 3,
+          "width": 0,
+        },
+        "shadowOpacity": 0.8,
+        "shadowRadius": 2,
+        "width": 25,
+      },
+      undefined,
+    ]
+  }
+>
+  <View>
+    <Modal
+      hardwareAccelerated={false}
+      onRequestClose={[Function]}
+      transparent={true}
+      visible={false}
+    >
+      <View
+        accessible={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "opacity": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            0,
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "opacity": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "position": "absolute",
+              "shadowColor": "black",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 0.8,
+              "shadowRadius": 2,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderBottomColor": "transparent",
+                "borderBottomWidth": 9,
+                "borderLeftColor": "transparent",
+                "borderLeftWidth": 9,
+                "borderRightColor": "transparent",
+                "borderRightWidth": 9,
+                "borderTopColor": "#fff",
+                "borderTopWidth": 9,
+                "height": 18,
+                "left": -9,
+                "position": "absolute",
+                "top": -9,
+                "transform": Array [
+                  Object {
+                    "rotate": "0deg",
+                  },
+                  Object {
+                    "scale": 0,
+                  },
+                ],
+                "width": 18,
+              }
+            }
+          />
+          <View
+            onLayout={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 4,
+                "padding": 8,
+                "transform": Array [
+                  Object {
+                    "translateX": 0,
+                  },
+                  Object {
+                    "translateY": 0,
+                  },
+                  Object {
+                    "scale": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <Text>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                Tooltip content here
+              </Text>
+            </Text>
+          </View>
+        </View>
+        <View
+          pointerEvents="auto"
+          style={
+            Object {
+              "alignItems": "center",
+              "height": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+              "width": 0,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            isTVSelectable={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "#43484d",
+                      "borderRadius": 20,
+                      "justifyContent": "center",
+                      "padding": 12,
+                      "paddingBottom": 3,
+                      "paddingTop": 3,
+                    },
+                    Object {
+                      "backgroundColor": "#364590",
+                      "borderRadius": 50,
+                      "height": 25,
+                      "padding": 0,
+                      "width": 25,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "white",
+                        "fontSize": 14,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  ?
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </Modal>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              undefined,
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#43484d",
+                  "borderRadius": 20,
+                  "justifyContent": "center",
+                  "padding": 12,
+                  "paddingBottom": 3,
+                  "paddingTop": 3,
+                },
+                Object {
+                  "backgroundColor": "#364590",
+                  "borderRadius": 50,
+                  "height": 25,
+                  "padding": 0,
+                  "width": 25,
+                },
+              ]
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "white",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              ?
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Component Text is visually looks the same 1`] = `
+<Text
+  style={
+    Object {
+      "color": "#FFF",
+      "fontFamily": "RobotoCondensed-Regular",
+      "fontSize": 16,
+      "fontWeight": "600",
+    }
+  }
+>
+  Testing
+</Text>
+`;

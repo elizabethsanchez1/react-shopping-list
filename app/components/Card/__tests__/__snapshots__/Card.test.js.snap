@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Component Card base visually looks the same 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "white",
+        "borderColor": "#e1e8ee",
+        "borderWidth": 1,
+        "margin": 15,
+        "marginBottom": 0,
+        "padding": 15,
+        "shadowColor": "rgba(0,0,0, .2)",
+        "shadowOffset": Object {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 1,
+        "shadowRadius": 1,
+      },
+      undefined,
+      Array [
+        Object {
+          "backgroundColor": "#47474D",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "elevation": 1,
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 3,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+        },
+        undefined,
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+        },
+        undefined,
+        undefined,
+      ]
+    }
+  >
+    <View>
+      <Text
+        style={
+          Array [
+            Object {},
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            Array [
+              Object {
+                "color": "#43484d",
+                "fontSize": 17.5,
+                "fontWeight": "bold",
+                "marginBottom": 15,
+                "textAlign": "center",
+              },
+              undefined,
+              Object {
+                "color": "#FFF",
+                "fontFamily": "RobotoCondensed-Regular",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "marginBottom": 0,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        title renders
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#e1e8ee",
+              "height": 1,
+            },
+            Array [
+              Object {
+                "marginBottom": 15,
+              },
+              Object {
+                "display": "none",
+              },
+            ],
+          ]
+        }
+      />
+    </View>
+    <Text>
+      Testing
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Card Component matches the snapShot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "white",
+        "borderColor": "#e1e8ee",
+        "borderWidth": 1,
+        "margin": 15,
+        "marginBottom": 0,
+        "padding": 15,
+        "shadowColor": "rgba(0,0,0, .2)",
+        "shadowOffset": Object {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 1,
+        "shadowRadius": 1,
+      },
+      undefined,
+      Array [
+        Object {
+          "backgroundColor": "#47474D",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "elevation": 1,
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 3,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+        },
+        undefined,
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+        },
+        undefined,
+        undefined,
+      ]
+    }
+  />
+</View>
+`;

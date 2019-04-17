@@ -1,0 +1,2526 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+      "marginTop": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 45,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 10,
+              "paddingLeft": 0,
+              "paddingRight": 10,
+              "paddingTop": 10,
+            },
+            Object {
+              "borderBottomWidth": 2,
+              "borderColor": "#fff",
+            },
+            Object {
+              "height": 45,
+            },
+            Object {
+              "justifyContent": "flex-start",
+              "width": "35%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Exercise
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 10,
+              "paddingLeft": 0,
+              "paddingRight": 10,
+              "paddingTop": 10,
+            },
+            Object {
+              "borderBottomWidth": 2,
+              "borderColor": "#fff",
+            },
+            Object {
+              "height": 45,
+            },
+            Object {
+              "alignItems": "flex-end",
+              "justifyContent": "center",
+              "width": "20%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Weight
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 10,
+              "paddingLeft": 0,
+              "paddingRight": 10,
+              "paddingTop": 10,
+            },
+            Object {
+              "borderBottomWidth": 2,
+              "borderColor": "#fff",
+            },
+            Object {
+              "height": 45,
+            },
+            Object {
+              "alignItems": "flex-end",
+              "justifyContent": "center",
+              "width": "15%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Sets
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 10,
+              "paddingLeft": 0,
+              "paddingRight": 10,
+              "paddingTop": 10,
+            },
+            Object {
+              "borderBottomWidth": 2,
+              "borderColor": "#fff",
+            },
+            Object {
+              "height": 45,
+            },
+            Object {
+              "alignItems": "flex-end",
+              "justifyContent": "center",
+              "width": "20%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Reps
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 10,
+              "paddingLeft": 0,
+              "paddingRight": 10,
+              "paddingTop": 10,
+            },
+            Object {
+              "borderBottomWidth": 2,
+              "borderColor": "#fff",
+            },
+            Object {
+              "height": 45,
+            },
+            Object {
+              "alignItems": "flex-end",
+              "justifyContent": "center",
+              "paddingRight": 0,
+              "width": "10%",
+            },
+          ]
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "#FFCF44",
+                "fontSize": 20,
+              },
+              undefined,
+              Object {
+                "fontFamily": "Material Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View>
+    <RCTScrollView
+      data={
+        Array [
+          Object {
+            "compound": true,
+            "exercise": "Barbell Squat",
+            "isolation": false,
+            "muscleGroup": "Quads",
+            "reps": "8",
+            "sets": "3",
+            "weight": "205",
+          },
+          Object {
+            "compound": false,
+            "exercise": "Standing Calf Raise",
+            "isolation": true,
+            "muscleGroup": "Calves",
+            "reps": "12",
+            "sets": "5",
+            "weight": "105",
+          },
+        ]
+      }
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-start",
+                    "justifyContent": "center",
+                    "width": "35%",
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 14,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                 
+                Barbell Squat
+                 
+              </Text>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "20%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                205
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "15%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                3
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "20%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                8
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "paddingRight": 0,
+                    "width": "10%",
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onPress={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#FFCF44",
+                      "fontSize": 20,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "Material Icons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-start",
+                    "justifyContent": "center",
+                    "width": "35%",
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 14,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                 
+                Standing Calf Raise
+                 
+              </Text>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "20%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                105
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "15%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                5
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "width": "20%",
+                  },
+                ]
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                keyboardType="number-pad"
+                onEndEditing={[Function]}
+                onFocus={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "paddingBottom": 20,
+                    "paddingLeft": 0,
+                    "paddingRight": 10,
+                    "paddingTop": 10,
+                  },
+                  Object {
+                    "alignItems": "flex-end",
+                    "justifyContent": "center",
+                    "paddingRight": 0,
+                    "width": "10%",
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onPress={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#FFCF44",
+                      "fontSize": 20,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "Material Icons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
+
+exports[`Table Component BuildingBuildTable Visually looks the same 2`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+      "marginTop": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 45,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "height": 45,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Set
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Weight
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Reps
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View>
+    <RCTScrollView
+      data={
+        Array [
+          Object {
+            "reps": 12,
+            "set": 1,
+            "weight": 50,
+          },
+          Object {
+            "reps": 12,
+            "set": 2,
+            "weight": 50,
+          },
+          Object {
+            "reps": 12,
+            "set": 3,
+            "weight": 50,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                2
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                3
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
+
+exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+      "marginTop": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 45,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "height": 45,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Set
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Weight
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Reps
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View>
+    <RCTScrollView
+      data={
+        Array [
+          Object {
+            "reps": 12,
+            "set": 1,
+            "weight": 50,
+          },
+          Object {
+            "reps": 12,
+            "set": 2,
+            "weight": 50,
+          },
+          Object {
+            "reps": 12,
+            "set": 3,
+            "weight": 50,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                2
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                3
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={3}
+                onEndEditing={[Function]}
+                onSubmitEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                50
+              </TextInput>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearTextOnFocus={true}
+                keyboardType="number-pad"
+                maxLength={2}
+                onEndEditing={[Function]}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "borderBottomColor": "white",
+                    "borderBottomWidth": 1,
+                    "color": "#FFF",
+                    "fontFamily": "Eczar-Regular",
+                    "fontSize": 15,
+                    "minWidth": "80%",
+                    "textAlign": "center",
+                  }
+                }
+                underlineColorAndroid="transparent"
+              >
+                12
+              </TextInput>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
+
+exports[`Table Component TrackSummaryTable Visually looks the same 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+      "marginTop": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 45,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "height": 45,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Set
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Weight
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Reps
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Total
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View>
+    <RCTScrollView
+      data={
+        Array [
+          Object {
+            "reps": 10,
+            "set": 1,
+            "weight": 100,
+          },
+          Object {
+            "reps": 8,
+            "set": 2,
+            "weight": 200,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                100
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                10
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1000
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                2
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                200
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                8
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1600
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
+
+exports[`Table Component Visually looks the same 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+      "marginTop": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 45,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignSelf": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "height": 45,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Set
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Weight
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Reps
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomWidth": 2,
+            "borderColor": "#fff",
+            "flex": 1,
+            "height": 45,
+            "paddingBottom": 10,
+            "paddingLeft": 0,
+            "paddingTop": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Total
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View>
+    <RCTScrollView
+      data={
+        Array [
+          Object {
+            "reps": 10,
+            "set": 1,
+            "weight": 100,
+          },
+          Object {
+            "reps": 8,
+            "set": 2,
+            "weight": 200,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      stickyHeaderIndices={Array []}
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                100
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                10
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1000
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "alignSelf": "stretch",
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                2
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                200
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                8
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
+                  "paddingBottom": 20,
+                  "paddingLeft": 0,
+                  "paddingRight": 10,
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "RobotoCondensed-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                1600
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;

@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form Components Input Base visually looks the same 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "borderBottomWidth": 0,
+        "marginBottom": 10,
+        "marginLeft": 0,
+        "marginRight": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {},
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {},
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          Array [
+            Object {
+              "color": "#86939e",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "marginBottom": 1,
+              "marginLeft": 20,
+              "marginRight": 20,
+              "marginTop": 15,
+            },
+            undefined,
+            undefined,
+          ],
+        ]
+      }
+    >
+      Input Label
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "borderBottomColor": "#bdc6cf",
+        "borderBottomWidth": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "transform": Array [
+          Object {
+            "translateX": 0,
+          },
+        ],
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCapitalize="none"
+      autoCorrect={false}
+      label="Input Label"
+      placeholder="my custom placeholder"
+      placeholderTextColor="#A1A1A1"
+      style={
+        Array [
+          Object {
+            "color": "#86939e",
+            "minHeight": 36,
+            "width": 750,
+          },
+          Object {
+            "fontSize": 17.5,
+          },
+          Array [
+            Object {
+              "borderBottomColor": "#fff",
+              "borderBottomWidth": 2,
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+              "height": 40,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "width": "auto",
+            },
+            undefined,
+          ],
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
+
+exports[`Form Components Input Base with error visually looks the same 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "borderBottomWidth": 0,
+        "marginBottom": 10,
+        "marginLeft": 0,
+        "marginRight": 0,
+      },
+      Object {
+        "marginTop": 50,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "borderBottomColor": "#bdc6cf",
+        "borderBottomWidth": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "transform": Array [
+          Object {
+            "translateX": 0,
+          },
+        ],
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCapitalize="none"
+      autoCorrect={false}
+      containerStyling={
+        Object {
+          "marginTop": 50,
+        }
+      }
+      errorMessage="Error Message "
+      placeholder="Input with error message"
+      placeholderTextColor="#A1A1A1"
+      style={
+        Array [
+          Object {
+            "color": "#86939e",
+            "minHeight": 36,
+            "width": 750,
+          },
+          Object {
+            "fontSize": 17.5,
+          },
+          Array [
+            Object {
+              "borderBottomColor": "#fff",
+              "borderBottomWidth": 2,
+              "color": "#FFF",
+              "fontFamily": "RobotoCondensed-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+              "height": 40,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "width": "auto",
+            },
+            undefined,
+          ],
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {},
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {},
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          Array [
+            Object {
+              "color": "#ff190c",
+              "fontSize": 15,
+              "marginBottom": 1,
+              "marginLeft": 20,
+              "marginRight": 20,
+              "marginTop": 5,
+            },
+            Object {
+              "color": "#ff190c",
+              "marginLeft": 0,
+              "marginRight": 0,
+              "marginTop": 10,
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      Error Message 
+    </Text>
+  </View>
+</View>
+`;

@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Container Component Container base visually looks the same 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#32333D",
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text>
+    Container
+  </Text>
+</View>
+`;
+
+exports[`Container Component Container scroll base visually looks the same 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    Array [
+      Object {
+        "backgroundColor": "#32333D",
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View>
+    <Text>
+      Container
+    </Text>
+  </View>
+</RCTScrollView>
+`;
