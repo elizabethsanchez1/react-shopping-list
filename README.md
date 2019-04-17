@@ -21,7 +21,9 @@ cocoapods : sudo gem install cocoapods (from ios directory)
 
 ## Npm Links
 ```
-react-native link react-native-svg
+react-native link should link all assets like custom fonts
+
+react-native link react-native-vector-icons will link that package
 ```
 
 ## Initialize Firebase
@@ -31,6 +33,12 @@ https://stackoverflow.com/questions/50815094/react-native-the-default-firebaseap
 
 ```
 
+## Adding custom font
+```
+Bring over fonts folder, then run react-native link
+to link the assets that are declared under rnpm in 
+package.json
+```
 
 ### Mac installs
 ```

@@ -14,10 +14,10 @@ export default {
   // LIGHT_FONT: '#fff',
 
   // PRIMARY_FONT_FAMILY: 'AvenirNextCondensed-Regular',
-  // PRIMARY_FONT_FAMILY: 'RobotoCondensed-Regular',
-  PRIMARY_FONT_FAMILY: 'System',
-  // SECONDARY_FONT_FAMILY: 'Eczar-Regular',
-  SECONDARY_FONT_FAMILY: 'System',
+  PRIMARY_FONT_FAMILY: 'RobotoCondensed-Regular',
+  // PRIMARY_FONT_FAMILY: 'System',
+  SECONDARY_FONT_FAMILY: 'Eczar-Regular',
+  //SECONDARY_FONT_FAMILY: 'System',
 
 
 

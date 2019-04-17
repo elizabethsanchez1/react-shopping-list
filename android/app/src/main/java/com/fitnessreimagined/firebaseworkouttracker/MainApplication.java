@@ -3,6 +3,8 @@ package com.fitnessreimagined.firebaseworkouttracker;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
+import io.invertase.firebase.RNFirebasePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -42,6 +44,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new SvgPackage(),
+            new RNFirebasePackage(),
             new VectorIconsPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
