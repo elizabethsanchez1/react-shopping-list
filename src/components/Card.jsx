@@ -1,5 +1,10 @@
 import React from 'react';
 import Subtitle from './Subtitle';
+import Input from './Input';
+import Add from './Add';
+import Search from './Search';
+import Clear from './Clear';
+import ListItems from './ListItems';
 
 const styles = {
 	container: {
@@ -29,20 +34,15 @@ function Card() {
       
       <div styles={ styles.centerInput }>
 				<Subtitle />
+     		<Input/>
       </div> 
      
       <div styles={ styles.allBtns }>
-
-       { /*
-			 
-					<Add/>
-        <Clear/>
-        <Search/>
-			*/	}
-        
-				<p>My Card</p>
+      	<Add/>
+      	<Search/>
+      	<Clear/>
       </div>
-      
+      	<ListItems/>
 
     </div> 
   )

@@ -2,7 +2,7 @@ import React from 'react';
 
 const styles = {
 	heading: {
-		textAlign: 'center',
+	textAlign: 'center',
 	}
 };
 

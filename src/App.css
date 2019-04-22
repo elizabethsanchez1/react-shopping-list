@@ -31,3 +31,43 @@
     transform: rotate(360deg);
   }
 }
+
+.btn {
+  background-color: #D5D5D5;
+  border: none;
+  width: 17%;
+  height: 30px;
+  margin: 9px 2px;
+  border-radius: 3px;
+}
+
+.list {
+  margin-left: 20px;
+  font-size: 30px;
+}
+
+.list-item {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: 475;
+  text-align: left;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 35px;
+
+}
+
+.border-container {
+  display: flex;
+  align-items: center;
+  border: 8px solid #6D7993;
+  border-radius: 10px;
+  margin: 1px;
+  width: 100%;
+}
