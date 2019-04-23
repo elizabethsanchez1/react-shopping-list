@@ -1,10 +1,11 @@
 import React from 'react';
 
 
-
 function Add() {
   return (
-  <button className='add btn'>Add</button>
+  <button className='add btn'>
+    Add
+  </button>
   )
 }
 
