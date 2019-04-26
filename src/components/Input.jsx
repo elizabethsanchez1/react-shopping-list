@@ -56,9 +56,6 @@ class Input extends Component {
 			input: event.target.value,
 			newField: '1',
 		  } );
-
-
-		  this.state.allows = 'numbers';
 	}
 
 	render() {
