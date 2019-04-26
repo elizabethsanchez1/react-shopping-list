@@ -33,8 +33,8 @@ function Card() {
     <div style={ styles.container }>
       
       <div styles={ styles.centerInput }>
-				<Subtitle />
-     		<Input/>
+			<Subtitle />
+     		<Input />
       </div> 
      
       <div styles={ styles.allBtns }>

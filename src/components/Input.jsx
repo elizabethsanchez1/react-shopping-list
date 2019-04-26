@@ -25,10 +25,14 @@ const styles = {
 // 	)
 // }
 
+
+
 class Input extends Component {
 	constructor( props ) {
 		super( props );
 		this.state = {
+			allows: 'letters',
+			doNotAllow: 'number',
 			input: '',
 		}
 	}
@@ -40,14 +44,26 @@ class Input extends Component {
 	- auto format, make all lowercase for them or uppercase the first letter
 	*/
 	handleInput = ( event ) => {
+		// tells react to pass us the entire vent
 		event.persist();
-		// console.log( 'my input event: ', event );
+
+
+
+		console.log( 'my input event: ', event );
+
 		console.log('text: ', event.target.value );
-		this.setState( { input: event.target.value } );
+		this.setState( { 
+			input: event.target.value,
+			newField: '1',
+		  } );
+
+
+		  this.state.allows = 'numbers';
 	}
 
 	render() {
 		console.log('Input state', this.state);
+		console.warn('what is my id prop ', this.props );
 
 		return (
 			<label>
@@ -57,7 +73,8 @@ class Input extends Component {
 					placeholder = "Enter item here"
 					onChange={ this.handleInput }
 				/>
-				<FontAwesomeIcon style={ { marginLeft: 5 } } icon={faPlus} />  
+				<FontAwesomeIcon style={ { marginLeft: 5 } } icon={faPlus} /> 
+				 <p> { this.state.input } </p>
 			</label>
 		)
 	}
