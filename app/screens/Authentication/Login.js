@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import  { Card } from '../../components/Card';
-import { View, Alert } from 'react-native';
+import { Card } from '../../components/Card';
+import { View } from 'react-native';
 import Container from '../../components/Container';
 import { Input } from '../../components/Form';
 import { PrimaryButton } from '../../components/Button';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import theme from '../../styles/theme.style';
 import { connect } from 'react-redux';
-import { getLoginLoading } from "../../selectors/authentication";
-import { login } from "../../actions/authentication";
+import { getLoginLoading } from '../../selectors/authentication';
+import { login, loginRequestAction } from '../../actions/authentication';
+import Alert from '../../components/Alert/Alert';
 
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
     this.state = {
       email: '',
       password: '',
@@ -30,26 +31,26 @@ class Login extends Component {
     this.emailInput = React.createRef();
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ( { navigation } ) => {
     return {
       headerLeft: (
         <Button
-          title='Register'
-          color={theme.PRIMARY_FONT_COLOR}
-          fontFamily={theme.PRIMARY_FONT_FAMILY}
-          fontSize={theme.FONT_SIZE_HEADERBAR}
-          textStyle={{ fontWeight: theme.FONT_WEIGHT_MEDIUM }}
-          buttonStyle={{ backgroundColor: 'transparent', padding: 9 }}
-          containerViewStyle={{paddingLeft: 0, marginLeft: 0}}
-          onPress={ () => navigation.navigate('Register')}
+          title="Register"
+          color={ theme.PRIMARY_FONT_COLOR }
+          fontFamily={ theme.PRIMARY_FONT_FAMILY }
+          fontSize={ theme.FONT_SIZE_HEADERBAR }
+          textStyle={ { fontWeight: theme.FONT_WEIGHT_MEDIUM } }
+          buttonStyle={ { backgroundColor: 'transparent', padding: 9 } }
+          containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
+          onPress={ () => navigation.navigate( 'Register' ) }
         />
       )
     }
   };
 
-  formatErrorMessage = (message) => {
-    const filtered = message.substring(message.indexOf("/") + 1).replace(/-/g, " ");
-    return filtered.charAt(0).toUpperCase() + filtered.slice(1);
+  formatErrorMessage = ( message ) => {
+    const filtered = message.substring( message.indexOf( '/' ) + 1 ).replace( /-/g, ' ' );
+    return filtered.charAt( 0 ).toUpperCase() + filtered.slice( 1 );
   };
 
 
@@ -57,13 +58,13 @@ class Login extends Component {
    * Validate email inputted by user
    * @param {String} text
    */
-  validateEmail = (text) => {
+  validateEmail = text => {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-    this.setState({
-      invalidEmail: !regex.test(text.toLowerCase()),
-      disableSubmitButton: !regex.test(text.toLowerCase()),
-    });
+    this.setState( {
+      invalidEmail: !regex.test( text.toLowerCase() ),
+      disableSubmitButton: !regex.test( text.toLowerCase() ),
+    } );
   };
 
   /**
@@ -71,11 +72,11 @@ class Login extends Component {
    * text field has focus or not
    */
   handlePasswordHint = () => {
-    const style = (this.state.passwordHint === 'none') ? 'flex' : 'none';
+    const style = ( this.state.passwordHint === 'none' ) ? 'flex' : 'none';
 
-    this.setState({
+    this.setState( {
       passwordHint: style
-    });
+    } );
   };
 
   /**
@@ -83,19 +84,19 @@ class Login extends Component {
    * field toggle the masking of the password text
    */
   togglePasswordMasking = () => {
-    const passwordIcon = (this.state.hidePassword) ? 'eye' : 'eye-off';
+    const passwordIcon = ( this.state.hidePassword ) ? 'eye' : 'eye-off';
     const hidePassword = !this.state.hidePassword;
 
-    this.setState({
+    this.setState( {
       passwordIcon,
       hidePassword,
-    });
+    } );
   };
 
 
   handleLogin = () => {
     const { email, password } = this.state;
-    this.props.login(email,password);
+    this.props.login( email, password );
   };
 
 
@@ -106,44 +107,44 @@ class Login extends Component {
       <Container>
         <Card
           title='Login'
-          containerStyling={{ marginTop: 80, position: 'relative', height: 310}}
+          containerStyling={ { marginTop: 80, position: 'relative', height: 310 } }
         >
           <Input
-            containerStyling={{ marginTop: 30 }}
-            ref={this.emailInput}
+            containerStyling={ { marginTop: 30 } }
+            ref={ this.emailInput }
             placeholder="Email"
             keyboardType="email-address"
-            onChangeText={(email) => this.setState({ email })}
-            onEndEditing={email => this.validateEmail(email.nativeEvent.text)}
-            errorMessage={ (invalidEmail) ? 'Invalid Email Address' : ''}
-            value={this.state.email}
-            onSubmitEditing={() => this.passwordInput.current.focus()}
+            onChangeText={ ( email ) => this.setState( { email } ) }
+            onEndEditing={ email => this.validateEmail( email.nativeEvent.text ) }
+            errorMessage={ ( invalidEmail ) ? 'Invalid Email Address' : '' }
+            value={ this.state.email }
+            onSubmitEditing={ () => this.passwordInput.current.focus() }
           />
-          <View style={{ position: 'relative' }}>
+          <View style={ { position: 'relative' } }>
             <Input
-              containerStyling={{ marginTop: 30 }}
-              ref={this.passwordInput}
+              containerStyling={ { marginTop: 30 } }
+              ref={ this.passwordInput }
               placeholder="Password"
               keyboardType="email-address"
-              secureTextEntry={hidePassword}
-              onChangeText={password => this.setState({ password })}
-              onFocus={() => this.handlePasswordHint()}
-              value={this.state.password}
+              secureTextEntry={ hidePassword }
+              onChangeText={ password => this.setState( { password } ) }
+              onFocus={ () => this.handlePasswordHint() }
+              value={ this.state.password }
             />
             <Icon
-              name={passwordIcon}
-              size={30}
+              name={ passwordIcon }
+              size={ 30 }
               color='white'
-              style={{ position: 'absolute', right : 0, bottom: 12, padding: 10 }}
-              onPress={() => this.togglePasswordMasking()}
+              style={ { position: 'absolute', right: 0, bottom: 12, padding: 10 } }
+              onPress={ () => this.togglePasswordMasking() }
             />
           </View>
           <PrimaryButton
             title="LOGIN"
-            disabled={disableSubmitButton}
-            onPress={this.handleLogin}
-            loading={this.props.isLoading}
-            containerViewStyle={{ position: 'absolute', bottom: -138, left: 0, right: 0 }}
+            disabled={ disableSubmitButton }
+            onPress={ this.handleLogin }
+            loading={ this.props.isLoading }
+            containerViewStyle={ { position: 'absolute', bottom: -138, left: 0, right: 0 } }
           />
         </Card>
       </Container>
@@ -152,23 +153,24 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  loginFailed:   PropTypes.string,
-  isLoading:     PropTypes.bool,
-  navigation:    PropTypes.object,
+  loginFailed: PropTypes.string,
+  isLoading: PropTypes.bool,
+  navigation: PropTypes.object,
   login: PropTypes.func,
 };
 
-function mapStateToProps(state) {
+function mapStateToProps( state ) {
   return {
-    isLoading: getLoginLoading(state),
+    isLoading: getLoginLoading( state ),
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps( dispatch ) {
   return {
-    login: (email, password) => dispatch(login(email, password)),
+    // login: ( email, password ) => dispatch( login( email, password ) ),
+    login: ( email, password ) => dispatch( loginRequestAction( { email, password } ) ),
   };
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect( mapStateToProps, mapDispatchToProps )( Login );

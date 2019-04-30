@@ -8,9 +8,11 @@ import program from './program';
 import exercises from './exercises';
 import analytics from './analytics';
 import logs from './logs';
-import { LOG_OUT } from "../constants/authentication";
+import { LOG_OUT } from '../constants/authentication';
+import loading from './loading';
+import user from './user';
 
-const appReducer = combineReducers({
+const appReducer = combineReducers( {
   authentication,
   profile,
   track,
@@ -20,16 +22,17 @@ const appReducer = combineReducers({
   exercises,
   analytics,
   logs,
-});
+  loading,
+  user,
+} );
 
 
-
-const rootReducer = (state, action) => {
-  if (action.type === LOG_OUT) {
+const rootReducer = ( state, action ) => {
+  if ( action.type === LOG_OUT ) {
     state = undefined;
   }
 
-  return appReducer(state, action);
+  return appReducer( state, action );
 };
 
 export default rootReducer;

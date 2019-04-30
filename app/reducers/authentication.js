@@ -56,20 +56,20 @@ export default function authentication(state = initialState, action) {
         loginLoading: true,
       });
 
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        loginLoading: false,
-        email: action.payload.email,
-        password: action.payload.password,
-        uid: action.payload.user.uid,
-      };
+    // case LOGIN_SUCCESS:
+    //   return {
+    //     ...state,
+    //     loginLoading: false,
+    //     email: action.payload.email,
+    //     password: action.payload.password,
+    //     uid: action.payload.user.uid,
+    //   };
 
-    case LOGIN_FAILED:
-      return {
-        ...state,
-        loginLoading: false,
-      };
+    // case LOGIN_FAILED:
+    //   return {
+    //     ...state,
+    //     loginLoading: false,
+    //   };
 
     /*
      * Updating email related cases

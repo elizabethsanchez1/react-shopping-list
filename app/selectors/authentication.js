@@ -1,6 +1,4 @@
-import { createSelector } from "reselect";
-
-
+import { createSelector } from 'reselect';
 
 export const getRegisterLoading = createSelector(
   state => state.authentication.registerLoading,

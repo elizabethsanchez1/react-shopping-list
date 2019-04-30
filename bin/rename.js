@@ -40,7 +40,7 @@ const replaceInFile = (from, to) => {
       resolve();
     })
     .catch(error => {
-      console.error('[replaceInFile] Error occurred: ', error);
+      console.error('[replaceInFile] Alert occurred: ', error);
       reject(error);
     })
   })

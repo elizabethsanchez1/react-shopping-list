@@ -376,11 +376,11 @@ class Profile extends Component {
 
 
   render() {
-    if (this.props.isLoading) {
-      return (
-        <Loading />
-      )
-    }
+    // if (this.props.isLoading) {
+    //   return (
+    //     <Loading />
+    //   )
+    // }
 
     return (
       <Container>

@@ -62,7 +62,7 @@ export function login(email, password) {
       dispatch(loginSuccess({ email, password, user }));
     }
     catch(error) {
-      console.log('error: ', error);
+      console.log('error: ', errr);
       dispatch(loginFailed());
       dispatch(displayAlert( 'Error', error.message));
     }
@@ -89,32 +89,32 @@ export const loginFailed = () => {
 
 export const getSavedData = user => async (dispatch, getState) => {
 
-  const state = getState();
-  const registerFlow = isRegisterFlow(state);
-
-  // If its not registering flow then retrieve this data
-  if (registerFlow === undefined) {
-    try {
-      // Profile
-      dispatch(getProfile(user));
-
-      // login
-      dispatch(loginSuccess({ email: user.email, password: '', user}));
-
-      // all saved programs & workouts
-      dispatch(getWorkouts(user.uid));
-
-      // all tracked exercises
-      await dispatch(fetchCompletedExercises(user.uid));
-
-      // needs to run only after fetchCompletedExercises has finished
-      dispatch(getSavedLogs(user.uid));
-    }
-    catch(error) {
-      dispatch(loginFailed());
-      dispatch(displayAlert('Error', error.message));
-    }
-  }
+  // const state = getState();
+  // const registerFlow = isRegisterFlow(state);
+  //
+  // // If its not registering flow then retrieve this data
+  // if (registerFlow === undefined) {
+  //   try {
+  //     // Profile
+  //     dispatch(getProfile(user));
+  //
+  //     // login
+  //     dispatch(loginSuccess({ email: user.email, password: '', user}));
+  //
+  //     // all saved programs & workouts
+  //     dispatch(getWorkouts(user.uid));
+  //
+  //     // all tracked exercises
+  //     await dispatch(fetchCompletedExercises(user.uid));
+  //
+  //     // needs to run only after fetchCompletedExercises has finished
+  //     dispatch(getSavedLogs(user.uid));
+  //   }
+  //   catch(error) {
+  //     dispatch(loginFailed());
+  //     dispatch(displayAlert('Alert', error.message));
+  //   }
+  // }
 
 };
 
@@ -148,3 +148,23 @@ export const getProfileSuccess = profileData => {
 
 
 
+/*
+*  V2 action creators
+*
+*  */
+
+
+export const loginRequestAction = data => ( {
+  type: LOGIN_REQUEST,
+  payload: data,
+} );
+
+export const loginFailedAction = data => ( {
+  type: LOGIN_FAILED,
+  payload: data,
+} );
+
+export const loginSuccessAction = data => ( {
+  type: LOGIN_SUCCESS,
+  payload: data,
+} );

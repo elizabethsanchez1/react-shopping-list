@@ -1,17 +1,27 @@
 import { createStore, applyMiddleware } from 'redux';
-import rootReducer from '../reducers';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga';
+import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
+import rootReducer from '../reducers';
+import rootSaga from '../sagas/rootSaga';
+
+const sagaMiddleware = createSagaMiddleware();
+const logger = createLogger( {
+  duration: true,
+  timestamp: false,
+  diff: false,
+} );
 
 
-export default function configureStore(initialState) {
+export default function configureStore( initialState ) {
   const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, logger, reduxImmutableStateInvariant(), )
+    applyMiddleware( sagaMiddleware, thunk, logger, reduxImmutableStateInvariant() ),
   );
+
+  sagaMiddleware.run( rootSaga );
 
   return store;
 }
-
