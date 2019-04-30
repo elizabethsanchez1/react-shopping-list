@@ -46,16 +46,20 @@ class Input extends Component {
 	handleInput = ( event ) => {
 		// tells react to pass us the entire vent
 		event.persist();
+		const NumberValidation = [A-Za-z];
+		if (numberValidation === false) {
+			console.log("number was intered")
+		}
 
 
 
-		console.log( 'my input event: ', event );
+		// console.log( 'my input event: ', event );
 
-		console.log('text: ', event.target.value );
-		this.setState( { 
-			input: event.target.value,
-			newField: '1',
-		  } );
+		// // console.log('text: ', event.target.value );
+		// // this.setState( { 
+		// // 	input: event.target.value,
+		// // 	newField: '1',
+		//   } );
 	}
 
 	render() {
