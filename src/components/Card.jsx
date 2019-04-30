@@ -29,6 +29,8 @@ const styles = {
 };
 
 function Card() {
+	const listItems = [ 'orange', 'apple', 'banana' ];
+
   return (
     <div style={ styles.container }>
       
@@ -42,7 +44,7 @@ function Card() {
       	<Search/>
       	<Clear/>
       </div>
-      	<ListItems/>
+      	<ListItems items={ listItems } test="my test string" />
 
     </div> 
   )

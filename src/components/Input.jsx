@@ -11,22 +11,6 @@ const styles = {
 	}
 };
 
-
-// function Input() {
-// 	return ( 
-// 		<label>
-// 			<input 
-// 				styles={ styles.input }
-// 				type = 'text'
-// 				placeholder = "Enter item here" 
-// 			/>
-// 			<FontAwesomeIcon style={ { marginLeft: 5 } } icon={faPlus} />  
-// 		</label>
-// 	)
-// }
-
-
-
 class Input extends Component {
 	constructor( props ) {
 		super( props );
@@ -34,8 +18,10 @@ class Input extends Component {
 			allows: 'letters',
 			doNotAllow: 'number',
 			input: '',
+			errorMessage: 'No number allowed',
+			showError: false,
 		}
-	}
+	};
 
 	/* 
 	Add validation, 
@@ -46,20 +32,24 @@ class Input extends Component {
 	handleInput = ( event ) => {
 		// tells react to pass us the entire vent
 		event.persist();
-		const NumberValidation = [A-Za-z];
-		if (numberValidation === false) {
-			console.log("number was intered")
+		console.log('event object: ', event);
+		const userInput = event.target.value;
+
+		// will return true if there are any numbers
+		if ( userInput.match( /^[^0-9]+$/ ) ) {
+			console.log('input is only letters');
+
+			// this.setState is the only way you can update this.state
+			this.setState( {
+			    showError: false,
+			} );
+		} else {
+			console.log('we have at least one number in the input');
+
+			this.setState( {
+				showError: true,
+			} )
 		}
-
-
-
-		// console.log( 'my input event: ', event );
-
-		// // console.log('text: ', event.target.value );
-		// // this.setState( { 
-		// // 	input: event.target.value,
-		// // 	newField: '1',
-		//   } );
 	}
 
 	render() {
@@ -68,6 +58,14 @@ class Input extends Component {
 
 		return (
 			<label>
+				<p> 
+				    { 
+					  ( this.state.showError === true ) 
+						? this.state.errorMessage 
+						: '' 
+					} 
+				</p>
+
 				<input 
 					styles={ styles.input }
 					type = 'text'

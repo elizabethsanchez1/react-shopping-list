@@ -1,9 +1,12 @@
 import React from 'react';
 
-function Listitems() {
+function Listitems( props ) {
+  console.log('what are my props?', props);
+  console.log( 'props.items', props.items );
+
   return (
   <div className="items">
-    <div className='border-container'>
+    {/* <div className='border-container'>
     <input 
       className='list'
       type="checkbox"
@@ -11,7 +14,23 @@ function Listitems() {
       onChange={ () => console.log() } 
     />
     <label className='list-item' htmlFor="item1">oranges</label>
-      </div>
+    </div> */}
+
+    {
+      props.items.map( function( item ) {
+        return (
+          <div key={ item } className='border-container'>
+            <input 
+              className='list'
+              type="checkbox"
+              checked
+              onChange={ () => console.log() } 
+            />
+            <label className='list-item' htmlFor="item1"> { item } </label>
+          </div>
+        )
+      } )
+    }
   
     {/* <div className='border-container'>
     <input className='list' type="checkbox"/>
