@@ -16,77 +16,6 @@ import { isRegisterFlow } from "../selectors/authentication";
 import { getProfile } from "./profile";
 
 
-
-export const createUser = (email, password) => async dispatch => {
-  try {
-    dispatch(createUserRequest());
-    const authObject = await firebaseService.createNewUser(email, password);
-    await firebaseService.createUserDocument(authObject.user.uid, email);
-    dispatch(createUserSuccess( {email, password, user: authObject.user} ));
-  }
-  catch (error) {
-    console.log('error: ', error);
-    dispatch(createUserFailed());
-    dispatch(displayAlert('Error', error.message));
-  }
-};
-
-export const createUserRequest = () => {
-  return { type: CREATE_USER_REQUEST };
-};
-
-export const createUserSuccess = user => {
-  return {
-    type: CREATE_USER_SUCCESS,
-    payload: user,
-  };
-};
-
-export function createUserFailed() {
-  return { type: CREATE_USER_FAILED }
-}
-
-
-
-/*
-* Login Action Creators
-* */
-
-export function login(email, password) {
-  return async dispatch => {
-
-    try {
-      dispatch(loginRequest());
-      await firebaseService.loginUser(email, password);
-      const user = await firebase.auth().currentUser;
-      dispatch(loginSuccess({ email, password, user }));
-    }
-    catch(error) {
-      console.log('error: ', errr);
-      dispatch(loginFailed());
-      dispatch(displayAlert( 'Error', error.message));
-    }
-  }
-}
-
-export const loginRequest = () => {
-  return { type: LOGIN_REQUEST };
-};
-
-export const loginSuccess = user => {
-  return {
-    type: LOGIN_SUCCESS,
-    payload: user,
-  };
-};
-
-export const loginFailed = () => {
-  return { type: LOGIN_FAILED };
-};
-
-
-
-
 export const getSavedData = user => async (dispatch, getState) => {
 
   // const state = getState();
@@ -146,8 +75,6 @@ export const getProfileSuccess = profileData => {
 };
 
 
-
-
 /*
 *  V2 action creators
 *
@@ -166,5 +93,20 @@ export const loginFailedAction = data => ( {
 
 export const loginSuccessAction = data => ( {
   type: LOGIN_SUCCESS,
+  payload: data,
+} );
+
+export const createUserAction = data => ( {
+  type: CREATE_USER_REQUEST,
+  payload: data,
+} );
+
+export const createUserSuccessAction = data => ( {
+  type: CREATE_USER_SUCCESS,
+  payload: data,
+} );
+
+export const createUserFailedAction = data => ( {
+  type: CREATE_USER_FAILED,
   payload: data,
 } );

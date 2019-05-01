@@ -1,5 +1,18 @@
-import { LOGIN_REQUEST } from '../../constants/authentication';
-import { loginRequestAction } from '../authentication';
+import {
+  CREATE_USER_FAILED,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS
+} from '../../constants/authentication';
+import {
+  createUserAction, createUserFailedAction,
+  createUserSuccessAction,
+  loginFailedAction,
+  loginRequestAction,
+  loginSuccessAction
+} from '../authentication';
 
 
 describe( 'authentication creators', () => {
@@ -13,6 +26,56 @@ describe( 'authentication creators', () => {
     expect( loginRequestAction( { email: 'test', password: 'test' } ) )
       .toEqual( expectedAction );
 
+  } );
+
+  it( 'loginSuccessAction() should dispatch a LOGIN_SUCCESS event', () => {
+    const expectedAction = {
+      type: LOGIN_SUCCESS,
+      payload: { email: 'test', password: 'test' },
+    };
+
+    expect( loginSuccessAction( { email: 'test', password: 'test' } ) )
+      .toEqual( expectedAction );
+  } );
+
+  it( 'loginFailedAction() should dispatch a LOGIN_FAILED event', () => {
+    const expectedAction = {
+      type: LOGIN_FAILED,
+      payload: undefined,
+    };
+
+    expect( loginFailedAction() )
+      .toEqual( expectedAction );
+  } );
+
+  it( 'createUserAction() should dispatch a CREATE_USER_REQUEST event', () => {
+    const expectedAction = {
+      type: CREATE_USER_REQUEST,
+      payload: { email: 'test', password: 'test' },
+    };
+
+    expect( createUserAction( { email: 'test', password: 'test' } ) )
+      .toEqual( expectedAction );
+  } );
+
+  it( 'createUserSuccess() should dispatch a CREATE_USER_SUCCESS event', () => {
+    const expectedAction = {
+      type: CREATE_USER_SUCCESS,
+      payload: { email: 'test' },
+    };
+
+    expect( createUserSuccessAction( { email: 'test' } ) )
+      .toEqual( expectedAction );
+  } );
+
+  it( 'createUserFailedAction() should dispatch a CREATE_USER_FAILED event', () => {
+    const expectedAction = {
+      type: CREATE_USER_FAILED,
+      payload: { email: 'test' },
+    };
+
+    expect( createUserFailedAction( { email: 'test' } ) )
+      .toEqual( expectedAction );
   } );
 
 } );

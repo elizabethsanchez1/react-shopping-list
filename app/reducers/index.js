@@ -11,9 +11,11 @@ import logs from './logs';
 import { LOG_OUT } from '../constants/authentication';
 import loading from './loading';
 import user from './user';
+import errors from './errors';
 
 const appReducer = combineReducers( {
   authentication,
+  errors,
   profile,
   track,
   workoutsApi,

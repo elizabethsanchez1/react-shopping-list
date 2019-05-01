@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 import { Card } from '../../components/Card';
 import { View } from 'react-native';
@@ -8,10 +9,9 @@ import { Input } from '../../components/Form';
 import { PrimaryButton } from '../../components/Button';
 import { Button } from 'react-native-elements';
 import theme from '../../styles/theme.style';
-import { connect } from 'react-redux';
-import { getLoginLoading } from '../../selectors/authentication';
-import { login, loginRequestAction } from '../../actions/authentication';
-import Alert from '../../components/Alert/Alert';
+import { loginRequestAction } from '../../actions/authentication';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { AUTHENTICATION } from '../../constants/reducerObjects';
 
 
 class Login extends Component {
@@ -44,11 +44,11 @@ class Login extends Component {
           containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
           onPress={ () => navigation.navigate( 'Register' ) }
         />
-      )
-    }
+      ),
+    };
   };
 
-  formatErrorMessage = ( message ) => {
+  formatErrorMessage = message => {
     const filtered = message.substring( message.indexOf( '/' ) + 1 ).replace( /-/g, ' ' );
     return filtered.charAt( 0 ).toUpperCase() + filtered.slice( 1 );
   };
@@ -106,7 +106,7 @@ class Login extends Component {
     return (
       <Container>
         <Card
-          title='Login'
+          title="Login"
           containerStyling={ { marginTop: 80, position: 'relative', height: 310 } }
         >
           <Input
@@ -114,7 +114,7 @@ class Login extends Component {
             ref={ this.emailInput }
             placeholder="Email"
             keyboardType="email-address"
-            onChangeText={ ( email ) => this.setState( { email } ) }
+            onChangeText={ email => this.setState( { email } ) }
             onEndEditing={ email => this.validateEmail( email.nativeEvent.text ) }
             errorMessage={ ( invalidEmail ) ? 'Invalid Email Address' : '' }
             value={ this.state.email }
@@ -134,7 +134,7 @@ class Login extends Component {
             <Icon
               name={ passwordIcon }
               size={ 30 }
-              color='white'
+              color="white"
               style={ { position: 'absolute', right: 0, bottom: 12, padding: 10 } }
               onPress={ () => this.togglePasswordMasking() }
             />
@@ -148,29 +148,22 @@ class Login extends Component {
           />
         </Card>
       </Container>
-    )
+    );
   }
 }
 
 Login.propTypes = {
-  loginFailed: PropTypes.string,
   isLoading: PropTypes.bool,
-  navigation: PropTypes.object,
   login: PropTypes.func,
 };
 
-function mapStateToProps( state ) {
-  return {
-    isLoading: getLoginLoading( state ),
-  }
-}
+const mapStateToProps = state => ( {
+  isLoading: getLoadingByDomain( state, AUTHENTICATION ),
+} );
 
-function mapDispatchToProps( dispatch ) {
-  return {
-    // login: ( email, password ) => dispatch( login( email, password ) ),
-    login: ( email, password ) => dispatch( loginRequestAction( { email, password } ) ),
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  login: ( email, password ) => dispatch( loginRequestAction( { email, password } ) ),
+} );
 
 
 export default connect( mapStateToProps, mapDispatchToProps )( Login );

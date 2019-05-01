@@ -31,15 +31,15 @@ export default function authentication(state = initialState, action) {
         registerLoading: true,
       };
 
-    case CREATE_USER_SUCCESS:
-      return {
-        ...state,
-        email: action.payload.email,
-        password: action.payload.password,
-        uid: action.payload.user.uid,
-        registerLoading: false,
-        registerFlow: true,
-      };
+    // case CREATE_USER_SUCCESS:
+    //   return {
+    //     ...state,
+    //     email: action.payload.email,
+    //     password: action.payload.password,
+    //     uid: action.payload.user.uid,
+    //     registerLoading: false,
+    //     registerFlow: true,
+    //   };
 
     case CREATE_USER_FAILED:
       return {
@@ -51,25 +51,6 @@ export default function authentication(state = initialState, action) {
     /*
     * Login Cases
     * */
-    case LOGIN_REQUEST:
-      return Object.assign({}, state, {
-        loginLoading: true,
-      });
-
-    // case LOGIN_SUCCESS:
-    //   return {
-    //     ...state,
-    //     loginLoading: false,
-    //     email: action.payload.email,
-    //     password: action.payload.password,
-    //     uid: action.payload.user.uid,
-    //   };
-
-    // case LOGIN_FAILED:
-    //   return {
-    //     ...state,
-    //     loginLoading: false,
-    //   };
 
     /*
      * Updating email related cases

@@ -1,8 +1,21 @@
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 import { call, put, takeEvery, fork } from 'redux-saga/effects';
-import { login, loginREST, watchLoginRequest } from '../authentication';
-import { LOGIN_REQUEST } from '../../constants/authentication';
-import { loginFailedAction, loginSuccessAction } from '../../actions/authentication';
+import {
+  login,
+  loginREST,
+  watchLoginRequest,
+  watchRegisterRequest,
+  register,
+  registerREST,
+  createUserDocumentREST, watchAuthchanges
+} from '../authentication';
+import { LOGIN_REQUEST, CREATE_USER_REQUEST } from '../../constants/authentication';
+import {
+  createUserFailedAction,
+  createUserSuccessAction,
+  loginFailedAction,
+  loginSuccessAction
+} from '../../actions/authentication';
 import { hideLoadingAction, showLoadingAction } from '../../actions/loading';
 import { AUTHENTICATION } from '../../constants/reducerObjects';
 import { handleErrorAction } from '../../actions/errors';
@@ -72,6 +85,55 @@ describe( 'Authentication saga functionality', () => {
 
   } );
 
+  describe( 'register() saga functionality', () => {
+    const action = {
+      type: CREATE_USER_REQUEST,
+      payload: { email: 'test', password: 'test' },
+    };
+    const { email, password } = action.payload;
+    const gen = cloneableGenerator( register )( action );
+    const response = { user: { email: 'test', uid: 1 } };
+    const { uid } = response.user;
+
+    it( 'should put showLoadingAction()', () => {
+      expect( gen.next().value )
+        .toEqual( put( showLoadingAction( { dataType: AUTHENTICATION } ) ) );
+    } );
+
+    it( 'should call registerREST', () => {
+      expect( gen.next( response ).value ).toEqual( call( registerREST, email, password ) );
+    } );
+
+    it( 'should put createUserSuccessAction()', () => {
+      expect( gen.next( response ).value )
+        .toEqual(
+          put( createUserSuccessAction( { email: 'test', uid: 1 } ) ),
+        );
+    } );
+
+    it( 'should call createUserDocumentREST', () => {
+      expect( gen.next().value ).toEqual( call( createUserDocumentREST, uid, email ) )
+    } );
+
+    it( 'should handle error by put createUserFailedAction() and put handleErrorAction()', () => {
+      const clone = gen.clone();
+      const error = {};
+
+      expect( clone.throw( error ).value ).toEqual( put( createUserFailedAction() ) );
+
+      expect( clone.next().value ).toEqual( put(
+        handleErrorAction( { error, dataType: AUTHENTICATION } ),
+      ) );
+
+    } );
+
+    it( 'should put hideLoadingAction()', () => {
+      const payload = { dataType: AUTHENTICATION };
+      expect( gen.next().value ).toEqual( put( hideLoadingAction( payload ) ) );
+    } );
+
+
+  } );
 
   describe( 'saga watcher', () => {
     it( 'watchLoginRequest() should create a saga watcher for LOGIN_REQUEST', () => {
@@ -85,15 +147,18 @@ describe( 'Authentication saga functionality', () => {
         ) ) );
     } );
 
+    it( 'watchRegisterRequest() should create a saga watcher for CREATE_USER_REQUEST', () => {
+      const gen = cloneableGenerator( watchRegisterRequest )();
 
-    // it( 'watchAuthChange() should create a saga watcher for auth event emitter', () => {
-    //   const gen = cloneableGenerator( watchAuthChanges )();
-    //
-    //   expect( JSON.stringify( gen.next().value ) )
-    //     .toEqual( JSON.stringify( fork(
-    //       takeEvery,
-    //     ) ) )
-    // } );
+      expect( JSON.stringify( gen.next().value ) )
+        .toEqual( JSON.stringify( fork(
+          takeEvery,
+          CREATE_USER_REQUEST,
+          register,
+        ) ) );
+
+    } );
+
   } );
 
 } );
