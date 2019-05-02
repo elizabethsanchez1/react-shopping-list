@@ -3,13 +3,13 @@ import {
   ADD_EXERCISES,
   GET_EXERCISES_FAILURE,
   GET_EXERCISES_REQUEST,
-  GET_EXERCISES_SUCCESS,
-  OPEN_EXERCISE_LIST,
+  GET_EXERCISES_SUCCESS, LISTEN_FOR_COMPLETED_EXERCISES,
+  OPEN_EXERCISE_LIST, RECIEVED_COMPLETED_EXERCISES,
   SELECT_MUSCLE_GROUP,
   STORE_EXERCISE_LIST, UPDATE_PROFILE_EXERCISES_FAILED,
   UPDATE_PROFILE_EXERCISES_REQUEST, UPDATE_PROFILE_EXERCISES_SUCCESS,
   UPDATE_SELECTIONS,
-} from "../constants/exercises";
+} from '../constants/exercises';
 import firebaseService from '../utilities/firebase';
 
 export function addCustomExercise(exercise) {
@@ -96,4 +96,3 @@ export function addCustomExerciseToProfile(uid) {
     }
   }
 }
-

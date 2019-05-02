@@ -1,11 +1,9 @@
-import { takeEvery, call, put, take, select, fork } from 'redux-saga/effects';
+import { put, take } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import { eventChannel } from 'redux-saga';
-import { LOGIN_SUCCESS } from '../constants/authentication';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { USER } from '../constants/reducerObjects';
-import { listenForUserDocumentAction, recievedUserDocumentAction } from '../actions/user';
-
+import { listenForUserDocumentAction, receivedUserDocumentAction } from '../actions/user';
 
 
 export function* userDocumentListener( uid ) {
@@ -29,7 +27,7 @@ export function* userDocumentListener( uid ) {
   while ( true ) {
     const response = yield take( channel );
 
-    yield put( recievedUserDocumentAction( response ) );
+    yield put( receivedUserDocumentAction( response ) );
     yield put( hideLoadingAction( { dataType: USER } ) );
   }
 

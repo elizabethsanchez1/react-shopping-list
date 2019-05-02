@@ -9,7 +9,7 @@ import {
 } from "../../constants/track";
 
 
-describe('Track Reducer', () => {
+describe.skip('Track Reducer', () => {
   const initialState = {
     addExerciseIndexLocation: 0,
     attemptInfo: {},

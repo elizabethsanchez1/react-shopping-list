@@ -112,7 +112,7 @@ describe( 'Authentication saga functionality', () => {
     } );
 
     it( 'should call createUserDocumentREST', () => {
-      expect( gen.next().value ).toEqual( call( createUserDocumentREST, uid, email ) )
+      expect( gen.next().value ).toEqual( call( createUserDocumentREST, uid, email ) );
     } );
 
     it( 'should handle error by put createUserFailedAction() and put handleErrorAction()', () => {

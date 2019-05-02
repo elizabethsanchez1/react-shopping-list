@@ -14,6 +14,9 @@ import { AUTHENTICATION } from '../constants/reducerObjects';
 import { handleErrorAction } from '../actions/errors';
 import { getUser } from '../selectors/user';
 import { userDocumentListener } from './user';
+import { bodyLogsListener } from './bodyLogs';
+import { completedExerciseListener } from './exercises';
+import { savedWorkoutsListener } from './savedWorkouts';
 
 export function* loginREST( email, password ) {
   return yield call(
@@ -112,14 +115,16 @@ export function* watchAuthchanges() {
 
     // #4
     const user = yield select( getUser );
-    if ( user.email === '' && user.uid === '' ) {
+    if ( user.uid === undefined ) {
       yield put( loginSuccessAction( { email, uid } ) );
       // console.log('about to call body logs');
     }
 
     if ( uid ) {
-      // yield fork( bodyLogsListener, uid );
+      yield fork( bodyLogsListener, uid );
       yield fork( userDocumentListener, uid );
+      yield fork( completedExerciseListener, uid );
+      yield fork( savedWorkoutsListener, uid );
     }
   }
 }

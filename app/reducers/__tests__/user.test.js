@@ -1,5 +1,6 @@
 import user from '../user';
 import { createUserSuccessAction, loginSuccessAction } from '../../actions/authentication';
+import { receivedUserDocumentAction } from '../../actions/user';
 
 
 const initialState = {
@@ -26,6 +27,17 @@ describe( 'user reducer unit tests', () => {
     const action = createUserSuccessAction( { email: 1, uid: 2 } );
     const expectedState = {
       email: 1, uid: 2, preferredWeightMeasurement: 'lbs',
+    };
+
+    expect( user( initialState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'should store user document information in response to RECEIVED_USER_DOCUMENT event', () => {
+    const action = receivedUserDocumentAction( { test: 1, testing: 2 } );
+    const expectedState = {
+      preferredWeightMeasurement: 'lbs',
+      test: 1,
+      testing: 2,
     };
 
     expect( user( initialState, action ) ).toEqual( expectedState );

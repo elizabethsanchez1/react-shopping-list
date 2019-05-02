@@ -12,9 +12,14 @@ import { LOG_OUT } from '../constants/authentication';
 import loading from './loading';
 import user from './user';
 import errors from './errors';
+import bodyLogs from './bodyLogs';
+import completedExercises from './completedExercises';
+import savedWorkouts from './savedWorkouts';
 
 const appReducer = combineReducers( {
   authentication,
+  bodyLogs,
+  completedExercises,
   errors,
   profile,
   track,
@@ -25,6 +30,7 @@ const appReducer = combineReducers( {
   analytics,
   logs,
   loading,
+  savedWorkouts,
   user,
 } );
 

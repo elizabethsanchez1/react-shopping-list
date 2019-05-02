@@ -195,8 +195,6 @@ export default function exercises(state = initialState, action) {
       });
     }
 
-
-
     default:
       return state;
   }

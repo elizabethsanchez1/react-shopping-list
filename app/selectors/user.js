@@ -15,6 +15,12 @@ export const getAuthenticaton = createSelector(
   },
 );
 
+export const getUid = createSelector(
+  state => getUser( state ),
+  user => ( ( user.uid ) ? user.uid : undefined ),
+);
+
+
 export const getPreferredWeightMeasurement = createSelector(
   state => getUser( state ),
   user => {

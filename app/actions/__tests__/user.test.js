@@ -1,5 +1,5 @@
-import { LISTEN_FOR_USER_DOCUMENT, RECIEVED_USER_DOCUMENT } from '../../constants/user';
-import { listenForUserDocumentAction, recievedUserDocumentAction } from '../user';
+import { LISTEN_FOR_USER_DOCUMENT, RECEIVED_USER_DOCUMENT } from '../../constants/user';
+import { listenForUserDocumentAction, receivedUserDocumentAction } from '../user';
 
 
 describe( 'User action creators', () => {
@@ -13,13 +13,13 @@ describe( 'User action creators', () => {
     expect( listenForUserDocumentAction( 1 ) ).toEqual( expectedAction );
   } );
 
-  it( 'recievedUserDocumentAction() should dispatch a RECIEVED_USER_DOCUMENT event', () => {
+  it( 'receivedUserDocumentAction() should dispatch a RECEIVED_USER_DOCUMENT event', () => {
     const expectedAction = {
-      type: RECIEVED_USER_DOCUMENT,
+      type: RECEIVED_USER_DOCUMENT,
       payload: 1,
     }
 
-    expect( recievedUserDocumentAction( 1 ) ).toEqual( expectedAction );
+    expect( receivedUserDocumentAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

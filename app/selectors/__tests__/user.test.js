@@ -1,4 +1,4 @@
-import { getUser, getAuthenticaton, getPreferredWeightMeasurement } from '../user';
+import { getUser, getAuthenticaton, getPreferredWeightMeasurement, getUid } from '../user';
 
 const state = {
   user: {
@@ -30,6 +30,26 @@ describe( 'user selectors', () => {
   it( 'getPrefferedWeightMeasurement() should return either lbs or kgs', () => {
 
     expect( getPreferredWeightMeasurement( state ) ).toEqual( 'lbs' );
+
+  } );
+
+  it( 'getUid() should returns from the user object his Uid', () => {
+    const state1 = {
+      user: {
+        preferredWeightMeasurement: 'lbs',
+      },
+    };
+
+    expect( getUid( state1 ) ).toEqual( undefined );
+
+    const state2 = {
+      user: {
+        uid: 1,
+        preferredWeightMeasurement: 'lbs',
+      },
+    };
+
+    expect( getUid( state2 ) ).toEqual( 1 );
 
   } );
 

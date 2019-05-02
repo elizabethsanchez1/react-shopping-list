@@ -1,4 +1,4 @@
-import { LISTEN_FOR_USER_DOCUMENT, RECIEVED_USER_DOCUMENT } from '../constants/user';
+import { LISTEN_FOR_USER_DOCUMENT, RECEIVED_USER_DOCUMENT } from '../constants/user';
 
 
 export const listenForUserDocumentAction = data => ( {
@@ -6,7 +6,7 @@ export const listenForUserDocumentAction = data => ( {
   payload: data,
 } );
 
-export const recievedUserDocumentAction = data => ( {
-  type: RECIEVED_USER_DOCUMENT,
+export const receivedUserDocumentAction = data => ( {
+  type: RECEIVED_USER_DOCUMENT,
   payload: data,
 } );
