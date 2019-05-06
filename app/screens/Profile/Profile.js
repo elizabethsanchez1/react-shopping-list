@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View,  Dimensions, Alert, Button, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Alert, Button, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dropdown } from 'react-native-material-dropdown';
 import firebase from 'react-native-firebase'
@@ -13,15 +13,15 @@ import theme from '../../styles/theme.style';
 import { Calendar } from 'react-native-calendars';
 import { connect } from 'react-redux';
 import { Loading } from '../../components/Loading/index';
-import { getEmail, getUid } from "../../selectors/authentication";
-import { logOutUser } from "../../actions/authentication";
+import { getEmail, getUid } from '../../selectors/authentication';
+import { logOutUser } from '../../actions/authentication';
 import Tabs from '../../components/Tabs/Tabs';
-import { updateField } from "../../actions/profile";
-import { updateEmail } from "../../actions/profile";
-import { getFirstName, getGender, getLastName, getPrimaryGoal, getProfileLoading } from "../../selectors/profile";
+import { updateField } from '../../actions/profile';
+import { updateEmail } from '../../actions/profile';
+import { getFirstName, getGender, getLastName, getPrimaryGoal, getProfileLoading } from '../../selectors/profile';
 
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
   tabHeader: {
     marginTop: 30,
   },
@@ -44,23 +44,18 @@ const styles = StyleSheet.create({
   },
   tabViewContainer: {
     flex: 1,
-     backgroundColor: theme.SECONDARY_BACKGROUND,
+    backgroundColor: theme.SECONDARY_BACKGROUND,
   },
-});
+} );
 
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      uid: '',
-      email: '',
-      username: '',
-      loading: true,
-    };
+  constructor( props ) {
+    super( props );
+    this.state = {};
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ( { navigation } ) => {
     const params = navigation.state.params || {};
     // return {
     //   headerRight: (
@@ -76,98 +71,98 @@ class Profile extends Component {
 
   };
 
-  updateProfile(data) {
-    const key = Object.getOwnPropertyNames(data);
+  updateProfile( data ) {
+    const key = Object.getOwnPropertyNames( data );
 
-    if (data[key].replace(/ /g, '') !== '') {
-      (key[0] === 'email')
-        ? this.props.updateEmail({
-            newEmail: data[key],
-            previousEmail: this.props.email,
-            password: 'password'
-          })
-        : this.props.updateField(this.props.uid, data);
+    if ( data[ key ].replace( / /g, '' ) !== '' ) {
+      ( key[ 0 ] === 'email' )
+        ? this.props.updateEmail( {
+          newEmail: data[ key ],
+          previousEmail: this.props.email,
+          password: 'password'
+        } )
+        : this.props.updateField( this.props.uid, data );
     }
   }
 
   UserInfoView = () => {
 
     return (
-    <View style={styles.tabViewContainer}>
-      <View style={styles.inputsContainer}>
+      <View style={ styles.tabViewContainer }>
+        <View style={ styles.inputsContainer }>
 
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 15 }}>First Name</StyledText>
-          <Input
-            placeholder='optional'
-            containerStyling={{ width: '40%' }}
-            onEndEditing={(name) => this.updateProfile({ firstName: name.nativeEvent.text })}
-            value={this.props.firstName}
-          />
+          <View style={ styles.profileItemContainer }>
+            <StyledText style={ { marginTop: 15 } }>First Name</StyledText>
+            <Input
+              placeholder='optional'
+              containerStyling={ { width: '40%' } }
+              onEndEditing={ ( name ) => this.updateProfile( { firstName: name.nativeEvent.text } ) }
+              value={ this.props.firstName }
+            />
+          </View>
+
+          <View style={ styles.profileItemContainer }>
+            <StyledText style={ { marginTop: 15 } }>Last Name</StyledText>
+            <Input
+              placeholder='optional'
+              containerStyling={ { width: '40%' } }
+              onEndEditing={ ( lastName ) => this.updateProfile( { lastName: lastName.nativeEvent.text } ) }
+              value={ this.props.lastName }
+            />
+          </View>
+
+          <View style={ styles.profileItemContainer }>
+            <StyledText style={ { marginTop: 15 } }>Gender</StyledText>
+            <Dropdown
+              placeholder="recommended"
+              placeholderTextColor='#A1A1A1'
+              baseColor='white'
+              textColor='white'
+              selectedItemColor='black'
+              inputContainerStyle={ { borderBottomWidth: 2 } }
+              containerStyle={ { width: '40%', marginTop: -20 } }
+              data={ [ { value: 'Male' }, { value: 'Female' } ] }
+              value={ this.props.gender }
+              onChangeText={ gender => this.updateProfile( { gender } ) }
+            />
+          </View>
+
+          <View style={ styles.profileItemContainer }>
+            <StyledText style={ { marginTop: 15 } }>Primary Goal</StyledText>
+            <Dropdown
+              placeholder="recommended"
+              placeholderTextColor='#A1A1A1'
+              baseColor='white'
+              textColor='white'
+              selectedItemColor='black'
+              inputContainerStyle={ { borderBottomWidth: 2 } }
+              containerStyle={ { width: '40%', marginTop: -20 } }
+              data={ [ { value: 'Build Muscle' }, { value: 'Build Strength' }, { value: 'Lose Fat' } ] }
+              value={ this.props.primaryGoal }
+              onChangeText={ primaryGoal => this.updateProfile( { primaryGoal } ) }
+            />
+          </View>
+
+          <Button title="Execute" onPress={ this.dataBaseChange }/>
         </View>
-
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 15 }}>Last Name</StyledText>
-          <Input
-            placeholder='optional'
-            containerStyling={{ width: '40%' }}
-            onEndEditing={(lastName) => this.updateProfile({ lastName: lastName.nativeEvent.text })}
-            value={this.props.lastName}
-          />
-        </View>
-
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 15 }}>Gender</StyledText>
-          <Dropdown
-            placeholder="recommended"
-            placeholderTextColor='#A1A1A1'
-            baseColor='white'
-            textColor='white'
-            selectedItemColor='black'
-            inputContainerStyle={{ borderBottomWidth: 2 }}
-            containerStyle={{ width: '40%', marginTop: -20 }}
-            data={[{ value: 'Male' }, { value: 'Female' }]}
-            value={this.props.gender}
-            onChangeText={gender => this.updateProfile({ gender })}
-          />
-        </View>
-
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 15 }}>Primary Goal</StyledText>
-          <Dropdown
-            placeholder="recommended"
-            placeholderTextColor='#A1A1A1'
-            baseColor='white'
-            textColor='white'
-            selectedItemColor='black'
-            inputContainerStyle={{ borderBottomWidth: 2 }}
-            containerStyle={{ width: '40%', marginTop: -20 }}
-            data={[{ value: 'Build Muscle' }, { value: 'Build Strength' }, { value: 'Lose Fat' }]}
-            value={this.props.primaryGoal}
-            onChangeText={primaryGoal => this.updateProfile({ primaryGoal })}
-          />
-        </View>
-
-        <Button title="Execute" onPress={this.dataBaseChange} />
-      </View>
-    </View>)
+      </View> )
   };
 
 
   dataBaseChange = () => {
     const completedExercises = [];
     const batch = firebase.firestore().batch();
-    const target = firebase.firestore().collection('completedExercises');
+    const target = firebase.firestore().collection( 'completedExercises' );
 
-    firebase.firestore().collection('completedExercises')
-      // .where('exercise', '==', 'Barbell Curl')
-      .where('type', '==', 'superSet')
-      .where('exercise', 'array-contains', 'Barbell Curl')
+    firebase.firestore().collection( 'completedExercises' )
+      // .where( 'exercise', '==', 'Barbell Curl' )
+      .where( 'names', 'array-contains', 'Barbell Curl' )
+      .orderBy( 'trackedOn', 'desc' )
       .get()
       .then( querySnapshot => {
         const data = [];
 
-        querySnapshot.forEach( doc  => {
+        querySnapshot.forEach( doc => {
           // console.log( 'doc: ', doc );
           // console.log( 'data', doc.data() );
 
@@ -177,9 +172,9 @@ class Profile extends Component {
               ...doc.data()
             }
           )
-        })
+        } )
 
-        console.log('data results: ', data);
+        console.log( 'data results: ', data );
       } )
 
 
@@ -213,12 +208,7 @@ class Profile extends Component {
     //   })
 
 
-
-
-
-
     // const workoutCollection = firebase.firestore().collection('programs');
-
 
 
     // const batch = firebase.firestore().batch();
@@ -249,80 +239,79 @@ class Profile extends Component {
     //  })
 
 
-
   };
 
   SettingsView = () => (
-    <ScrollView style={styles.tabViewContainer} >
-      <View style={styles.inputsContainer}>
+    <ScrollView style={ styles.tabViewContainer }>
+      <View style={ styles.inputsContainer }>
 
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 20}}>Left handed</StyledText>
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 20 } }>Left handed</StyledText>
           <Dropdown
             placeholder="false"
             placeholderTextColor='#A1A1A1'
             baseColor='white'
             textColor='white'
             selectedItemColor='black'
-            inputContainerStyle={{ borderBottomWidth: 2 }}
-            containerStyle={{ width: '40%', marginTop: -20  }}
-            data={[{value: 'True'}, {value: 'False'}]}
-            onChangeText={orientation => this.updateProfile({ handOrientation: orientation })}
+            inputContainerStyle={ { borderBottomWidth: 2 } }
+            containerStyle={ { width: '40%', marginTop: -20 } }
+            data={ [ { value: 'True' }, { value: 'False' } ] }
+            onChangeText={ orientation => this.updateProfile( { handOrientation: orientation } ) }
           />
         </View>
 
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 20}}>Color theme</StyledText>
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 20 } }>Color theme</StyledText>
           <Dropdown
             placeholder="Dark"
             placeholderTextColor='#A1A1A1'
             baseColor='white'
             textColor='white'
             selectedItemColor='black'
-            inputContainerStyle={{ borderBottomWidth: 2 }}
-            containerStyle={{ width: '40%', marginTop: -20  }}
-            data={[{value: 'Light'}, {value: 'Dark'}]}
-            onChangeText={theme => this.updateProfile({ colorTheme: theme })}
+            inputContainerStyle={ { borderBottomWidth: 2 } }
+            containerStyle={ { width: '40%', marginTop: -20 } }
+            data={ [ { value: 'Light' }, { value: 'Dark' } ] }
+            onChangeText={ theme => this.updateProfile( { colorTheme: theme } ) }
           />
         </View>
 
-        <View style={styles.profileItemContainer}>
-          <StyledText style={{ marginTop: 20}}>Email</StyledText>
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 20 } }>Email</StyledText>
           <Input
             placeholder='optional'
-            containerStyling={{ width: '40%' }}
-            value={this.props.email}
-            onEndEditing={email => this.updateProfile({email: email.nativeEvent.text})}
+            containerStyling={ { width: '40%' } }
+            value={ this.props.email }
+            onEndEditing={ email => this.updateProfile( { email: email.nativeEvent.text } ) }
             // inputStyling={{ textAlign: 'center' }}
           />
         </View>
 
-        <View style={styles.profileItemContainer}>
-          <Text style={styles.textLabel}>Measurements</Text>
+        <View style={ styles.profileItemContainer }>
+          <Text style={ styles.textLabel }>Measurements</Text>
           <Input
             placeholder='optional'
-            containerStyling={{ width: '40%' }}
+            containerStyling={ { width: '40%' } }
             // inputStyling={{ textAlign: 'center' }}
           />
         </View>
 
         <PrimaryButton
-          containerViewStyle={{ width: 150, alignSelf: 'center', marginTop: 20 }}
+          containerViewStyle={ { width: 150, alignSelf: 'center', marginTop: 20 } }
           title="LOG OUT"
-          onPress={() => this.props.logOut()}
+          onPress={ () => this.props.logOut() }
         />
 
         <PrimaryButton
-          containerViewStyle={{ width: 150, alignSelf: 'center', marginTop: 20 }}
+          containerViewStyle={ { width: 150, alignSelf: 'center', marginTop: 20 } }
           title="Storybook"
-          onPress={() => this.props.navigation.navigate('StoryBook')}
+          onPress={ () => this.props.navigation.navigate( 'StoryBook' ) }
         />
 
 
-        {/*<PrimaryButton*/}
-          {/*title="test query"*/}
-          {/*onPress={() => this.testQuery()}*/}
-        {/*/>*/}
+        {/*<PrimaryButton*/ }
+        {/*title="test query"*/ }
+        {/*onPress={() => this.testQuery()}*/ }
+        {/*/>*/ }
       </View>
     </ScrollView>
   );
@@ -384,31 +373,31 @@ class Profile extends Component {
 
     return (
       <Container>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-            <View style={{ backgroundColor: theme.SECONDARY_BACKGROUND, borderRadius: 50 }}>
-              <Icon
-                style={{ padding: 10 }}
-                color='#fff'
-                size={80}
-                name='account'
-              />
-            </View>
-          </View>
-
-          <View style={{ flex: 5 }}>
-            <Tabs
-              routes={[
-                { key: 'first', title: 'USER INFO' },
-                { key: 'second', title: 'SETTINGS' },
-              ]}
-              subViews={{
-                first: this.UserInfoView,
-                second: this.SettingsView,
-              }}
-              tabHeaderStyling={styles.tabHeader}
-              tabBarStyling={styles.tabBar}
+        <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30 } }>
+          <View style={ { backgroundColor: theme.SECONDARY_BACKGROUND, borderRadius: 50 } }>
+            <Icon
+              style={ { padding: 10 } }
+              color='#fff'
+              size={ 80 }
+              name='account'
             />
           </View>
+        </View>
+
+        <View style={ { flex: 5 } }>
+          <Tabs
+            routes={ [
+              { key: 'first', title: 'USER INFO' },
+              { key: 'second', title: 'SETTINGS' },
+            ] }
+            subViews={ {
+              first: this.UserInfoView,
+              second: this.SettingsView,
+            } }
+            tabHeaderStyling={ styles.tabHeader }
+            tabBarStyling={ styles.tabBar }
+          />
+        </View>
 
       </Container>
     );
@@ -425,27 +414,27 @@ Profile.propTypes = {
   primaryGoal: PropTypes.string,
 };
 
-function mapStateToProps(state, containerProps) {
+function mapStateToProps( state, containerProps ) {
   return {
-    uid: getUid(state),
-    isLoading: getProfileLoading(state),
-    email: getEmail(state),
-    firstName: getFirstName(state),
-    lastName: getLastName(state),
-    gender: getGender(state),
-    primaryGoal: getPrimaryGoal(state),
+    uid: getUid( state ),
+    isLoading: getProfileLoading( state ),
+    email: getEmail( state ),
+    firstName: getFirstName( state ),
+    lastName: getLastName( state ),
+    gender: getGender( state ),
+    primaryGoal: getPrimaryGoal( state ),
   }
 }
 
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps( dispatch ) {
   return {
-    updateEmail: update => dispatch(updateEmail(update)),
-    updateField: (uid, data) => dispatch(updateField(uid, data)),
-    logOut: () => dispatch(logOutUser()),
+    updateEmail: update => dispatch( updateEmail( update ) ),
+    updateField: ( uid, data ) => dispatch( updateField( uid, data ) ),
+    logOut: () => dispatch( logOutUser() ),
   };
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect( mapStateToProps, mapDispatchToProps )( Profile );
 

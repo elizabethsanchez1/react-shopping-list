@@ -1,8 +1,5 @@
 import bodyLogs from '../bodyLogs';
-import { RECIEVED_BODY_LOGS } from '../../constants/bodyLogs';
-import { listenForBodyLogsAction, recievedBodyLogsAction } from '../../actions/bodyLogs';
-import moment from 'moment';
-
+import { recievedBodyLogsAction } from '../../actions/bodyLogs';
 
 describe( 'Body logs reducer', () => {
 

@@ -4,14 +4,14 @@ import {
   CREATE_USER_SUCCESS,
   LOGIN_FAILED,
   LOGIN_REQUEST,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
 } from '../../constants/authentication';
 import {
   createUserAction, createUserFailedAction,
   createUserSuccessAction,
   loginFailedAction,
   loginRequestAction,
-  loginSuccessAction
+  loginSuccessAction,
 } from '../authentication';
 
 

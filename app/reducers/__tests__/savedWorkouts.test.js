@@ -1,5 +1,4 @@
 import savedWorkouts from '../savedWorkouts';
-import { receivedSavedWorkoutsAction } from '../../actions/savedWorkouts';
 import { RECEIVED_SAVED_WORKOUTS } from '../../constants/savedWorkouts';
 
 
