@@ -48,24 +48,6 @@ export const getSavedData = user => async (dispatch, getState) => {
 };
 
 
-
-
-
-export const logOutUser = () => async dispatch => {
-  await firebaseService.logOutUser();
-
-  // had to wrap logout in timeout because a lot of
-  // views would error out when all the state got wiped out
-  setTimeout(() => {
-    dispatch(logOut())
-  }, 1000);
-
-};
-
-export const logOut = () => {
-  return { type: LOG_OUT };
-};
-
 export const profileRequest = () => {
   return { type: GET_PROFILE_REQUEST };
 };
@@ -108,5 +90,10 @@ export const createUserSuccessAction = data => ( {
 
 export const createUserFailedAction = data => ( {
   type: CREATE_USER_FAILED,
+  payload: data,
+} );
+
+export const logOutAction = data => ( {
+  type: LOG_OUT,
   payload: data,
 } );

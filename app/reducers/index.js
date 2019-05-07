@@ -15,12 +15,14 @@ import errors from './errors';
 import bodyLogs from './bodyLogs';
 import completedExercises from './completedExercises';
 import savedWorkouts from './savedWorkouts';
+import exerciseList from './exerciseList';
 
 const appReducer = combineReducers( {
   authentication,
   bodyLogs,
   completedExercises,
   errors,
+  exerciseList,
   profile,
   track,
   workoutsApi,

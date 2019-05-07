@@ -2,7 +2,7 @@ import firebase from 'react-native-firebase';
 import { takeEvery, call, put, take, select, fork } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 import { eventChannel } from 'redux-saga';
-import { CREATE_USER_REQUEST, LOGIN_REQUEST } from '../constants/authentication';
+import { CREATE_USER_REQUEST, LOG_OUT, LOGIN_REQUEST } from '../constants/authentication';
 import {
   createUserFailedAction,
   createUserSuccessAction,
@@ -10,7 +10,7 @@ import {
   loginSuccessAction,
 } from '../actions/authentication';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
-import { AUTHENTICATION } from '../constants/reducerObjects';
+import { AUTHENTICATION, BODY_LOGS, EXERCISES, USER } from '../constants/reducerObjects';
 import { handleErrorAction } from '../actions/errors';
 import { getUser } from '../selectors/user';
 import { userDocumentListener } from './user';
@@ -18,6 +18,7 @@ import { bodyLogsListener } from './bodyLogs';
 import { completedExerciseListener } from './completedExercises';
 import { savedWorkoutsListener } from './savedWorkouts';
 import { exerciseListListener } from './exerciseList';
+import NavigationService from '../utilities/navigationService';
 
 export function* loginREST( email, password ) {
   return yield call(
@@ -50,6 +51,25 @@ export function* login( action ) {
 
 export function* watchLoginRequest() {
   yield takeEvery( LOGIN_REQUEST, login );
+}
+
+export function* logOutREST() {
+  return yield call( [ firebase.auth(), firebase.auth().signOut ] );
+}
+
+export function* logOut() {
+  try {
+    yield call( logOutREST );
+    NavigationService.navigate( 'Register' );
+    console.log('finished doing log out');
+  }
+  catch( e ) {
+    console.log( 'error logging out', e );
+  }
+}
+
+export function* watchLogOut() {
+  yield takeEvery( LOG_OUT, logOut );
 }
 
 
@@ -95,18 +115,21 @@ export function* watchRegisterRequest() {
 
 
 export function* watchAuthchanges() {
+
   // #1
   const channel = new eventChannel( emiter => {
     const listener = firebase.auth().onAuthStateChanged( user => {
+
       if ( user ) {
         emiter( user );
       }
+      else {
+        emiter( { uid: undefined } );
+      }
     } );
 
-    // #2
-    return () => {
-      listener.off();
-    };
+    //#2
+    return () => listener.off();
   } );
 
   // #3
@@ -116,9 +139,16 @@ export function* watchAuthchanges() {
 
     // #4
     const user = yield select( getUser );
-    if ( user.uid === undefined ) {
+    if ( user.uid === undefined && uid ) {
       yield put( loginSuccessAction( { email, uid } ) );
-      // console.log('about to call body logs');
+
+      /*
+      * If user logged in token is still there show loading for these data
+      * types since the navigation changes faster then the first loading widget
+      * can be displayed which causes a weird flicker on the main screens  */
+      // yield put( showLoadingAction( { dataType: USER } ) );
+      // yield put( showLoadingAction( { dataType: BODY_LOGS } ) );
+      // yield put( showLoadingAction( { dataType: BODY_LOGS } ) );
     }
 
     if ( uid ) {
@@ -128,5 +158,13 @@ export function* watchAuthchanges() {
       yield fork( savedWorkoutsListener, uid );
       yield fork( exerciseListListener, uid );
     }
+
+    if ( !uid ) {
+      NavigationService.navigate( 'Register' );
+    }
+    else {
+      NavigationService.navigate( 'Profile' );
+    }
+
   }
 }

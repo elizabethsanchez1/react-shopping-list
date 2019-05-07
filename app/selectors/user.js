@@ -31,3 +31,47 @@ export const getPreferredWeightMeasurement = createSelector(
     return 'lbs';
   },
 );
+
+export const getName = createSelector(
+  state => getUser( state ),
+  user => {
+    if ( user.uid !== undefined && user.uid !== '' ) {
+      return { firstName: user.firstName, lastName: user.lastName };
+    }
+
+    return { firstName: '', lastName: '' };
+  },
+);
+
+export const getGender = createSelector(
+  state => getUser( state ),
+  user => {
+    if ( user.uid !== undefined && user.uid !== '' ) {
+      return user.gender;
+    }
+
+    return '';
+  },
+);
+
+export const getPrimaryGoal = createSelector(
+  state => getUser( state ),
+  user => {
+    if ( user.uid !== undefined && user.uid !== '' ) {
+      return user.primaryGoal;
+    }
+
+    return '';
+  },
+);
+
+export const getEmail = createSelector(
+  state => getUser( state ),
+  user => {
+    if ( user.uid !== undefined && user.uid !== '' ) {
+      return user.email;
+    }
+
+    return '';
+  },
+);

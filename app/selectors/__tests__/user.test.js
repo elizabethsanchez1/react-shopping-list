@@ -1,4 +1,12 @@
-import { getUser, getAuthenticaton, getPreferredWeightMeasurement, getUid } from '../user';
+import {
+  getUser,
+  getAuthenticaton,
+  getPreferredWeightMeasurement,
+  getUid,
+  getName,
+  getGender,
+  getPrimaryGoal, getEmail
+} from '../user';
 
 const state = {
   user: {
@@ -51,6 +59,51 @@ describe( 'user selectors', () => {
 
     expect( getUid( state2 ) ).toEqual( 1 );
 
+  } );
+
+  it( 'getName() should return first and last name', () => {
+    const state = {
+      user: {
+        uid: 1,
+        firstName: 'Jose',
+        lastName: 'Sanchez',
+      },
+    };
+
+    expect( getName( state ) ).toEqual( { firstName: 'Jose', lastName: 'Sanchez' } );
+  } );
+
+  it( 'getGender() should return gender as a string', () => {
+    const state = {
+      user: {
+        uid: 1,
+        gender: 'Male',
+      },
+    };
+
+    expect( getGender( state ) ).toEqual( 'Male' );
+  } );
+
+  it( 'getPrimaryGoal() should return primary goal as a string', () => {
+    const state = {
+      user: {
+        uid: 1,
+        primaryGoal: 'Build Strength',
+      },
+    };
+
+    expect( getPrimaryGoal( state ) ).toEqual( 'Build Strength' );
+  } );
+
+  it( 'getEmail() should return email as a string', () => {
+    const state = {
+      user: {
+        uid: 1,
+        email: 'email address',
+      },
+    };
+
+    expect( getEmail( state ) ).toEqual( 'email address' );
   } );
 
 } );

@@ -2,7 +2,12 @@ import {
   UPDATED_PROFILE,
   EMAIL_UPDATED,
   UPDATED_MEASUREMENTS,
-  GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILED
+  GET_PROFILE_REQUEST,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAILED,
+  UPDATE_FIELD_REQUEST,
+  UPDATE_FIELD_SUCCESS,
+  UPDATE_FIELD_FAILED
 } from '../constants/profile';
 import firebaseService from '../utilities/firebase';
 import { displayAlert } from "./alert";
@@ -100,3 +105,25 @@ export function updateMeasurements(uid, date, data) {
   }
 }
 
+/* v2 actions */
+
+export const updateProfileFieldRequestAction = data => {
+  return {
+    type: UPDATE_FIELD_REQUEST,
+    payload: data,
+  };
+};
+
+export const updateProfileFieldSuccessAction = data => {
+  return {
+    type: UPDATE_FIELD_SUCCESS,
+    payload: data,
+  };
+};
+
+export const updateProfileFieldFailedAction = data => {
+  return {
+    type: UPDATE_FIELD_FAILED,
+    payload: data,
+  };
+};

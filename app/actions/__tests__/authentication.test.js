@@ -1,7 +1,7 @@
 import {
   CREATE_USER_FAILED,
   CREATE_USER_REQUEST,
-  CREATE_USER_SUCCESS,
+  CREATE_USER_SUCCESS, LOG_OUT,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -11,7 +11,7 @@ import {
   createUserSuccessAction,
   loginFailedAction,
   loginRequestAction,
-  loginSuccessAction,
+  loginSuccessAction, logOutAction,
 } from '../authentication';
 
 
@@ -75,6 +75,16 @@ describe( 'authentication creators', () => {
     };
 
     expect( createUserFailedAction( { email: 'test' } ) )
+      .toEqual( expectedAction );
+  } );
+
+  it( 'logOutAction() should dispatch a LOG_OUT event', () => {
+    const expectedAction = {
+      type: LOG_OUT,
+      payload: undefined,
+    };
+
+    expect( logOutAction() )
       .toEqual( expectedAction );
   } );
 

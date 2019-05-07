@@ -1,9 +1,10 @@
-import { put, take } from 'redux-saga/effects';
+import { put, take, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import firebase from 'react-native-firebase';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { EXERCISES } from '../constants/reducerObjects';
 import { listenForCompletedExercisesAction, recievedCompletedExercisesAction } from '../actions/completedExercises';
+import { LOG_OUT } from '../constants/authentication';
 
 
 export function* completedExerciseListener( uid ) {
@@ -28,6 +29,11 @@ export function* completedExerciseListener( uid ) {
       listener.off();
     };
   } );
+
+  // yield fork( function* () {
+  //   yield take( LOG_OUT );
+  //   channel.close();
+  // } );
 
   // #3
   while ( true ) {

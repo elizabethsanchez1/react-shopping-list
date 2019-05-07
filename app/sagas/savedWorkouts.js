@@ -1,10 +1,11 @@
 import { eventChannel } from 'redux-saga';
-import { put, take } from 'redux-saga/effects';
+import { put, take, fork } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { BODY_LOGS, SAVED_WORKOUTS } from '../constants/reducerObjects';
 import { listenForSavedWorkoutsAction, receivedSavedWorkoutsAction } from '../actions/savedWorkouts';
 import dateHelpers from '../utilities/dateHelpers';
+import { LOG_OUT } from '../constants/authentication';
 
 
 export function* savedWorkoutsListener( uid ) {
@@ -34,6 +35,11 @@ export function* savedWorkoutsListener( uid ) {
       listener.off();
     };
   } );
+
+  // yield fork( function* () {
+  //   yield take( LOG_OUT );
+  //   channel.close();
+  // } );
 
   // #3
   while ( true ) {

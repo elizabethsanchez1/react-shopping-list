@@ -3,11 +3,12 @@ import { call, put, takeEvery, fork } from 'redux-saga/effects';
 import {
   login,
   loginREST,
+  logOut,
   watchLoginRequest,
   watchRegisterRequest,
   register,
   registerREST,
-  createUserDocumentREST, watchAuthchanges
+  createUserDocumentREST, watchLogOut, logOutREST,
 } from '../authentication';
 import { LOGIN_REQUEST, CREATE_USER_REQUEST } from '../../constants/authentication';
 import {
@@ -18,6 +19,7 @@ import {
 } from '../../actions/authentication';
 import { hideLoadingAction, showLoadingAction } from '../../actions/loading';
 import { AUTHENTICATION } from '../../constants/reducerObjects';
+import { LOG_OUT } from '../../constants/authentication';
 import { handleErrorAction } from '../../actions/errors';
 
 /*
@@ -34,6 +36,18 @@ import { handleErrorAction } from '../../actions/errors';
 describe( 'Authentication saga functionality', () => {
 
   describe( 'login() saga functionality', () => {
+
+    it( 'watchLoginRequest() should create a saga watcher for LOGIN_REQUEST', () => {
+      const gen = cloneableGenerator( watchLoginRequest )();
+
+      expect( JSON.stringify( gen.next().value ) )
+        .toEqual( JSON.stringify( fork(
+          takeEvery,
+          LOGIN_REQUEST,
+          login,
+        ) ) );
+    } );
+
     const action = {
       type: LOGIN_REQUEST,
       payload: { email: 'test', password: 'test' },
@@ -86,6 +100,19 @@ describe( 'Authentication saga functionality', () => {
   } );
 
   describe( 'register() saga functionality', () => {
+
+    it( 'watchRegisterRequest() should create a saga watcher for CREATE_USER_REQUEST', () => {
+      const gen = cloneableGenerator( watchRegisterRequest )();
+
+      expect( JSON.stringify( gen.next().value ) )
+        .toEqual( JSON.stringify( fork(
+          takeEvery,
+          CREATE_USER_REQUEST,
+          register,
+        ) ) );
+
+    } );
+
     const action = {
       type: CREATE_USER_REQUEST,
       payload: { email: 'test', password: 'test' },
@@ -135,30 +162,21 @@ describe( 'Authentication saga functionality', () => {
 
   } );
 
-  describe( 'saga watcher', () => {
-    it( 'watchLoginRequest() should create a saga watcher for LOGIN_REQUEST', () => {
-      const gen = cloneableGenerator( watchLoginRequest )();
+  describe( 'logOut() saga functionality', () => {
+
+    it( 'watchLogOut() should create a saga watcher for LOG_OUT event', () => {
+      const gen = cloneableGenerator( watchLogOut )();
 
       expect( JSON.stringify( gen.next().value ) )
         .toEqual( JSON.stringify( fork(
           takeEvery,
-          LOGIN_REQUEST,
-          login,
-        ) ) );
-    } );
-
-    it( 'watchRegisterRequest() should create a saga watcher for CREATE_USER_REQUEST', () => {
-      const gen = cloneableGenerator( watchRegisterRequest )();
-
-      expect( JSON.stringify( gen.next().value ) )
-        .toEqual( JSON.stringify( fork(
-          takeEvery,
-          CREATE_USER_REQUEST,
-          register,
+          LOG_OUT,
+          logOut,
         ) ) );
 
     } );
 
   } );
+
 
 } );

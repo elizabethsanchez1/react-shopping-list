@@ -15,24 +15,18 @@ class Loading extends Component {
   }
 
   componentDidMount() {
-    // if ( this.storyBookMode ) {
-    //   this.props.navigation.navigate('StoryBook')
-    // }
 
-    firebase.auth().onAuthStateChanged(user => {
-      // if ( this.storyBookMode ) {
-      //   this.props.navigation.navigate('StoryBook')
-      // }
-
-      if (!user) {
-        this.props.navigation.navigate('Register');
-        this.requested = false;
-      } else if (user && !this.requested) {
-        this.props.getSavedData(user);
-        this.props.navigation.navigate('Profile');
-        this.requested = true;
-      }
-    });
+    // firebase.auth().onAuthStateChanged(user => {
+    //
+    //   if ( !user ) {
+    //     this.props.navigation.navigate( 'Register' );
+    //     this.requested = false;
+    //   } else if ( user && !this.requested ) {
+    //     // this.props.getSavedData(user);
+    //     // this.props.navigation.navigate('Profile');
+    //     // this.requested = true;
+    //   }
+    // });
   }
 
   // shouldComponentUpdate() {
@@ -45,7 +39,7 @@ class Loading extends Component {
   render() {
 
     return (
-      <LoadingIndicator/>
+      <LoadingIndicator />
     );
   }
 }

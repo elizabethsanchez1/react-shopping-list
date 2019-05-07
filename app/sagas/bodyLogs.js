@@ -1,4 +1,4 @@
-import { put, take } from 'redux-saga/effects';
+import { put, take, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import firebase from 'react-native-firebase';
 import { BODY_LOGS } from '../constants/reducerObjects';
@@ -7,8 +7,7 @@ import {
   listenForBodyLogsAction,
   recievedBodyLogsAction,
 } from '../actions/bodyLogs';
-import dateHelpers from '../utilities/dateHelpers';
-
+import { LOG_OUT } from '../constants/authentication';
 
 export function* bodyLogsListener( uid ) {
   // #1
@@ -27,9 +26,6 @@ export function* bodyLogsListener( uid ) {
           bodyLogs.push( { uid: document.id, ...document.data() } );
         } );
 
-        // Having firebase do this now
-        // const sorted = dateHelpers.sortByDate( bodyLogs, 'descending', 'trackedOn' );
-
         emiter( bodyLogs );
       } );
 
@@ -38,6 +34,11 @@ export function* bodyLogsListener( uid ) {
       listener.off();
     };
   } );
+
+  // yield fork( function* () {
+  //   yield take( LOG_OUT );
+  //   channel.close();
+  // } );
 
   // #3
   while ( true ) {

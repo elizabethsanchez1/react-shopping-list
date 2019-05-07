@@ -1,9 +1,10 @@
 import { eventChannel } from 'redux-saga';
-import { put, take } from 'redux-saga/effects';
+import { put, take, fork } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { EXERCISE_LIST } from '../constants/reducerObjects';
 import { listenForExerciseListAction, receivedExerciseListAction } from '../actions/exerciseList';
+import { LOG_OUT } from '../constants/authentication';
 
 
 export function* exerciseListListener( uid ) {
@@ -16,12 +17,28 @@ export function* exerciseListListener( uid ) {
       .collection( 'exerciseList' )
       .onSnapshot( snapShot => {
 
-        const savedWorkouts = [];
+        const exerciseList = {
+          Abs: [],
+          Back: [],
+          Biceps: [],
+          Calves: [],
+          Chest: [], // done adding more exercises
+          Forearms: [],
+          Glutes: [],
+          Hamstrings: [],
+          Quads: [],
+          Shoulders: [], // done adding more exercises
+          Traps: [], // done adding more exercises
+          Triceps: [],
+        };
+
         snapShot.forEach( doc => {
-          savedWorkouts.push( { ...doc.data(), documentId: doc.id } );
+          const exercise = doc.data();
+          exercise.selected = false;
+          exerciseList[ exercise.muscleGroup ].push( exercise );
         } );
 
-        emiter( { savedWorkouts } );
+        emiter( { exerciseList } );
       } );
 
     // #2
@@ -29,6 +46,11 @@ export function* exerciseListListener( uid ) {
       listener.off();
     };
   } );
+
+  // yield fork( function* () {
+  //   yield take( LOG_OUT );
+  //   channel.close();
+  // } );
 
   // #3
   while ( true ) {

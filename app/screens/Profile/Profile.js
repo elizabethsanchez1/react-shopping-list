@@ -13,12 +13,13 @@ import theme from '../../styles/theme.style';
 import { Calendar } from 'react-native-calendars';
 import { connect } from 'react-redux';
 import { Loading } from '../../components/Loading/index';
-import { getEmail, getUid } from '../../selectors/authentication';
-import { logOutUser } from '../../actions/authentication';
+import { logOutAction, logOutUser } from '../../actions/authentication';
 import Tabs from '../../components/Tabs/Tabs';
 import { updateField } from '../../actions/profile';
 import { updateEmail } from '../../actions/profile';
-import { getFirstName, getGender, getLastName, getPrimaryGoal, getProfileLoading } from '../../selectors/profile';
+import { getName, getEmail, getGender, getPrimaryGoal, getUid } from '../../selectors/user';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { USER } from '../../constants/reducerObjects';
 
 
 const styles = StyleSheet.create( {
@@ -48,30 +49,34 @@ const styles = StyleSheet.create( {
   },
 } );
 
-
 class Profile extends Component {
-  constructor( props ) {
-    super( props );
-    this.state = {};
-  }
-
   static navigationOptions = ( { navigation } ) => {
     const params = navigation.state.params || {};
-    // return {
-    //   headerRight: (
-    //     <Button
-    //       buttonStyle={{ backgroundColor: 'transparent' }}
-    //       color={theme.ACTIVE_TAB_COLOR}
-    //       textStyle={{ fontSize: 17 }}
-    //       title='Update'
-    //       // onPress={navigation.state.params.saveWorkout}
-    //     />
-    //   )
-    // }
-
+    return {
+      headerRight: (
+        <Button
+          buttonStyle={{ backgroundColor: 'transparent' }}
+          color={theme.ACTIVE_TAB_COLOR}
+          textStyle={{ fontSize: 17 }}
+          title='Update'
+          // onPress={navigation.state.params.saveWorkout}
+        />
+      )
+    }
   };
 
-  updateProfile( data ) {
+  constructor( props ) {
+    super( props );
+    this.state = {
+      firstName: this.props.name.firstName,
+      lastName: this.props.name.lastName,
+      email: this.props.email,
+      gender: this.props.gender,
+      primaryGoal: this.props.primaryGoal,
+    };
+  }
+
+  updateProfile = data => {
     const key = Object.getOwnPropertyNames( data );
 
     if ( data[ key ].replace( / /g, '' ) !== '' ) {
@@ -79,11 +84,11 @@ class Profile extends Component {
         ? this.props.updateEmail( {
           newEmail: data[ key ],
           previousEmail: this.props.email,
-          password: 'password'
+          password: 'password',
         } )
         : this.props.updateField( this.props.uid, data );
     }
-  }
+  };
 
   UserInfoView = () => {
 
@@ -96,8 +101,10 @@ class Profile extends Component {
             <Input
               placeholder='optional'
               containerStyling={ { width: '40%' } }
-              onEndEditing={ ( name ) => this.updateProfile( { firstName: name.nativeEvent.text } ) }
-              value={ this.props.firstName }
+              onEndEditing={
+                name => this.updateProfile( { firstName: name.nativeEvent.text } )
+              }
+              value={ this.state.firstName }
             />
           </View>
 
@@ -106,8 +113,8 @@ class Profile extends Component {
             <Input
               placeholder='optional'
               containerStyling={ { width: '40%' } }
-              onEndEditing={ ( lastName ) => this.updateProfile( { lastName: lastName.nativeEvent.text } ) }
-              value={ this.props.lastName }
+              onEndEditing={ lastName => this.updateProfile( { lastName: lastName.nativeEvent.text } ) }
+              value={ this.props.name.lastName }
             />
           </View>
 
@@ -176,69 +183,6 @@ class Profile extends Component {
 
         console.log( 'data results: ', data );
       } )
-
-
-    // firebase.firestore()
-    //   .collection('users')
-    //   .doc(this.props.uid)
-    //   .collection('completedExercises')
-    //   .get()
-    //   .then(querySnapshot => {
-    //     querySnapshot.forEach(doc => {
-    //       console.log('doc:', doc);
-    //
-    //
-    //       completedExercises.push({
-    //         ...doc.data(),
-    //         userId: this.props.uid,
-    //       });
-    //
-    //     });
-    //
-    //     console.log('all completed exercises: ', completedExercises);
-    //
-    //     completedExercises.forEach(doc => {
-    //       batch.set(target.doc(), doc);
-    //     });
-    //
-    //     batch.commit();
-    //   })
-    //   .catch(error => {
-    //     console.log('error : ', error);
-    //   })
-
-
-    // const workoutCollection = firebase.firestore().collection('programs');
-
-
-    // const batch = firebase.firestore().batch();
-    // const savedWorkouts = [];
-    // const workoutCollection = firebase.firestore().collection('savedWorkouts');
-    // firebase.firestore()
-    //   .collection('users')
-    //   .doc(this.props.uid)
-    //   .collection('savedWorkouts')
-    //   .get()
-    //   .then(querySnapshot => {
-    //
-    //
-    //     querySnapshot.forEach(doc => {
-    //       console.log('doc:', doc);
-    //
-    //       savedWorkouts.push({
-    //         ...doc.data(),
-    //         userId: this.props.uid,
-    //       });
-    //     });
-    //
-    //     savedWorkouts.forEach(exercise => {
-    //       batch.set(workoutCollection.doc(), exercise);
-    //     });
-    //
-    //     batch.commit();
-    //  })
-
-
   };
 
   SettingsView = () => (
@@ -316,60 +260,11 @@ class Profile extends Component {
     </ScrollView>
   );
 
-  // testQuery = () => {
-  //
-  //   const completedExercises = [];
-  //   const batch = firebase.firestore().batch();
-  //   const target = firebase.firestore().collection('completedExercises');
-  //
-  //
-  //   const totalWeeks = {
-  //     week1: {},
-  //     week2: {},
-  //     week3: {},
-  //     week4: {},
-  //     week5: {},
-  //     week6: {},
-  //   };
-  //
-  //   firebase.firestore()
-  //     .collection('users')
-  //     .doc(this.props.uid)
-  //     .collection('completedExercises')
-  //     .get()
-  //     .then(querySnapshot => {
-  //       querySnapshot.forEach(doc => {
-  //         console.log('doc:', doc);
-  //
-  //
-  //         completedExercises.push({
-  //           ...doc.data(),
-  //         });
-  //
-  //       });
-  //
-  //       console.log('all completed exercises: ', completedExercises);
-  //
-  //       completedExercises.forEach(doc => {
-  //         batch.set(target.doc(), doc);
-  //       });
-  //
-  //       batch.commit();
-  //     })
-  //     .catch(error => {
-  //       console.log('error : ', error);
-  //     })
-  //
-  //
-  // };
-
-
   render() {
-    // if (this.props.isLoading) {
-    //   return (
-    //     <Loading />
-    //   )
-    // }
+    console.log( 'Profile props: ', this.props );
+    if ( this.props.isLoading ) {
+      return <Loading />;
+    }
 
     return (
       <Container>
@@ -405,36 +300,34 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  uid: PropTypes.string.isRequired,
+  uid: PropTypes.string,
+  email: PropTypes.string,
+  name: PropTypes.object,
   isLoading: PropTypes.bool,
   navigation: PropTypes.object.isRequired,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
   gender: PropTypes.string,
   primaryGoal: PropTypes.string,
+  updateEmail: PropTypes.func,
+  updateField: PropTypes.func,
 };
 
-function mapStateToProps( state, containerProps ) {
-  return {
-    uid: getUid( state ),
-    isLoading: getProfileLoading( state ),
-    email: getEmail( state ),
-    firstName: getFirstName( state ),
-    lastName: getLastName( state ),
-    gender: getGender( state ),
-    primaryGoal: getPrimaryGoal( state ),
-  }
-}
+
+const mapStateToProps = state => ( {
+  uid: getUid( state ),
+  name: getName( state ),
+  email: getEmail( state ),
+  gender: getGender( state ),
+  primaryGoal: getPrimaryGoal( state ),
+  isLoading: getLoadingByDomain( state, USER ),
+} );
 
 
-function mapDispatchToProps( dispatch ) {
-  return {
-    updateEmail: update => dispatch( updateEmail( update ) ),
-    updateField: ( uid, data ) => dispatch( updateField( uid, data ) ),
-    logOut: () => dispatch( logOutUser() ),
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  updateEmail: update => dispatch( updateEmail( update ) ),
+  updateField: ( uid, data ) => dispatch( updateField( uid, data ) ),
+  // logOut: () => dispatch( logOutUser() ),
+  logOut: () => dispatch( logOutAction() ),
+} );
 
 
 export default connect( mapStateToProps, mapDispatchToProps )( Profile );
-
