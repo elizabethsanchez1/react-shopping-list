@@ -1,9 +1,11 @@
 import { takeEvery, call, put, take, select, fork } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
+import { Alert } from 'react-native';
 import { UPDATE_FIELD_REQUEST } from '../constants/profile';
 import { getUid } from '../selectors/user';
 import { updateProfileFieldFailedAction, updateProfileFieldSuccessAction } from '../actions/profile';
-import { LOG_OUT } from '../constants/authentication';
+import { handleErrorAction } from '../actions/errors';
+import { PROFILE } from '../constants/reducerObjects';
 
 export function* updateProfileFieldREST( uid, update ) {
   const collection = firebase.firestore().collection( 'users' ).doc( uid );
@@ -12,19 +14,17 @@ export function* updateProfileFieldREST( uid, update ) {
 
 export function* updateProfileField( action ) {
   try {
-    const uid = select( getUid );
-    yield call( updateProfileFieldREST, uid, action.payload.data );
+    const uid = yield select( getUid );
+    yield call( updateProfileFieldREST, uid, action.payload );
     yield put( updateProfileFieldSuccessAction() );
   }
-  catch ( e ) {
-    console.log('profile update failed: ', e);
-    yield put( updateProfileFieldFailedAction( e ) );
+  catch ( error ) {
+    yield put( updateProfileFieldFailedAction() );
+    yield put( handleErrorAction( { error, dataType: PROFILE } ) );
+    Alert.alert( 'Error', error.message, [ { text: 'OK' } ] );
   }
 }
 
 export function* watchProfileUpdate() {
   yield takeEvery( UPDATE_FIELD_REQUEST, updateProfileField ); 
 }
-
-
-

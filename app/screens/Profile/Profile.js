@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Dimensions, Alert, Button, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dropdown } from 'react-native-material-dropdown';
-import firebase from 'react-native-firebase'
+import firebase from 'react-native-firebase';
 import Container from '../../components/Container/index';
 import { Input } from '../../components/Form/index';
 import { PrimaryButton } from '../../components/Button';
 import { StyledText } from '../../components/Text/index';
-import moment from 'moment'
 import theme from '../../styles/theme.style';
-import { Calendar } from 'react-native-calendars';
 import { connect } from 'react-redux';
 import { Loading } from '../../components/Loading/index';
-import { logOutAction, logOutUser } from '../../actions/authentication';
+import { logOutAction } from '../../actions/authentication';
 import Tabs from '../../components/Tabs/Tabs';
-import { updateField } from '../../actions/profile';
-import { updateEmail } from '../../actions/profile';
-import { getName, getEmail, getGender, getPrimaryGoal, getUid } from '../../selectors/user';
+import { updateProfileFieldRequestAction } from '../../actions/profile';
+import { getName, getEmail, getGender, getPrimaryGoal } from '../../selectors/user';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { USER } from '../../constants/reducerObjects';
 
@@ -33,7 +30,7 @@ const styles = StyleSheet.create( {
     marginTop: 15,
     color: '#fff',
     fontSize: theme.FONT_SIZE_MEDIUM,
-    fontFamily: theme.PRIMARY_FONT_FAMILY
+    fontFamily: theme.PRIMARY_FONT_FAMILY,
   },
   profileItemContainer: {
     flexDirection: 'row',
@@ -55,105 +52,111 @@ class Profile extends Component {
     return {
       headerRight: (
         <Button
-          buttonStyle={{ backgroundColor: 'transparent' }}
-          color={theme.ACTIVE_TAB_COLOR}
-          textStyle={{ fontSize: 17 }}
+          buttonStyle={ { backgroundColor: 'transparent' } }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ { fontSize: 17 } }
           title='Update'
-          // onPress={navigation.state.params.saveWorkout}
+          onPress={ params.update }
         />
-      )
-    }
+      ),
+    };
   };
 
   constructor( props ) {
     super( props );
     this.state = {
-      firstName: this.props.name.firstName,
-      lastName: this.props.name.lastName,
-      email: this.props.email,
-      gender: this.props.gender,
-      primaryGoal: this.props.primaryGoal,
+      firstName: '',
+      lastName: '',
+      email: '',
+      gender: '',
+      primaryGoal: '',
     };
   }
 
-  updateProfile = data => {
-    const key = Object.getOwnPropertyNames( data );
+  componentDidMount() {
+    this.props.navigation.setParams( {
+      update: this.updateField.bind( this ),
+    } );
+  }
 
-    if ( data[ key ].replace( / /g, '' ) !== '' ) {
-      ( key[ 0 ] === 'email' )
-        ? this.props.updateEmail( {
-          newEmail: data[ key ],
-          previousEmail: this.props.email,
-          password: 'password',
-        } )
-        : this.props.updateField( this.props.uid, data );
+  componentDidUpdate( prevProps ) {
+    if ( prevProps.name.firstName !== this.props.name.firstName ) {
+      this.setState( {
+        firstName: this.props.name.firstName,
+        lastName: this.props.name.lastName,
+        email: this.props.email,
+        gender: this.props.gender,
+        primaryGoal: this.props.primaryGoal,
+      } );
     }
-  };
+  }
 
-  UserInfoView = () => {
+  updateField = () => this.props.updateField( { ...this.state } );
 
-    return (
-      <View style={ styles.tabViewContainer }>
-        <View style={ styles.inputsContainer }>
+  UserInfoView = () => (
+    <View style={ styles.tabViewContainer }>
+      <View style={ styles.inputsContainer }>
 
-          <View style={ styles.profileItemContainer }>
-            <StyledText style={ { marginTop: 15 } }>First Name</StyledText>
-            <Input
-              placeholder='optional'
-              containerStyling={ { width: '40%' } }
-              onEndEditing={
-                name => this.updateProfile( { firstName: name.nativeEvent.text } )
-              }
-              value={ this.state.firstName }
-            />
-          </View>
-
-          <View style={ styles.profileItemContainer }>
-            <StyledText style={ { marginTop: 15 } }>Last Name</StyledText>
-            <Input
-              placeholder='optional'
-              containerStyling={ { width: '40%' } }
-              onEndEditing={ lastName => this.updateProfile( { lastName: lastName.nativeEvent.text } ) }
-              value={ this.props.name.lastName }
-            />
-          </View>
-
-          <View style={ styles.profileItemContainer }>
-            <StyledText style={ { marginTop: 15 } }>Gender</StyledText>
-            <Dropdown
-              placeholder="recommended"
-              placeholderTextColor='#A1A1A1'
-              baseColor='white'
-              textColor='white'
-              selectedItemColor='black'
-              inputContainerStyle={ { borderBottomWidth: 2 } }
-              containerStyle={ { width: '40%', marginTop: -20 } }
-              data={ [ { value: 'Male' }, { value: 'Female' } ] }
-              value={ this.props.gender }
-              onChangeText={ gender => this.updateProfile( { gender } ) }
-            />
-          </View>
-
-          <View style={ styles.profileItemContainer }>
-            <StyledText style={ { marginTop: 15 } }>Primary Goal</StyledText>
-            <Dropdown
-              placeholder="recommended"
-              placeholderTextColor='#A1A1A1'
-              baseColor='white'
-              textColor='white'
-              selectedItemColor='black'
-              inputContainerStyle={ { borderBottomWidth: 2 } }
-              containerStyle={ { width: '40%', marginTop: -20 } }
-              data={ [ { value: 'Build Muscle' }, { value: 'Build Strength' }, { value: 'Lose Fat' } ] }
-              value={ this.props.primaryGoal }
-              onChangeText={ primaryGoal => this.updateProfile( { primaryGoal } ) }
-            />
-          </View>
-
-          <Button title="Execute" onPress={ this.dataBaseChange }/>
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 15 } }>First Name</StyledText>
+          <Input
+            placeholder='optional'
+            containerStyling={ { width: '40%' } }
+            onChange={ event => {
+              this.setState( { firstName: event.nativeEvent.text } );
+            } }
+            defaultValue={ this.state.firstName }
+          />
         </View>
-      </View> )
-  };
+
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 15 } }>Last Name</StyledText>
+          <Input
+            placeholder='optional'
+            containerStyling={ { width: '40%' } }
+            onChange={ event => {
+              this.setState( { lastName: event.nativeEvent.text } );
+            } }
+            defaultValue={ this.state.lastName }
+          />
+        </View>
+
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 15 } }>Gender</StyledText>
+          <Dropdown
+            placeholder="recommended"
+            placeholderTextColor='#A1A1A1'
+            baseColor='white'
+            textColor='white'
+            selectedItemColor='black'
+            inputContainerStyle={ { borderBottomWidth: 2 } }
+            containerStyle={ { width: '40%', marginTop: -20 } }
+            data={ [ { value: 'Male' }, { value: 'Female' } ] }
+            value={ this.state.gender }
+            onChangeText={ gender => this.setState( { gender } ) }
+          />
+        </View>
+
+        <View style={ styles.profileItemContainer }>
+          <StyledText style={ { marginTop: 15 } }>Primary Goal</StyledText>
+          <Dropdown
+            placeholder="recommended"
+            placeholderTextColor='#A1A1A1'
+            baseColor='white'
+            textColor='white'
+            selectedItemColor='black'
+            inputContainerStyle={ { borderBottomWidth: 2 } }
+            containerStyle={ { width: '40%', marginTop: -20 } }
+            data={ [ { value: 'Build Muscle' }, { value: 'Build Strength' }, { value: 'Lose Fat' } ] }
+            value={ this.state.primaryGoal }
+            onChangeText={ primaryGoal => this.setState( { primaryGoal } ) }
+          />
+        </View>
+
+        <Button title="Execute" onPress={ this.dataBaseChange } />
+      </View>
+    </View>
+  );
 
 
   dataBaseChange = () => {
@@ -200,7 +203,7 @@ class Profile extends Component {
             inputContainerStyle={ { borderBottomWidth: 2 } }
             containerStyle={ { width: '40%', marginTop: -20 } }
             data={ [ { value: 'True' }, { value: 'False' } ] }
-            onChangeText={ orientation => this.updateProfile( { handOrientation: orientation } ) }
+            onChangeText={ orientation => this.setState( { handOrientation: orientation } ) }
           />
         </View>
 
@@ -215,7 +218,7 @@ class Profile extends Component {
             inputContainerStyle={ { borderBottomWidth: 2 } }
             containerStyle={ { width: '40%', marginTop: -20 } }
             data={ [ { value: 'Light' }, { value: 'Dark' } ] }
-            onChangeText={ theme => this.updateProfile( { colorTheme: theme } ) }
+            onChangeText={ theme => this.setState( { colorTheme: theme } ) }
           />
         </View>
 
@@ -224,8 +227,10 @@ class Profile extends Component {
           <Input
             placeholder='optional'
             containerStyling={ { width: '40%' } }
-            value={ this.props.email }
-            onEndEditing={ email => this.updateProfile( { email: email.nativeEvent.text } ) }
+            defaultvalue={ this.state.email }
+            onChange={ event => {
+              this.setState( { email: event.nativeEvent.text } );
+            } }
             // inputStyling={{ textAlign: 'center' }}
           />
         </View>
@@ -261,7 +266,6 @@ class Profile extends Component {
   );
 
   render() {
-    console.log( 'Profile props: ', this.props );
     if ( this.props.isLoading ) {
       return <Loading />;
     }
@@ -300,20 +304,17 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  uid: PropTypes.string,
   email: PropTypes.string,
   name: PropTypes.object,
   isLoading: PropTypes.bool,
   navigation: PropTypes.object.isRequired,
   gender: PropTypes.string,
   primaryGoal: PropTypes.string,
-  updateEmail: PropTypes.func,
   updateField: PropTypes.func,
 };
 
 
 const mapStateToProps = state => ( {
-  uid: getUid( state ),
   name: getName( state ),
   email: getEmail( state ),
   gender: getGender( state ),
@@ -323,9 +324,8 @@ const mapStateToProps = state => ( {
 
 
 const mapDispatchToProps = dispatch => ( {
-  updateEmail: update => dispatch( updateEmail( update ) ),
-  updateField: ( uid, data ) => dispatch( updateField( uid, data ) ),
-  // logOut: () => dispatch( logOutUser() ),
+  // updateEmail: update => dispatch( updateEmail( update ) ),
+  updateField: data => dispatch( updateProfileFieldRequestAction( data ) ),
   logOut: () => dispatch( logOutAction() ),
 } );
 

@@ -36,6 +36,7 @@ module.exports = {
     'new-cap': 'off',
     'template-curly-spacing': 'off',
     'arrow-body-style': 'off',
+    'jsx-quotes': 'off',
 
     // react specific rules
     'react/jsx-filename-extension': [ 1, { 'extensions': [ '.js', '.jsx' ] } ],

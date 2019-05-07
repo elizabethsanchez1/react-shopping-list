@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'react-native-firebase';
-import {Loading as LoadingIndicator} from '../../components/Loading/index'
-import {connect} from 'react-redux';
-import {getSavedData} from "../../actions/authentication";
+import { Loading as LoadingIndicator } from '../../components/Loading/index';
+import { connect } from 'react-redux';
+import { getSavedData } from '../../actions/authentication';
 
 
 class Loading extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
 
     // this.storyBookMode = false;
     // this.requested = false;
