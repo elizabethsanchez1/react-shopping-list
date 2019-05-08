@@ -37,6 +37,7 @@ module.exports = {
     'template-curly-spacing': 'off',
     'arrow-body-style': 'off',
     'jsx-quotes': 'off',
+    'quote-props': 'off',
 
     // react specific rules
     'react/jsx-filename-extension': [ 1, { 'extensions': [ '.js', '.jsx' ] } ],
