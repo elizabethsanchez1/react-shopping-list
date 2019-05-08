@@ -24,3 +24,13 @@ export const SAVE_SUCCESSFUL = 'SAVE_SUCCESSFUL';
 export const SAVE_FAILED = 'SAVE_FAILED';
 export const HIDE_ALERT = 'HIDE_ALERT';
 
+
+/* add from refactor */
+
+export const ADD_PROGRAM = 'ADD_PROGRAM';
+
+export const EDIT_PROGRAM = 'EDIT_PROGRAM';
+
+export const CREATE_PROGRAM = 'CREATE_PROGRAM';
+
+export const STORE_PROGRAM_CONFIG = 'STORE_PROGRAM_CONFIG';

@@ -18,15 +18,17 @@ import * as workoutApi from '../../actions/workoutsApi';
 import { saveWorkout } from '../../actions/workoutsApi';
 import theme from '../../styles/theme.style';
 import {
-  getWorkoutType,
   getWorkout,
   getWeekSelected,
   getDaySelected,
   getSaveWorkoutLoadingState, getBuildSaveRedirect,
 } from '../../selectors/workoutsApi';
+import { getBuildingSelectedWeek, getSelectedBuildObject, getType } from '../../selectors/building';
 import { retrievedExerciseList } from '../../reducers/exercises';
 import { getUid } from '../../selectors/authentication';
 import { updateDay } from '../../actions/program';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { BUILDING } from '../../constants/reducerObjects';
 
 
 const styles = StyleSheet.create( {
@@ -153,12 +155,8 @@ class Build extends Component {
   };
 
   componentDidMount() {
-    let { weeks } = this.props.navigation.state.params;
+    const { weeks } = this.props.navigation.state.params;
     this.props.navigation.setParams( { saveData: this.saveData.bind( this ) } );
-
-    if ( !this.props.retrievedExerciseList ) {
-      this.props.actions.exercises.getExercises();
-    }
 
     if ( this.props.type === 'program' ) {
       this.props.navigation.setParams( {
@@ -245,14 +243,16 @@ class Build extends Component {
   };
 
   render() {
+    console.log( 'Build.js props: ', this.props );
+    console.log( 'Build.js state: ', this.state );
+
     const { weeks } = this.props.navigation.state.params;
     const { copyFrom, copyTo, weeksDropdown } = this.state;
+    const { buildObject, selectedWeek } = this.props;
 
-    console.log( 'state in build.js: ', this.state );
+
     if ( this.props.loading ) {
-      return (
-        <Loading/>
-      )
+      return <Loading />;
     }
 
     return (
@@ -262,38 +262,39 @@ class Build extends Component {
             <BuildingBuildDropdown
               dropdown1Data={ weeks }
               dropdown2Data={ ( weeksDropdown ) ? weeksDropdown : weeks }
-              onChange={ ( update ) => this.setState( update ) }
+              onChange={ update => this.setState( update ) }
             />
             {
               ( copyFrom !== '' && copyTo !== '' )
-              && <PrimaryButton
-                buttonStyle={ { padding: 10 } }
-                containerViewStyle={ { width: '40%', alignSelf: 'flex-end' } }
-                title="COPY DATA"
-                onPress={ () => this.copyFrom() }
-              />
+              && (
+                <PrimaryButton
+                  buttonStyle={ { padding: 10 } }
+                  containerViewStyle={ { width: '40%', alignSelf: 'flex-end' } }
+                  title="COPY DATA"
+                  onPress={ () => this.copyFrom() }
+                />
+              )
             }
             <FlatList
-              data={ this.props.workout[ this.props.weekSelected ] }
+              data={ buildObject[ selectedWeek ] }
               renderItem={ ( { item, index } ) => (
                 <BuildingBuildCard
                   sortLink={ () => this.sortExercises( index ) }
-                  addExercises={ () => this.addExercises( this.props.weekSelected, index ) }
-                  deleteExercises={ () => this.deleteExercises(
-                    this.props.weekSelected,
-                    index
-                  )
+                  addExercises={ () => this.addExercises( selectedWeek, index ) }
+                  deleteExercises={
+                    () => this.deleteExercises( selectedWeek, index )
                   }
                   exercises={ item.exercises }
                   updateField={ update => this.updateField( update, index ) }
                   customSet={ exerciseIndex => this.customSet( index, exerciseIndex ) }
-                  checkIfCustom={ ( exercise, exerciseSelected ) => this.checkIfCustom(
-                    exercise,
-                    exerciseSelected,
-                    index
-                  )
+                  checkIfCustom={
+                    ( exercise, exerciseSelected ) => this.checkIfCustom(
+                      exercise,
+                      exerciseSelected,
+                      index,
+                    )
                   }
-                  day={ this.props.workout[ this.props.weekSelected ][ index ].day }
+                  day={ buildObject[ selectedWeek ][ index ].day }
                   dayIndex={ index }
                   updateDay={ name => this.updateDay( name, index ) }
                 />
@@ -311,27 +312,30 @@ class Build extends Component {
 Build.propTypes = {
   navigation: PropTypes.object,
   actions: PropTypes.object,
-  type: PropTypes.string.isRequired,
-  workout: PropTypes.object,
-  weekSelected: PropTypes.string,
   retrievedExerciseList: PropTypes.bool,
   uid: PropTypes.string,
   loading: PropTypes.bool,
   redirect: PropTypes.bool,
+
+  type: PropTypes.string.isRequired,
+  buildObject: PropTypes.object,
+  selectedWeek: PropTypes.string,
 };
 
-function mapStateToProps( state ) {
-  return {
-    loading: getSaveWorkoutLoadingState( state ),
-    uid: getUid( state ),
-    type: getWorkoutType( state ),
-    workout: getWorkout( state ),
-    weekSelected: getWeekSelected( state ),
-    daySelected: getDaySelected( state ),
-    redirect: getBuildSaveRedirect( state ),
-    retrievedExerciseList: retrievedExerciseList( state ),
-  }
-}
+const mapStateToProps = state => ( {
+  uid: getUid( state ),
+  workout: getWorkout( state ),
+  weekSelected: getWeekSelected( state ),
+  daySelected: getDaySelected( state ),
+  redirect: getBuildSaveRedirect( state ),
+  retrievedExerciseList: retrievedExerciseList( state ),
+
+  selectedWeek: getBuildingSelectedWeek( state ),
+  buildObject: getSelectedBuildObject( state ),
+  type: getType( state ),
+  // this is for when the user saves the program
+  loading: getLoadingByDomain( state, BUILDING ),
+} );
 
 function mapDispatchToProps( dispatch ) {
   return {

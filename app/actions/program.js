@@ -11,11 +11,6 @@ import {
   STORE_PROGRAM_CONFIG,
 } from '../constants/program';
 
-
-export function addProgram() {
-  return { type: ADD_PROGRAM };
-}
-
 export function changeWeek(week) {
   return { type: PROGRAM_CHANGE_WEEK, payload: { week } };
 }
@@ -36,10 +31,6 @@ export function editField(update) {
   return { type: EDIT_FIELD, payload: { update } };
 }
 
-export const editProgram = program => {
-  return { type: EDIT_PROGRAM, payload: program };
-};
-
 export function openCustomSet(exerciseSelected, daySelected) {
   return { type: PROGRAM_OPEN_CUSTOM_SET, payload: { exerciseSelected, daySelected } };
 }
@@ -58,10 +49,6 @@ export function saveSortedOrder(newOrder) {
 
 export function sortExercises(daySelected) {
   return { type: SORT_EXERCISES, payload: { daySelected } };
-}
-
-export function storeProgramConfig(config) {
-  return { type: STORE_PROGRAM_CONFIG, payload: { config } };
 }
 
 export function updateDay(name, daySelected) {

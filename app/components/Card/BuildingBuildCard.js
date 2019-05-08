@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Card as CardComponent } from 'react-native-elements';
-import BuildingBuildTable from "../Table/BuildingBuildTable";
+import BuildingBuildTable from '../Table/BuildingBuildTable';
 import { Input } from '../Form';
 import { PrimaryButton, Link } from '../Button';
-import theme from "../../styles/theme.style";
+import theme from '../../styles/theme.style';
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
   titleStyle: {
     fontSize: theme.FONT_SIZE_HEADERBAR,
     fontFamily: theme.PRIMARY_FONT_FAMILY,
     fontWeight: theme.FONT_WEIGHT_MEDIUM,
     color: theme.PRIMARY_FONT_COLOR,
-    marginBottom: 0
+    marginBottom: 0,
   },
 
   basicCard: {
@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-});
+} );
 
-const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet, checkIfCustom, sortLink, addExercises, deleteExercises }) => {
+const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet, checkIfCustom, sortLink, addExercises, deleteExercises } ) => {
 
   return (
     <CardComponent
@@ -38,7 +38,7 @@ const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet,
     >
       <Input
         defaultValue={ day }
-        onEndEditing={ ( text ) => updateDay( text.nativeEvent.text ) }
+        onEndEditing={ text => updateDay( text.nativeEvent.text ) }
         clearTextOnFocus
         autoCapitalize="words"
         // placeholderTextColor='#A1A1A1'
@@ -48,34 +48,34 @@ const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet,
         items={ exercises }
         updateField={ update => updateField( update ) }
         customSet={ index => customSet( index ) }
-        checkIfCustom={ ( exercise, exerciseSelected ) => checkIfCustom(
+        checkIfCustom={
+          ( exercise, exerciseSelected ) => checkIfCustom(
             exercise,
-            exerciseSelected
+            exerciseSelected,
           )
         }
       />
 
       {
         ( exercises.length !== 0 )
-          && <View
-              style={{
-                alignItems: 'flex-start',
-                marginBottom: 10,
-              }}
-            >
-              <Link
-                title={ 'Sort Exercises' }
-                onPress={ sortLink }
-              />
-            </View>
+          && (
+          <View
+            style={ {
+              alignItems: 'flex-start',
+              marginBottom: 10,
+            } }
+          >
+            <Link title="Sort Exercises" onPress={ sortLink } />
+          </View>
+          )
       }
 
       <View
-        style={{
+        style={ {
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'space-between',
-        }}
+        } }
       >
         <PrimaryButton
           title="ADD ITEM"

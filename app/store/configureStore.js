@@ -10,7 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger( {
   duration: true,
   timestamp: false,
-  diff: false,
+  diff: true,
 } );
 
 

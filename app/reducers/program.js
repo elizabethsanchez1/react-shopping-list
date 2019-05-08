@@ -76,24 +76,6 @@ export const copyWeek = (programState, copyfrom, copyTo) => {
   return updatedProgram;
 };
 
-export const createProgramObject = (weeks, daysPerWeek) => {
-  const program = {};
-
-  for (let i = 0; i < parseInt(weeks, 10); i += 1 ) {
-    program[`week${i + 1}`] = [];
-    for (let j = 0; j < parseInt(daysPerWeek, 10); j += 1) {
-      program[`week${i + 1}`].push({
-        completed: false,
-        day: `Day ${j + 1}`,
-        // day: '',
-        exercises: [],
-      })
-    }
-  }
-
-  return program;
-};
-
 export const deleteExercise = (exerciseIndex, program, weekSelected, daySelected) => {
   const updatedProgram = JSON.parse(JSON.stringify(program));
   const exercises = updatedProgram[weekSelected][daySelected].exercises;
@@ -329,23 +311,9 @@ export default function program(state = initialState, action) {
       }
     }
 
-    case ADD_PROGRAM:
-      return Object.assign({}, state, {
-        active: true,
-        workoutType: 'program',
-        editing: false,
-        weekSelected: 'week1',
-        daySelected: 0,
-      });
-
     case ADD_WORKOUT:
       return Object.assign({}, state, {
         active: false,
-      });
-
-    case CREATE_PROGRAM_OBJECT:
-      return Object.assign({}, state, {
-        program: createProgramObject(state.weeks, state.daysPerWeek),
       });
 
     case FETCH_COMPLETED_EXERCISES_REQUEST:
@@ -361,9 +329,6 @@ export default function program(state = initialState, action) {
         return state;
       }
     }
-
-    case EDIT_PROGRAM:
-      return editProgram(state, action);
 
     case FETCH_SAVED_WORKOUTS_SUCCESS:
       return processSavedPrograms( state, action );
@@ -412,15 +377,6 @@ export default function program(state = initialState, action) {
         return state;
       }
     }
-
-    case STORE_PROGRAM_CONFIG:
-      return Object.assign({}, state, {
-        name: action.payload.config.name,
-        weeks: action.payload.config.weeks,
-        daysPerWeek: action.payload.config.daysPerWeek,
-        schedule: action.payload.config.schedule,
-        template: action.payload.config.template
-      });
 
     default:
       return state;

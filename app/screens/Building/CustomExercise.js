@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as buildActions from '../../actions/buildActions';
+import * as buildActions from '../../actions/building';
 import * as exerciseActions from '../../actions/exercises';
 import Container from '../../components/Container/index';
 import { Dropdown } from 'react-native-material-dropdown';

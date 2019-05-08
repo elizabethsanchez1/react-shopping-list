@@ -10,7 +10,7 @@ import { LOG_OUT } from '../constants/authentication';
 
 export function* savedWorkoutsListener( uid ) {
   // #1
-  yield put( showLoadingAction( { dataType: BODY_LOGS } ) );
+  yield put( showLoadingAction( { dataType: SAVED_WORKOUTS } ) );
   yield put( listenForSavedWorkoutsAction( { uid } ) );
 
   const channel = new eventChannel( emiter => {

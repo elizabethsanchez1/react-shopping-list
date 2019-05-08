@@ -1,54 +1,53 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
-import Container from '../../components/Container/index';
-import { PrimaryButton } from "../../components/Button";
-import {Button} from 'react-native-elements';
-import theme from '../../styles/theme.style';
+import { List, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as buildActions from '../../actions/buildActions';
+import Container from '../../components/Container/index';
+import { PrimaryButton } from '../../components/Button';
+import theme from '../../styles/theme.style';
+import * as buildActions from '../../actions/building';
 import * as exercises from '../../actions/exercises';
-import { getSelectedExercises } from "../../reducers/exercises";
-import { muscleGroupSeparatedExercises } from "../../config/baseExerciseList";
+import { getSelectedExercises } from '../../reducers/exercises';
+import { muscleGroupSeparatedExercises } from '../../config/baseExerciseList';
 
 class MuscleGroupList extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
     this.state = {
       ...muscleGroupSeparatedExercises,
-    }
+    };
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ( { navigation } ) => {
     return {
       headerRight: (
         <Button
-          buttonStyle={{ backgroundColor: 'transparent' }}
-          color={theme.ACTIVE_TAB_COLOR}
-          textStyle={{ fontSize: 18 }}
+          buttonStyle={ { backgroundColor: 'transparent' } }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ { fontSize: 18 } }
           title='Add'
-          onPress={() => navigation.state.params.addExercises()}
+          onPress={ () => navigation.state.params.addExercises() }
         />
-      )
-    }
+      ),
+    };
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({
-      addExercises: this.addExercises.bind(this)
-    });
+    this.props.navigation.setParams( {
+      addExercises: this.addExercises.bind( this ),
+    } );
   }
 
   addExercises = () => {
-    this.props.actions.exercises.addExercises(this.props.selectedExercises);
-    this.props.navigation.navigate('Build');
+    this.props.actions.exercises.addExercises( this.props.selectedExercises );
+    this.props.navigation.navigate( 'Build' );
   };
 
-  selectMuscleGroup = (muscleGroup) => {
-    this.props.actions.exercises.selectMuscleGroup(muscleGroup);
-    this.props.navigation.navigate('ExerciseList');
+  selectMuscleGroup = muscleGroup => {
+    this.props.actions.exercises.selectMuscleGroup( muscleGroup );
+    this.props.navigation.navigate( 'ExerciseList' );
   };
 
   render() {
@@ -57,94 +56,96 @@ class MuscleGroupList extends Component {
     return (
       <Container>
         <ScrollView>
-          <View style={{flexDirection: 'row', padding: 15, }}>
-            <View style={{width: '30%', marginTop: 35}}>
+          <View style={ { flexDirection: 'row', padding: 15 } }>
+            <View style={ { width: '30%', marginTop: 35 } }>
               <Text
-                style={{
+                style={ {
                   fontSize: theme.FONT_SIZE_LARGE,
                   color: theme.ACCENT_YELLOW,
-                }}
-              >Upper Body</Text>
+                } }
+              >Upper Body
+              </Text>
             </View>
 
-            <View style={{width: '70%', paddingLeft: 20}}>
+            <View style={ { width: '70%', paddingLeft: 20 } }>
               <List
-                containerStyle={{
+                containerStyle={ {
                   backgroundColor: 'transparent',
                   borderTopWidth: 0,
-                }}
+                } }
               >
                 <FlatList
-                  data={upperBodyMuscles}
-                  renderItem={({item}) => (
+                  data={ upperBodyMuscles }
+                  renderItem={ ( { item } ) => (
                     <ListItem
-                      titleStyle={{color: 'white'}}
-                      containerStyle={{borderBottomColor: 'white',}}
+                      titleStyle={ { color: 'white' } }
+                      containerStyle={ { borderBottomColor: 'white' } }
                       chevronColor="white"
-                      title={item.exercise}
-                      onPress={() => this.selectMuscleGroup(item.exercise)}
+                      title={ item.exercise }
+                      onPress={ () => this.selectMuscleGroup( item.exercise ) }
                     />
-                  )}
-                  keyExtractor={(item, index) => `${item.exercise + index}`}
+                  ) }
+                  keyExtractor={ ( item, index ) => `${item.exercise + index}` }
                 />
               </List>
             </View>
           </View>
 
-          <View style={{flexDirection: 'row', padding: 15}}>
-            <View style={{width: '30%', marginTop: 35}}>
+          <View style={ { flexDirection: 'row', padding: 15 } }>
+            <View style={ { width: '30%', marginTop: 35 } }>
               <Text
-                style={{
+                style={ {
                   fontSize: theme.FONT_SIZE_LARGE,
                   color: theme.ACCENT_YELLOW,
-                }}
-              >Lower Body</Text>
+                } }
+              >Lower Body
+              </Text>
             </View>
 
-            <View style={{width: '70%', paddingLeft: 20}}>
+            <View style={ { width: '70%', paddingLeft: 20 } }>
               <List
-                containerStyle={{
+                containerStyle={ {
                   backgroundColor: 'transparent',
                   borderTopWidth: 0,
-                }}
+                } }
               >
                 <FlatList
-                  data={lowerBodyMuscles}
-                  renderItem={({item}) => (
+                  data={ lowerBodyMuscles }
+                  renderItem={ ( { item } ) => (
                     <ListItem
-                      titleStyle={{color: 'white', fontSize: 16}}
-                      containerStyle={{borderBottomColor: 'white',}}
+                      titleStyle={ { color: 'white', fontSize: 16 } }
+                      containerStyle={ { borderBottomColor: 'white' } }
                       chevronColor="white"
-                      title={item.exercise}
-                      onPress={() => this.selectMuscleGroup(item.exercise)}
+                      title={ item.exercise }
+                      onPress={ () => this.selectMuscleGroup( item.exercise ) }
                     />
-                  )}
-                  keyExtractor={(item, index) => `${item.exercise + index}`}
+                  ) }
+                  keyExtractor={ ( item, index ) => `${item.exercise + index}` }
                 />
               </List>
             </View>
           </View>
 
-          <View style={{padding: 20, margin: 40 }}>
+          <View style={ { padding: 20, margin: 40 } }>
             <Text
-              style={{
+              style={ {
                 color: theme.PRIMARY_FONT_COLOR,
                 fontSize: theme.FONT_SIZE_MEDIUM,
                 fontFamily: theme.PRIMARY_FONT_FAMILY,
-                textAlign: 'center'
-              }}
+                textAlign: 'center',
+              } }
             >
               Cant find the exercise you are looking for? Add your own custom exercise.
             </Text>
             <PrimaryButton
               title="CUSTOM EXERCISE"
-              onPress={() => this.props.navigation.navigate('CustomExercise')}
+              onPress={ () => this.props.navigation.navigate( 'CustomExercise' ) }
             />
           </View>
         </ScrollView>
 
       </Container>
-    )
+    );
   }
 }
 
@@ -154,18 +155,18 @@ MuscleGroupList.propTypes = {
   selectedExercises: PropTypes.array,
 };
 
-function mapStateToProps(state) {
+function mapStateToProps( state ) {
   return {
-    selectedExercises: getSelectedExercises(state),
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: {
-      exercises: bindActionCreators(exercises, dispatch),
-    }
+    selectedExercises: getSelectedExercises( state ),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MuscleGroupList);
+function mapDispatchToProps( dispatch ) {
+  return {
+    actions: {
+      exercises: bindActionCreators( exercises, dispatch ),
+    },
+  };
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( MuscleGroupList );

@@ -16,10 +16,12 @@ import bodyLogs from './bodyLogs';
 import completedExercises from './completedExercises';
 import savedWorkouts from './savedWorkouts';
 import exerciseList from './exerciseList';
+import building from './building';
 
 const appReducer = combineReducers( {
   authentication,
   bodyLogs,
+  building,
   completedExercises,
   errors,
   exerciseList,

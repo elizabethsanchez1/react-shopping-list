@@ -1,4 +1,4 @@
-import { takeEvery, call, put, take, select, fork } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import { Alert } from 'react-native';
 import { UPDATE_FIELD_REQUEST } from '../constants/profile';

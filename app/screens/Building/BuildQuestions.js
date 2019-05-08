@@ -7,9 +7,10 @@ import { Dropdown } from 'react-native-material-dropdown';
 import { Button } from 'react-native-elements';
 import Container from '../../components/Container/index';
 import theme from '../../styles/theme.style';
-import { getWorkoutType } from '../../selectors/workoutsApi';
+import { calculateWeeksForDropdown, getType } from '../../selectors/building';
 import * as program from '../../actions/program';
 import * as workout from '../../actions/workout';
+import { createProgramAction, storeProgramConfigAction } from '../../actions/building';
 
 
 const styles = StyleSheet.create( {
@@ -58,23 +59,12 @@ class BuildQuestions extends Component {
     } );
   }
 
-  calculateWeeks = weeks => {
-    const dropdownWeeks = [];
-    for ( let i = 0; i < weeks; i += 1 ) {
-      dropdownWeeks.push( {
-        value: `Week ${ i + 1 }`,
-      } );
-    }
-
-    return dropdownWeeks;
-  };
-
   goToBuild = () => {
-    const dropdownWeeks = this.calculateWeeks( this.state.weeks );
+    const dropdownWeeks = calculateWeeksForDropdown( this.state.weeks );
 
     if ( this.props.type === 'program' ) {
-      this.props.actions.program.storeProgramConfig( this.state );
-      this.props.actions.program.createProgramObject();
+      this.props.storeProgramConfig( this.state );
+      this.props.createProgram();
     } else {
       this.props.actions.workout.storeWorkoutConfig( this.state );
       this.props.actions.workout.createWorkoutObject();
@@ -107,7 +97,12 @@ class BuildQuestions extends Component {
             placeholder="How many weeks long"
             keyboardType="number-pad"
             returnKeyType="done"
-            onEndEditing={ text => this.storeAnswer( 'weeks', text.nativeEvent.text ) }
+            onEndEditing={
+              text => this.storeAnswer(
+                'weeks',
+                parseInt( text.nativeEvent.text, 10 ),
+              )
+            }
             onSubmitEditing={ () => this.days.current.focus() }
           />
           <TextInput
@@ -150,36 +145,37 @@ class BuildQuestions extends Component {
             onChangeText={ text => this.storeAnswer( 'template', text ) }
           />
         </Container>
-      )
-    } else {
-      return (
-        <Container containerStyling={ { padding: 20, paddingTop: 30 } }>
-          <TextInput
-            style={ styles.input }
-            placeholderTextColor="white"
-            autoCapitalize="words"
-            placeholder="Workout Name"
-            returnKeyType="done"
-            onEndEditing={ text => this.storeAnswer( 'name', text.nativeEvent.text ) }
-          />
-          <Dropdown
-            ref={ this.schedule }
-            placeholder="Use existing workout as template"
-            placeholderTextColor="white"
-            baseColor='white'
-            textColor='white'
-            selectedItemColor='black'
-            containerStyle={ { marginTop: -5 } }
-            inputContainerStyle={ { borderBottomWidth: 2 } }
-            data={ [
-              { value: 'Arm Day' },
-              { value: 'Every day is chest' },
-            ] }
-            onChangeText={ text => this.storeAnswer( 'template', text ) }
-          />
-        </Container>
       );
     }
+
+    // this is for normal workouts
+    return (
+      <Container containerStyling={ { padding: 20, paddingTop: 30 } }>
+        <TextInput
+          style={ styles.input }
+          placeholderTextColor="white"
+          autoCapitalize="words"
+          placeholder="Workout Name"
+          returnKeyType="done"
+          onEndEditing={ text => this.storeAnswer( 'name', text.nativeEvent.text ) }
+        />
+        <Dropdown
+          ref={ this.schedule }
+          placeholder="Use existing workout as template"
+          placeholderTextColor="white"
+          baseColor='white'
+          textColor='white'
+          selectedItemColor='black'
+          containerStyle={ { marginTop: -5 } }
+          inputContainerStyle={ { borderBottomWidth: 2 } }
+          data={ [
+            { value: 'Arm Day' },
+            { value: 'Every day is chest' },
+          ] }
+          onChangeText={ text => this.storeAnswer( 'template', text ) }
+        />
+      </Container>
+    );
   }
 }
 
@@ -187,21 +183,21 @@ BuildQuestions.propTypes = {
   actions: PropTypes.object.isRequired,
   navigation: PropTypes.object,
   type: PropTypes.string.isRequired,
+  storeProgramConfig: PropTypes.func,
+  createProgram: PropTypes.func,
 };
 
-function mapStateToProps( state ) {
-  return {
-    type: getWorkoutType( state ),
-  };
-}
+const mapStateToProps = state => ( {
+  type: getType( state ),
+} );
 
-function mapDispatchToProps( dispatch ) {
-  return {
-    actions: {
-      program: bindActionCreators( program, dispatch ),
-      workout: bindActionCreators( workout, dispatch ),
-    },
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  actions: {
+    program: bindActionCreators( program, dispatch ),
+    workout: bindActionCreators( workout, dispatch ),
+  },
+  createProgram: () => dispatch( createProgramAction() ),
+  storeProgramConfig: data => dispatch( storeProgramConfigAction( data ) ),
+} );
 
 export default connect( mapStateToProps, mapDispatchToProps )( BuildQuestions );

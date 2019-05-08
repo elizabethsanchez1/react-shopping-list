@@ -311,6 +311,7 @@ Profile.propTypes = {
   gender: PropTypes.string,
   primaryGoal: PropTypes.string,
   updateField: PropTypes.func,
+  logOut: PropTypes.func,
 };
 
 

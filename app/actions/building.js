@@ -27,10 +27,12 @@ import {
   SAVE_WORKOUT,
   SAVE_SUCCESSFUL,
   SAVE_FAILED,
+  STORE_PROGRAM_CONFIG,
   HIDE_ALERT,
-  STORE_SAVED_PROGRAMS, USER_EDITING_PROGRAM, USER_EDITING_WORKOUT
-} from '../constants/buildConstants';
+  STORE_SAVED_PROGRAMS, USER_EDITING_PROGRAM, USER_EDITING_WORKOUT, CREATE_PROGRAM
+} from '../constants/building';
 import firebaseService from '../utilities/firebase';
+import { ADD_PROGRAM, EDIT_PROGRAM } from '../constants/program';
 
 
 export function userAddingProgram(workoutType) {   // todo replaced
@@ -451,8 +453,29 @@ export function storeSavedPrograms(programs, workouts, documentIds) {
 }
 
 
+/*
+* V2 actions
+* */
 
+export const editProgramAction = data => ( {
+  type: EDIT_PROGRAM,
+  payload: data,
+} );
 
+export const addProgramAction = data => ( {
+  type: ADD_PROGRAM,
+  payload: data,
+} );
+
+export const storeProgramConfigAction = data => ( {
+  type: STORE_PROGRAM_CONFIG,
+  payload: data,
+} );
+
+export const createProgramAction = data => ( {
+  type: CREATE_PROGRAM,
+  payload: data,
+} );
 
 
 

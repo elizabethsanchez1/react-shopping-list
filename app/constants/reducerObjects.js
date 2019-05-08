@@ -3,6 +3,7 @@
 // DOMAINS
 export const AUTHENTICATION = 'AUTHENTICATION';
 export const PROFILE = 'PROFILE';
+export const BUILDING = 'BUILDING';
 
 
 // DATA TYPES
