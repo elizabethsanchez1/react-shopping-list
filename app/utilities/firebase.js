@@ -84,7 +84,7 @@ const firbaseService = {
 
     Object.keys(data).forEach((week) => {
       data[week].forEach((day) => {
-        day.exercises.forEach((exercise) => {
+        day.exercises.forEach(( exercise) => {
           Object.keys(exercise).forEach((key) => {
             if (!requiredKeys.includes(key)) {
               delete exercise[key]

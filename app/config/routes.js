@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
@@ -8,7 +8,7 @@ import Build from '../screens/Building/Build';
 import BuildDashboard from '../screens/Building/BuildDashboard';
 import BuildQuestions from '../screens/Building/BuildQuestions';
 import MuscleGroupList from '../screens/Building/MuscleGroupList';
-import ExerciseList from '../screens/Building/ExerciseList';
+// import ExerciseList from '../screens/Building/ExerciseList';
 import DeleteExercises from '../screens/Building/DeleteExercises';
 import CustomExercise from '../screens/Building/CustomExercise';
 import TrackDashboard from '../screens/Track/TrackDashboard';
@@ -32,33 +32,35 @@ import TrackMuscleGroupList from '../screens/Track/TrackMuscleGroupList';
 //vimport LineGraph from '../screens/Analytics/LineGraph';
 import Calendar from '../screens/Logs/Calendar';
 // import StorybookStack  from "../../oldStorybook/navigation";
+import MuscleGroups from '../screens/Exercises/MuscleGroupList';
+import ExerciseList from '../screens/Exercises/ExerciseList';
 
 const navigationStyling = {
-    headerStyle: {
-      backgroundColor: theme.SECONDARY_BACKGROUND,
-      borderBottomWidth: 0,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2},
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      elevation: 1,
-    },
-    headerTitleStyle: {
-      color: theme.PRIMARY_FONT_COLOR,
-      fontFamily: theme.PRIMARY_FONT_FAMILY,
-      fontSize: theme.FONT_SIZE_LARGE
-    },
-    headerBackTitleStyle: {
-      color: theme.ACTIVE_TAB_COLOR,
-      fontWeight: '700',
-      fontSize: 18,
-      fontFamily: theme.PRIMARY_FONT_FAMILY,
-    },
-    headerTintColor: theme.ACTIVE_TAB_COLOR
+  headerStyle: {
+    backgroundColor: theme.SECONDARY_BACKGROUND,
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  headerTitleStyle: {
+    color: theme.PRIMARY_FONT_COLOR,
+    fontFamily: theme.PRIMARY_FONT_FAMILY,
+    fontSize: theme.FONT_SIZE_LARGE,
+  },
+  headerBackTitleStyle: {
+    color: theme.ACTIVE_TAB_COLOR,
+    fontWeight: '700',
+    fontSize: 18,
+    fontFamily: theme.PRIMARY_FONT_FAMILY,
+  },
+  headerTintColor: theme.ACTIVE_TAB_COLOR,
 };
 
 
-export const BuildStack = createStackNavigator({
+export const BuildStack = createStackNavigator( {
   BuildDashboard: {
     screen: BuildDashboard,
     navigationOptions: {
@@ -78,7 +80,8 @@ export const BuildStack = createStackNavigator({
     },
   },
   MuscleGroupList: {
-    screen: MuscleGroupList,
+    // screen: MuscleGroupList,
+    screen: MuscleGroups,
     navigationOptions: {
       title: 'Muscle Groups',
     },
@@ -87,25 +90,25 @@ export const BuildStack = createStackNavigator({
     screen: ExerciseList,
     navigationOptions: {
       title: 'Exercises',
-    }
+    },
   },
   DeleteExercises: {
     screen: DeleteExercises,
     navigationOptions: {
       title: 'Delete Exercises',
-    }
+    },
   },
   CustomSet: {
     screen: CustomSet,
     navigationOptions: {
       title: 'Custom Set',
-    }
+    },
   },
   CustomExercise: {
     screen: CustomExercise,
     navigationOptions: {
       title: 'Custom Exercise',
-    }
+    },
   },
   Build: {
     screen: Build,
@@ -116,10 +119,9 @@ export const BuildStack = createStackNavigator({
 }, {
   navigationOptions: navigationStyling,
   headerMode: 'screen',
-});
+} );
 
-
-export const TrackStack = createStackNavigator({
+export const TrackStack = createStackNavigator( {
   TrackDashboard: {
     screen: TrackDashboard,
     navigationOptions: {
@@ -130,7 +132,7 @@ export const TrackStack = createStackNavigator({
     screen: ExerciseSelection,
     navigationOptions: {
       title: 'Exercise Selection',
-    }
+    },
   },
   ExerciseHistory: {
     screen: ExerciseHistory,
@@ -142,18 +144,18 @@ export const TrackStack = createStackNavigator({
     screen: Tracker,
     navigationOptions: {
       title: 'Tracker',
-    }
+    },
   },
   TrackSummary: {
     screen: TrackSummary,
     navigationOptions: {
       title: 'Summary',
-    }
+    },
   },
   TrackSelection: {
     screen: TrackSelection,
     navigationOptions: {
-      title: 'Track Selection'
+      title: 'Track Selection',
     },
   },
   TrackExerciseList: {
@@ -169,9 +171,9 @@ export const TrackStack = createStackNavigator({
     },
   },
 }, {
-    navigationOptions: navigationStyling,
-    headerMode: 'screen',
-});
+  navigationOptions: navigationStyling,
+  headerMode: 'screen',
+} );
 
 // export const AnalyticsStack = createStackNavigator({
 //   LineGraph: {
@@ -201,45 +203,45 @@ export const TrackStack = createStackNavigator({
 //     headerMode: 'screen',
 // });
 
-export const LogsStack = createStackNavigator({
+export const LogsStack = createStackNavigator( {
   Calendar: {
     screen: Calendar,
     navigationOptions: {
-      title: 'Calendar'
-    }
+      title: 'Calendar',
+    },
   },
   Logs: {
     screen: Logs,
-  }
+  },
 }, {
   navigationOptions: navigationStyling,
   headerMode: 'screen',
-});
+} );
 
-export const AuthStack = createStackNavigator({
+export const AuthStack = createStackNavigator( {
   AuthLoading: {
     screen: Loading,
   },
 }, {
   intialRouteKey: 'AuthLoading',
   intialRouteName: 'AuthLoading',
-});
+} );
 
 
-export const ProfileStack = createStackNavigator({
+export const ProfileStack = createStackNavigator( {
   Profile: {
     screen: Profile,
     navigationOptions: {
       title: 'Profile',
     },
-  }
+  },
 }, {
   navigationOptions: navigationStyling,
   headerMode: 'screen',
-});
+} );
 
 
-export const Authentication = createStackNavigator({
+export const Authentication = createStackNavigator( {
   Register: {
     screen: Register,
   },
@@ -255,28 +257,27 @@ export const Authentication = createStackNavigator({
     headerTitleStyle: {
       color: theme.PRIMARY_FONT_COLOR,
       fontFamily: theme.PRIMARY_FONT_FAMILY,
-      fontSize: theme.FONT_SIZE_LARGE
+      fontSize: theme.FONT_SIZE_LARGE,
     },
     headerBackTitleStyle: {
       fontWeight: 700,
       fontSize: 20,
-    }
+    },
   },
   headerMode: 'screen',
-});
+} );
 
 
-
-export const Tabs = createBottomTabNavigator({
+export const Tabs = createBottomTabNavigator( {
   Account: {
     screen: ProfileStack,
     navigationOptions: {
       tabBarLabel: 'Account',
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ( { tintColor } ) => (
         <Icon
           name="account-circle"
-          color={tintColor}
-          size={28}
+          color={ tintColor }
+          size={ 28 }
         />
       ),
     },
@@ -285,11 +286,11 @@ export const Tabs = createBottomTabNavigator({
     screen: LogsStack,
     navigationOptions: {
       tabBarLabel: 'Logs',
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ( { tintColor } ) => (
         <FaIcon
           name="calendar"
-          color={tintColor}
-          size={24}
+          color={ tintColor }
+          size={ 24 }
         />
       ),
     },
@@ -298,11 +299,11 @@ export const Tabs = createBottomTabNavigator({
     screen: BuildStack,
     navigationOptions: {
       tabBarLabel: 'Build',
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ( { tintColor } ) => (
         <Icon
           name="playlist-add"
-          color={tintColor}
-          size={28}
+          color={ tintColor }
+          size={ 28 }
         />
       ),
     },
@@ -311,12 +312,12 @@ export const Tabs = createBottomTabNavigator({
     screen: TrackStack,
     navigationOptions: {
       tabBarLabel: 'Track',
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ( { tintColor } ) => (
         <Icon
           // name="list"
           name="fitness-center"
-          color={tintColor}
-          size={28}
+          color={ tintColor }
+          size={ 28 }
         />
       ),
     },
@@ -345,9 +346,9 @@ export const Tabs = createBottomTabNavigator({
     style: {
       backgroundColor: theme.SECONDARY_BACKGROUND,
       borderTopWidth: 2,
-    }
-  }
-});
+    },
+  },
+} );
 
 
 export const Navigator = () => {

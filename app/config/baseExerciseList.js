@@ -60,7 +60,7 @@ export const muscleGroupSeparatedExercises = {
     { exercise: FOREARMS },
     { exercise: SHOULDERS },
     { exercise: TRAPS },
-    { exercise: TRICEPS }
+    { exercise: TRICEPS },
   ],
   lowerBodyMuscles: [
     { exercise: CALVES },

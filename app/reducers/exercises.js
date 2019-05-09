@@ -120,7 +120,7 @@ export const addCustomExercise = (exercise, exerciseList) => {
   return newList;
 };
 
-export default function exercises(state = initialState, action) {
+export default function exercises( state = initialState, action) {
   switch (action.type) {
     case ADD_CUSTOM_EXERCISE:
       return Object.assign({}, state, {

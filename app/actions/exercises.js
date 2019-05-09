@@ -3,9 +3,9 @@ import {
   ADD_EXERCISES,
   GET_EXERCISES_FAILURE,
   GET_EXERCISES_REQUEST,
-  GET_EXERCISES_SUCCESS, LISTEN_FOR_COMPLETED_EXERCISES,
-  OPEN_EXERCISE_LIST, RECIEVED_COMPLETED_EXERCISES,
-  SELECT_MUSCLE_GROUP,
+  GET_EXERCISES_SUCCESS,
+  OPEN_EXERCISE_LIST,
+  SELECT_MUSCLE_GROUP, SELECT_EXERCISE,
   STORE_EXERCISE_LIST, UPDATE_PROFILE_EXERCISES_FAILED,
   UPDATE_PROFILE_EXERCISES_REQUEST, UPDATE_PROFILE_EXERCISES_SUCCESS,
   UPDATE_SELECTIONS,
@@ -96,3 +96,18 @@ export function addCustomExerciseToProfile(uid) {
     }
   }
 }
+
+
+/*
+* V2 exercise action creators
+* */
+
+export const selectMuscleGroupAction = data => ( {
+  type: SELECT_MUSCLE_GROUP,
+  payload: data,
+} );
+
+export const selectExerciseAction = data => ( {
+  type: SELECT_EXERCISE,
+  payload: data,
+} );

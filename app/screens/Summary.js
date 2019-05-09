@@ -314,7 +314,7 @@ class Summary extends React.Component {
       return (
         <Container scroll>
           {
-            data[programSelection].workouts[`week${weekSelection}`][daySelection].exercises.map((item) => (
+            data[programSelection].workouts[`week${weekSelection}`][daySelection].exercises.map(( item) => (
               <Card key={this.getKey()}>
                 <Text style={{ marginBottom: 10 }}>{item.exercise}</Text>
                 <Text style={{ marginBottom: 10 }}>Target Rep Range {item.repRange[0]} - {item.repRange[1]}</Text>

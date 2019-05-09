@@ -17,6 +17,7 @@ import completedExercises from './completedExercises';
 import savedWorkouts from './savedWorkouts';
 import exerciseList from './exerciseList';
 import building from './building';
+import exercisesNEW from './exercises-NEW';
 
 const appReducer = combineReducers( {
   authentication,
@@ -25,6 +26,7 @@ const appReducer = combineReducers( {
   completedExercises,
   errors,
   exerciseList,
+  exercisesNEW,
   profile,
   track,
   workoutsApi,
