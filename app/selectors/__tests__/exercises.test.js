@@ -30,6 +30,22 @@ const state = {
               'weight': '',
               'type': 'standard',
             },
+            {
+              compound: false,
+              name: 'Situps',
+              muscleGroup: 'Abs',
+              isolation: true,
+              type: 'standard',
+              rpe: '',
+              reps: '8-12',
+              weight: '100-120',
+              sets: '3',
+              customSet: [
+                { set: 1, weight: '100', reps: '8' },
+                { set: 2, weight: '110', reps: '10' },
+                { set: 3, weight: '120', reps: '12' },
+              ],
+            },
           ],
         },
         {
@@ -134,6 +150,49 @@ describe( 'exercises selectors', () => {
     ];
 
     expect( getCustomSetExerciseSets( state ) ).toEqual( expectedValue );
+
+    const state1 = {
+      building: {
+        selectedDay: 0,
+        selectedExercise: 0,
+        selectedWeek: 'week1',
+        type: 'program',
+        program: {
+          week1: [
+            {
+              'completed': false,
+              'day': 'Day 1',
+              'exercises': [
+                {
+                  compound: false,
+                  name: 'Situps',
+                  muscleGroup: 'Abs',
+                  isolation: true,
+                  type: 'standard',
+                  rpe: '',
+                  reps: '8-12',
+                  weight: '100-120',
+                  sets: '3',
+                  customSet: [
+                    { set: 1, weight: '100', reps: '8' },
+                    { set: 2, weight: '110', reps: '10' },
+                    { set: 3, weight: '120', reps: '12' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    const expectedValue1 = [
+      { set: 1, weight: '100', reps: '8' },
+      { set: 2, weight: '110', reps: '10' },
+      { set: 3, weight: '120', reps: '12' },
+    ];
+
+    expect( getCustomSetExerciseSets( state1 ) ).toEqual( expectedValue1 );
   } );
 
   it( 'getCustomSetExercise() should return the name of the exercises they are trying to customize', () => {
@@ -184,7 +243,6 @@ describe( 'exercises selectors', () => {
       sets: '3',
       customSet: sets,
     };
-
 
     expect( formatCustomSets( { sets, exercise } ) ).toEqual( expectedValue );
 

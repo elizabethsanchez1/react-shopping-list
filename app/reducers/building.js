@@ -124,8 +124,7 @@ const building = ( state = {}, action ) => {
     case OPEN_CUSTOM_SET:
       return {
         ...state,
-        selectedDay: action.payload.dayIndex,
-        selectedExercise: action.payload.exerciseIndex,
+        ...action.payload,
       };
 
     case OPEN_EXERCISE_LIST:

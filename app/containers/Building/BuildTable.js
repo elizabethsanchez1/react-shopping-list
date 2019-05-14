@@ -21,7 +21,7 @@ class BuildTable extends Component {
     const { exercise, exerciseSelected } = data;
     if ( haveCustomSetsBeenAdded( exercise ) ) {
       this.props.openCustomSet( {
-        dayIndex: this.props.dayIndex,
+        selectedDay: this.props.dayIndex,
         selectedExercise: exerciseSelected,
       } );
       NavigationService.navigate( 'CustomSet' );
@@ -29,10 +29,7 @@ class BuildTable extends Component {
   };
 
   openCustomSet = data => {
-    this.props.openCustomSet( {
-      dayIndex: data.dayIndex,
-      exerciseIndex: data.exerciseIndex,
-    } );
+    this.props.openCustomSet( data );
     NavigationService.navigate( 'CustomSet' );
   };
 
@@ -50,8 +47,8 @@ class BuildTable extends Component {
         }
         customSet={
           index => this.openCustomSet( {
-            exerciseIndex: index,
-            dayIndex,
+            selectedExercise: index,
+            selectedDay: dayIndex,
           } )
         }
         checkIfCustom={

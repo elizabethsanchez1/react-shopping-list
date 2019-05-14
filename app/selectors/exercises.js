@@ -42,7 +42,7 @@ export const getCustomSetExerciseSets = createSelector(
     const { selectedWeek, selectedDay, selectedExercise } = buildReducer;
     const exercise = buildObject[ selectedWeek ][ selectedDay ].exercises[ selectedExercise ];
 
-    const { weight, reps, sets } = exercise;
+    const { weight, reps, sets, customSet } = exercise;
     const setTracking = [];
     const defaultSets = 3;
 
@@ -54,6 +54,15 @@ export const getCustomSetExerciseSets = createSelector(
           set: i + 1,
           weight,
           reps,
+        } );
+      }
+    }
+    else {
+      for ( let i = 0; i < customSet.length; i += 1 ) {
+        setTracking.push( {
+          set: i + 1,
+          weight: exercise.customSet[ i ].weight,
+          reps: exercise.customSet[ i ].reps,
         } );
       }
     }

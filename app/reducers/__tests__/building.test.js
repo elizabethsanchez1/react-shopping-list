@@ -420,7 +420,7 @@ describe( 'Building reducer logic', () => {
       'program': {},
     };
 
-    const data = { dayIndex: 1, exerciseIndex: 4 };
+    const data = { selectedDay: 1, selectedExercise: 4 };
     const action = openCustomSetAction( data );
     const expectedState = {
       'type': 'program',

@@ -7,6 +7,11 @@ import {
 } from '../constants/exercises';
 
 
+/*
+* TODO
+*  currently deselecting an exercise does not update the add items
+* at the top of the page on the exercise list page
+* */
 export const handleExerciseSelection = ( state, action ) => {
   const { selectedMuscleGroup, exerciseList, selectedExercises } = state;
   const { name } = action.payload;
