@@ -4,7 +4,6 @@ import { View, StyleSheet } from 'react-native';
 import { Card as CardComponent } from 'react-native-elements';
 import BuildingBuildTable from '../Table/BuildingBuildTable';
 import { Input } from '../Form';
-import { PrimaryButton, Link } from '../Button';
 import theme from '../../styles/theme.style';
 
 const styles = StyleSheet.create( {
@@ -28,7 +27,7 @@ const styles = StyleSheet.create( {
   },
 } );
 
-const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet, checkIfCustom, sortLink, addExercises, deleteExercises } ) => {
+const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet, checkIfCustom } ) => {
 
   return (
     <CardComponent
@@ -36,13 +35,13 @@ const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet,
       dividerStyle={ { display: 'none' } }
       containerStyle={ [ styles.basicCard, { marginTop: 30 } ] }
     >
-      <Input
-        defaultValue={ day }
-        onEndEditing={ text => updateDay( text.nativeEvent.text ) }
-        clearTextOnFocus
-        autoCapitalize="words"
-        // placeholderTextColor='#A1A1A1'
-      />
+      {/*<Input*/}
+      {/*  defaultValue={ day }*/}
+      {/*  onEndEditing={ text => updateDay( text.nativeEvent.text ) }*/}
+      {/*  clearTextOnFocus*/}
+      {/*  autoCapitalize="words"*/}
+      {/*  // placeholderTextColor='#A1A1A1'*/}
+      {/*/>*/}
 
       <BuildingBuildTable
         items={ exercises }
@@ -55,41 +54,6 @@ const BuildingBuildCard = ( { day, updateDay, exercises, updateField, customSet,
           )
         }
       />
-
-      {
-        ( exercises.length !== 0 )
-          && (
-          <View
-            style={ {
-              alignItems: 'flex-start',
-              marginBottom: 10,
-            } }
-          >
-            <Link title="Sort Exercises" onPress={ sortLink } />
-          </View>
-          )
-      }
-
-      <View
-        style={ {
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        } }
-      >
-        <PrimaryButton
-          title="ADD ITEM"
-          buttonStyle={ { padding: 15 } }
-          containerViewStyle={ { marginLeft: 0, marginRight: 0 } }
-          onPress={ () => addExercises() }
-        />
-        <PrimaryButton
-          title="DELETE ITEM"
-          buttonStyle={ { padding: 15 } }
-          containerViewStyle={ { marginLeft: 0, marginRight: 0 } }
-          onPress={ () => deleteExercises() }
-        />
-      </View>
     </CardComponent>
   );
 };
@@ -101,9 +65,6 @@ BuildingBuildCard.propTypes = {
   updateField: PropTypes.func,
   customSet: PropTypes.func,
   checkIfCustom: PropTypes.func,
-  sortLink: PropTypes.func,
-  addExercises: PropTypes.func,
-  deleteExercises: PropTypes.func,
 };
 
 export default BuildingBuildCard;

@@ -7,7 +7,8 @@ import Container from '../../components/Container';
 import theme from '../../styles/theme.style';
 import { muscleGroupSeparatedExercises } from '../../config/baseExerciseList';
 import { PrimaryButton } from '../../components/Button';
-import { selectMuscleGroupAction } from '../../actions/exercises';
+import { buildingAddExercisesAction, selectMuscleGroupAction } from '../../actions/exercises';
+import { getSelectedExercises } from '../../selectors/exercises';
 
 const styles = StyleSheet.create( {
   container: {
@@ -42,18 +43,23 @@ const styles = StyleSheet.create( {
   },
 } );
 
-
 class MuscleGroupList extends Component {
   static navigationOptions = ( { navigation } ) => {
     if ( navigation.state.params && navigation.state.params.showButton ) {
+      const { exerciseCount, addExercises } = navigation.state.params;
+
       return {
         headerRight: (
           <Button
             buttonStyle={ { backgroundColor: 'transparent' } }
             color={ theme.ACTIVE_TAB_COLOR }
             textStyle={ { fontSize: 18 } }
-            title='Add'
-            onPress={ () => navigation.state.params.addExercises() }
+            title={
+              ( exerciseCount > 0 )
+                ? `Add( ${ exerciseCount } )`
+                : 'Add'
+            }
+            onPress={ () => addExercises() }
           />
         ),
       };
@@ -62,11 +68,6 @@ class MuscleGroupList extends Component {
     return {};
   };
 
-  constructor( props ) {
-    super( props );
-    this.state = {};
-  }
-
   componentDidMount() {
     this.props.navigation.setParams( {
       addExercises: this.addExercises.bind( this ),
@@ -74,16 +75,28 @@ class MuscleGroupList extends Component {
     } );
   }
 
-  addExercises = () => console.log('test');
+  componentDidUpdate( prevProps ) {
+    if ( prevProps.selectedExercises.length !== this.props.selectedExercises.length ) {
+      if ( this.props.selectedExercises.length > 0 ) {
+        this.props.navigation.setParams( {
+          showButton: true,
+          exerciseCount: this.props.selectedExercises.length,
+        } );
+      }
+    }
+  }
+
+  addExercises = () => {
+    this.props.addExercises( this.props.selectedExercises );
+    this.props.navigation.navigate( 'Build' );
+  };
 
   selectMuscleGroup = muscleGroup => {
     this.props.selectMuscleGroup( muscleGroup );
-    // this.props.navigation.setParams( { showButton: true } );
     this.props.navigation.navigate( 'ExerciseList' );
   };
 
   render() {
-    console.log( 'Muscle group list props: ', this.props );
     const { upperBodyMuscles, lowerBodyMuscles } = muscleGroupSeparatedExercises;
 
     return (
@@ -161,14 +174,17 @@ class MuscleGroupList extends Component {
 MuscleGroupList.propTypes = {
   navigation: PropTypes.object,
   selectMuscleGroup: PropTypes.func,
+  selectedExercises: PropTypes.array,
+  addExercises: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
-
+  selectedExercises: getSelectedExercises( state ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
   selectMuscleGroup: muscle => dispatch( selectMuscleGroupAction( muscle ) ),
+  addExercises: data => dispatch( buildingAddExercisesAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( MuscleGroupList );

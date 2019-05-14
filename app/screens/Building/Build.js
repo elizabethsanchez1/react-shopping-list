@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Card } from 'react-native-elements';
 import Container from '../../components/Container/index';
 import { BuildingBuildDropdown } from '../../components/Form/index';
-import { PrimaryButton } from '../../components/Button';
+import { PrimaryButton, Link, ButtonBar } from '../../components/Button';
 import { BuildingBuildCard } from '../../components/Card/index';
 import { Loading } from '../../components/Loading/index';
 import { connect } from 'react-redux';
@@ -29,7 +30,9 @@ import { getUid } from '../../selectors/authentication';
 import { updateDay } from '../../actions/program';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { BUILDING } from '../../constants/reducerObjects';
-
+import { openExerciseListAction } from '../../actions/exercises';
+import DayHeader from '../../containers/Building/DayHeader';
+import BuildTable from '../../containers/Building/BuildTable';
 
 const styles = StyleSheet.create( {
   container: {
@@ -79,6 +82,31 @@ const styles = StyleSheet.create( {
     borderColor: '#dddddd',
     flex: 2,
     alignSelf: 'stretch',
+  },
+
+
+  /// new styles
+  linkContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 10,
+  },
+  titleStyle: {
+    fontSize: theme.FONT_SIZE_HEADERBAR,
+    fontFamily: theme.PRIMARY_FONT_FAMILY,
+    fontWeight: theme.FONT_WEIGHT_MEDIUM,
+    color: theme.PRIMARY_FONT_COLOR,
+    marginBottom: 0,
+  },
+  cardContainer: {
+    borderRadius: 4,
+    backgroundColor: theme.SECONDARY_BACKGROUND,
+    borderWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    marginTop: 30,
   },
 } );
 
@@ -188,13 +216,9 @@ class Build extends Component {
   };
 
   addExercises = ( weekSelected, daySelected ) => {
-    this.props.actions.exercises.openExerciseList( daySelected );
+    // this.props.actions.exercises.openExerciseList( daySelected );
+    this.props.openExerciseList( daySelected );
     this.props.navigation.navigate( 'MuscleGroupList' );
-  };
-
-  updateField = ( update, dayIndex ) => {
-    update.daySelected = dayIndex;
-    this.props.actions[ this.props.type ].editField( update );
   };
 
   sortExercises = ( dayIndex ) => {
@@ -219,9 +243,11 @@ class Build extends Component {
   };
 
   checkIfCustom = ( exercise, exerciseSelected, daySelected ) => {
-    if ( exercise.weight.indexOf( '-' ) > -1 || exercise.reps.indexOf( '-' ) > -1 ) {
-      this.customSet( daySelected, exerciseSelected );
-    }
+    // if ( exercise.weight.indexOf( '-' ) > -1 ||
+    //   exercise.reps.indexOf( '-' ) > -1 )
+    // {
+    //   this.customSet( daySelected, exerciseSelected );
+    // }
   };
 
   updateDay = ( name, daySelected ) => {
@@ -278,26 +304,60 @@ class Build extends Component {
             <FlatList
               data={ buildObject[ selectedWeek ] }
               renderItem={ ( { item, index } ) => (
-                <BuildingBuildCard
-                  sortLink={ () => this.sortExercises( index ) }
-                  addExercises={ () => this.addExercises( selectedWeek, index ) }
-                  deleteExercises={
-                    () => this.deleteExercises( selectedWeek, index )
-                  }
-                  exercises={ item.exercises }
-                  updateField={ update => this.updateField( update, index ) }
-                  customSet={ exerciseIndex => this.customSet( index, exerciseIndex ) }
-                  checkIfCustom={
-                    ( exercise, exerciseSelected ) => this.checkIfCustom(
-                      exercise,
-                      exerciseSelected,
-                      index,
+                <Card
+                  titleStyle={ styles.titleStyle }
+                  dividerStyle={ { display: 'none' } }
+                  containerStyle={ styles.cardContainer }
+                >
+                  <DayHeader day={ index } />
+
+
+                  <BuildTable
+                    dayIndex={ index }
+                    exercises={ item.exercises }
+                  />
+                  {/*<BuildingBuildCard*/}
+                  {/*  sortLink={ () => this.sortExercises( index ) }*/}
+                  {/*  addExercises={ () => this.addExercises( selectedWeek, index ) }*/}
+                  {/*  deleteExercises={*/}
+                  {/*    () => this.deleteExercises( selectedWeek, index )*/}
+                  {/*  }*/}
+                  {/*  exercises={ item.exercises }*/}
+                  {/*  updateField={ update => this.updateField( update, index ) }*/}
+                  {/*  customSet={ exerciseIndex => this.customSet( index, exerciseIndex ) }*/}
+                  {/*  checkIfCustom={*/}
+                  {/*    ( exercise, exerciseSelected ) => this.checkIfCustom(*/}
+                  {/*      exercise,*/}
+                  {/*      exerciseSelected,*/}
+                  {/*      index,*/}
+                  {/*    )*/}
+                  {/*  }*/}
+                  {/*  day={ buildObject[ selectedWeek ][ index ].day }*/}
+                  {/*  dayIndex={ index }*/}
+                  {/*  updateDay={ name => this.updateDay( name, index ) }*/}
+                  {/*/>*/}
+
+
+                  {
+                    ( item.exercises.length !== 0 ) &&
+                    (
+                      <View style={ styles.linkContainer }>
+                        <Link
+                          title="Sort Exercises"
+                          onPress={ () => this.sortExercises( index ) }
+                        />
+                      </View>
                     )
                   }
-                  day={ buildObject[ selectedWeek ][ index ].day }
-                  dayIndex={ index }
-                  updateDay={ name => this.updateDay( name, index ) }
-                />
+
+                  <ButtonBar
+                    title1="ADD ITEM"
+                    onPress1={ () => this.addExercises( selectedWeek, index ) }
+                    title2="DELETE ITEM"
+                    onPress2={ () => this.deleteExercises( selectedWeek, index ) }
+                  />
+                </Card>
+
               ) }
               keyExtractor={ item => item.day }
             />
@@ -320,6 +380,7 @@ Build.propTypes = {
   type: PropTypes.string.isRequired,
   buildObject: PropTypes.object,
   selectedWeek: PropTypes.string,
+  openExerciseList: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -337,17 +398,16 @@ const mapStateToProps = state => ( {
   loading: getLoadingByDomain( state, BUILDING ),
 } );
 
-function mapDispatchToProps( dispatch ) {
-  return {
-    actions: {
-      program: bindActionCreators( program, dispatch ),
-      workout: bindActionCreators( workout, dispatch ),
-      exercises: bindActionCreators( exercises, dispatch ),
-      workoutApi: bindActionCreators( workoutApi, dispatch ),
-    },
-    saveWorkout: ( uid, type ) => dispatch( saveWorkout( uid, type ) ),
-    updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  actions: {
+    program: bindActionCreators( program, dispatch ),
+    workout: bindActionCreators( workout, dispatch ),
+    exercises: bindActionCreators( exercises, dispatch ),
+    workoutApi: bindActionCreators( workoutApi, dispatch ),
+  },
+  saveWorkout: ( uid, type ) => dispatch( saveWorkout( uid, type ) ),
+  updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
+  openExerciseList: data => dispatch( openExerciseListAction( data ) ),
+} );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Build );

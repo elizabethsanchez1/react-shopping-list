@@ -115,106 +115,14 @@ exports[`Button Components Floating Button visually looks the same 1`] = `
 `;
 
 exports[`Button Components Link Button visually looks the same 1`] = `
-<View
+<Text
   style={
-    Array [
-      Object {
-        "marginLeft": 15,
-        "marginRight": 15,
-      },
-      undefined,
-      Object {
-        "backgroundColor": "transparent",
-        "marginLeft": 0,
-        "marginRight": 0,
-        "padding": 0,
-      },
-      undefined,
-    ]
+    Object {
+      "color": "#72DEFF",
+      "fontSize": 16,
+    }
   }
->
-  <View
-    accessible={true}
-    isTVSelectable={true}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={null}
-  >
-    <View
-      pointerEvents="box-only"
-      style={
-        Array [
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#9E9E9E",
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "padding": 19,
-          },
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          Object {
-            "padding": 12,
-          },
-          undefined,
-          undefined,
-          undefined,
-          Object {
-            "backgroundColor": "transparent",
-            "margin": 0,
-            "padding": 0,
-          },
-          undefined,
-          undefined,
-        ]
-      }
-    >
-      <Text
-        style={
-          Array [
-            Object {},
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            Array [
-              Object {
-                "color": "white",
-                "fontSize": 20,
-              },
-              Object {
-                "color": "#72DEFF",
-              },
-              Object {
-                "fontSize": 17.5,
-              },
-              Object {
-                "fontSize": 16,
-              },
-              undefined,
-              undefined,
-              undefined,
-            ],
-          ]
-        }
-      />
-    </View>
-  </View>
-</View>
+/>
 `;
 
 exports[`Button Components Primary Button disabled visually looks the same 1`] = `

@@ -3,12 +3,64 @@ import {
   getType,
   calculateWeeksForDropdown,
   getSelectedBuildObject,
-  getBuildingSelectedWeek
+  getBuildingSelectedWeek, getBuildingDayTitle, haveCustomSetsBeenAdded,
 } from '../building';
 
 const state = {
   building: {
     type: 'program',
+    program: {
+      'week1': [
+        {
+          'completed': false,
+          'day': 'Day 1',
+          'exercises': [
+            {
+              'compound': false,
+              'name': 'Situps',
+              'muscleGroup': 'Abs',
+              'isolation': true,
+              rpe: '',
+              reps: '',
+              sets: '',
+              weight: '10',
+              type: 'standard',
+            },
+            {
+              'compound': false,
+              'name': 'Pullups',
+              'muscleGroup': 'Abs',
+              'isolation': true,
+              rpe: '',
+              reps: '8-12',
+              sets: '',
+              weight: '10',
+              type: 'standard',
+            },
+          ],
+        },
+        {
+          'completed': false,
+          'day': 'Day 2',
+          'exercises': [],
+        },
+      ],
+      'week2': [
+        {
+          'completed': false,
+          'day': 'Day 1',
+          'exercises': [],
+        },
+        {
+          'completed': false,
+          'day': 'Day 2',
+          'exercises': [],
+        },
+      ],
+    },
+    selectedWeek: 'week1',
+    selectedDay: 0,
+    selectedExercise: 0,
   },
 };
 
@@ -80,5 +132,14 @@ describe( 'Building selectors', () => {
     expect( getBuildingSelectedWeek( state1 ) ).toEqual( state1.building.selectedWeek );
 
   } );
+
+  it( 'getBuildingSelectedWeek() should return the selected week', () => {
+    expect( getBuildingSelectedWeek( state ) ).toEqual( state.building.selectedWeek );
+  } );
+
+  it( 'getBuildingDayTitle() should return the title for the given for that day', () => {
+    expect( getBuildingDayTitle( state, 0 ) ).toEqual( 'Day 1' );
+  } );
+
 
 } );

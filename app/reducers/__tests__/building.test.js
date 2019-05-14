@@ -1,10 +1,16 @@
 import building from '../building';
 import {
-  addProgramAction,
+  addProgramAction, buildEditFieldAction,
   createProgramAction,
   editProgramAction,
-  storeProgramConfigAction
+  storeProgramConfigAction, updateDayTitleAction,
 } from '../../actions/building';
+import {
+  buildingAddExercisesAction,
+  openCustomSetAction,
+  openExerciseListAction,
+  saveCustomSetAction
+} from '../../actions/exercises';
 
 describe( 'Building reducer logic', () => {
 
@@ -30,8 +36,8 @@ describe( 'Building reducer logic', () => {
       weeks: Object.keys( program ).length,
       daysPerWeek: action.payload.week1.length,
       name: action.payload.name,
-      weekSelected: 'week1',
-      daySelected: 0,
+      selectedWeek: 'week1',
+      selectedDay: 0,
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
@@ -128,6 +134,386 @@ describe( 'Building reducer logic', () => {
             'completed': false,
             'day': 'Day 2',
             'exercises': [],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+  } );
+
+  it( 'buidlingAddExercisesAction() should store newly add exercises in response to  BUILDING_ADD_EXERCISES', () => {
+    const previousState = {
+      'active': true,
+      'type': 'program',
+      'editing': false,
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'name': 'Test',
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'schedule': '',
+      'template': '',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+    const data = [
+      {
+        'compound': false,
+        'name': 'Situps',
+        'muscleGroup': 'Abs',
+        'isolation': true,
+        'selected': false,
+      },
+      {
+        'compound': false,
+        'name': 'Machine Crunch',
+        'muscleGroup': 'Abs',
+        'isolation': true,
+        'selected': false,
+      },
+    ];
+    const action = buildingAddExercisesAction( data );
+    const expectedState = {
+      'active': true,
+      'type': 'program',
+      'editing': false,
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'name': 'Test',
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'schedule': '',
+      'template': '',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Situps',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+              {
+                'compound': false,
+                'name': 'Machine Crunch',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'updateDayTitleAction() should update title of the day for the selectedWeek in response to UPDATE_DAY_TITLE event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+    const data = { text: 'Upper Body', index: 0 };
+    const action = updateDayTitleAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Upper Body',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'buildEditFieldAction() should update the field described in the action in response to BUILD_EDIT_FIELD event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Situps',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+              {
+                'compound': false,
+                'name': 'Machine Crunch',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+
+    const data = { exerciseLocation: 0, field: 'weight', value: '10', selectedDay: 0 };
+    const action = buildEditFieldAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Situps',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '10',
+                type: 'standard',
+              },
+              {
+                'compound': false,
+                'name': 'Machine Crunch',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'openExerciseListAction should pass the day selected so we can store that information so that when we add exercises, we know what day to add them to in response to OPEN_EXERCISE_LIST event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {},
+    };
+
+    const data = 1;
+    const action = openExerciseListAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 1,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {},
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+  } );
+
+  it( 'openCustomSetAction() should pass us day selected index and exercises location index so that when we finish adding a custom set we know where to store it in response to OPEN_CUSTOM_SET event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {},
+    };
+
+    const data = { dayIndex: 1, exerciseIndex: 4 };
+    const action = openCustomSetAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 1,
+      selectedExercise: 4,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {},
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+  } );
+
+  it( 'openCustomSetAction() should pass us day selected index and exercises location index so that when we finish adding a custom set we know where to store it in response to OPEN_CUSTOM_SET event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Situps',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const data = {
+      compound: false,
+      name: 'Situps',
+      muscleGroup: 'Abs',
+      isolation: true,
+      type: 'standard',
+      rpe: '',
+      reps: '8-12',
+      weight: '100-120',
+      sets: '3',
+      customSet: [
+        { set: 1, weight: '100', reps: '8' },
+        { set: 2, weight: '110', reps: '10' },
+        { set: 3, weight: '120', reps: '12' },
+      ],
+    };
+    const action = saveCustomSetAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                compound: false,
+                name: 'Situps',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '8-12',
+                weight: '100-120',
+                sets: '3',
+                customSet: [
+                  { set: 1, weight: '100', reps: '8' },
+                  { set: 2, weight: '110', reps: '10' },
+                  { set: 3, weight: '120', reps: '12' },
+                ],
+              },
+            ],
           },
         ],
       },

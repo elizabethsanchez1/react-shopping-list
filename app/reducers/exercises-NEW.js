@@ -1,26 +1,60 @@
-import { LISTEN_FOR_EXERCISE_LIST } from '../constants/exerciseList';
-import { baseExerciseList } from '../config/baseExerciseList';
-import { SELECT_EXERCISE, SELECT_MUSCLE_GROUP } from '../constants/exercises';
+import {
+  BUILDING_ADD_EXERCISES,
+  FILTER_EXERCISE_LIST,
+  SELECT_EXERCISE,
+  SELECT_MUSCLE_GROUP,
+  SETUP_ADDING_EXERCISES,
+} from '../constants/exercises';
 
 
 export const handleExerciseSelection = ( state, action ) => {
-  const { muscleGroup } = action.payload;
-  // const updatedSelections = JSON.parse( JSON.stringify( state.selectedExercises ) );
-  //
-  // updatedSelections[ muscleGroup ].push( action.payload );
+  const { selectedMuscleGroup, exerciseList, selectedExercises } = state;
+  const { name } = action.payload;
+
+  // handle updated the exerciseList
+  const updatedSection = exerciseList[ selectedMuscleGroup ].map( exercise => {
+    if ( exercise.name === name ) {
+      return {
+        ...action.payload,
+        selected: ( !exercise.selected ),
+      };
+    }
+
+    return exercise;
+  } );
+
+  // handle updating the selectedExercises
+  const selectedExerciseNames = selectedExercises.map( exercise => exercise.name );
+  let updatedSelections;
+
+  if ( selectedExerciseNames.includes( name ) ) {
+    const index = selectedExercises.findIndex( exercise => exercise.name === name );
+    updatedSelections = [ ...selectedExercises ];
+    updatedSelections.splice( index, 1 );
+  }
+  else {
+    updatedSelections = [ ...state.selectedExercises, action.payload ];
+  }
 
   return {
     ...state,
-    selectedExercises: [ ...state.selectedExercises, action.payload ],
+    selectedExercises: updatedSelections,
+    exerciseList: {
+      ...exerciseList,
+      [ selectedMuscleGroup ]: [
+        ...updatedSection,
+      ],
+    },
   };
 };
 
 const exercisesNEW = ( state = {}, action ) => {
   switch ( action.type ) {
 
-    case LISTEN_FOR_EXERCISE_LIST:
+    case SETUP_ADDING_EXERCISES:
       return {
         selectedExercises: [],
+        exerciseList: action.payload,
       };
 
     case SELECT_EXERCISE:

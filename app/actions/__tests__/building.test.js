@@ -1,5 +1,17 @@
-import { addProgramAction, createProgramAction, editProgramAction, storeProgramConfigAction } from '../building';
-import { EDIT_PROGRAM, ADD_PROGRAM, STORE_PROGRAM_CONFIG, CREATE_PROGRAM } from '../../constants/building';
+import {
+  addProgramAction, buildEditFieldAction,
+  createProgramAction,
+  editProgramAction,
+  storeProgramConfigAction,
+  updateDayTitleAction
+} from '../building';
+import {
+  EDIT_PROGRAM,
+  ADD_PROGRAM,
+  STORE_PROGRAM_CONFIG,
+  CREATE_PROGRAM,
+  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD
+} from '../../constants/building';
 
 
 describe( 'Building action creators', () => {
@@ -39,6 +51,24 @@ describe( 'Building action creators', () => {
     };
 
     expect( createProgramAction() ).toEqual( expectedAction );
+  } );
+
+  it( 'updateDayTitleAction() should dispatch UPDATE_DAY_TITLE event', () => {
+    const expectedAction = {
+      type: UPDATE_DAY_TITLE,
+      payload: 1,
+    };
+
+    expect( updateDayTitleAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'buildEditFieldAction() should dispatch BUILD_EDIT_FIELD event', () => {
+    const expectedAction = {
+      type: BUILD_EDIT_FIELD,
+      payload: 1,
+    };
+
+    expect( buildEditFieldAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

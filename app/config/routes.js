@@ -34,6 +34,7 @@ import Calendar from '../screens/Logs/Calendar';
 // import StorybookStack  from "../../oldStorybook/navigation";
 import MuscleGroups from '../screens/Exercises/MuscleGroupList';
 import ExerciseList from '../screens/Exercises/ExerciseList';
+import Debug from '../screens/Debug/debug';
 
 const navigationStyling = {
   headerStyle: {
@@ -58,7 +59,6 @@ const navigationStyling = {
   },
   headerTintColor: theme.ACTIVE_TAB_COLOR,
 };
-
 
 export const BuildStack = createStackNavigator( {
   BuildDashboard: {
@@ -365,3 +365,16 @@ export const Navigator = () => {
     },
   );
 };
+
+
+export const debugStack = createStackNavigator( {
+  Debug: {
+    screen: Debug,
+    navigationOptions: {
+      title: 'Debug',
+    },
+  },
+}, {
+  navigationOptions: navigationStyling,
+  headerMode: 'screen',
+} );

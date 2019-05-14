@@ -8,7 +8,7 @@ import {
   SELECT_MUSCLE_GROUP, SELECT_EXERCISE,
   STORE_EXERCISE_LIST, UPDATE_PROFILE_EXERCISES_FAILED,
   UPDATE_PROFILE_EXERCISES_REQUEST, UPDATE_PROFILE_EXERCISES_SUCCESS,
-  UPDATE_SELECTIONS,
+  UPDATE_SELECTIONS, FILTER_EXERCISE_LIST, SETUP_ADDING_EXERCISES, BUILDING_ADD_EXERCISES, OPEN_CUSTOM_SET, SAVE_CUSTOM_SET,
 } from '../constants/exercises';
 import firebaseService from '../utilities/firebase';
 
@@ -71,10 +71,6 @@ export function getExerciseFailure() {
   return { type: GET_EXERCISES_FAILURE };
 }
 
-export function openExerciseList(daySelected) {
-  return { type: OPEN_EXERCISE_LIST, payload: { daySelected } };
-}
-
 export function selectMuscleGroup(muscleGroup) {
   return { type: SELECT_MUSCLE_GROUP, payload: { muscleGroup } };
 }
@@ -109,5 +105,30 @@ export const selectMuscleGroupAction = data => ( {
 
 export const selectExerciseAction = data => ( {
   type: SELECT_EXERCISE,
+  payload: data,
+} );
+
+export const openExerciseListAction = data => ( {
+  type: OPEN_EXERCISE_LIST,
+  payload: data,
+} );
+
+export const setUpAddingExercisesAction = data => ( {
+  type: SETUP_ADDING_EXERCISES,
+  payload: data,
+} );
+
+export const buildingAddExercisesAction = data => ( {
+  type: BUILDING_ADD_EXERCISES,
+  payload: data,
+} );
+
+export const openCustomSetAction = data => ( {
+  type: OPEN_CUSTOM_SET,
+  payload: data,
+} );
+
+export const saveCustomSetAction = data => ( {
+  type: SAVE_CUSTOM_SET,
   payload: data,
 } );

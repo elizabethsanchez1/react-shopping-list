@@ -259,6 +259,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
       onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
       renderItem={[Function]}
       scrollEventThrottle={50}
       stickyHeaderIndices={Array []}
@@ -308,7 +309,6 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 }
               >
                  
-                Barbell Squat
                  
               </Text>
             </View>
@@ -335,6 +335,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 onEndEditing={[Function]}
                 onFocus={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -375,6 +376,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 onEndEditing={[Function]}
                 onFocus={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -414,6 +416,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 keyboardType="number-pad"
                 onEndEditing={[Function]}
                 onFocus={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -514,7 +517,6 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 }
               >
                  
-                Standing Calf Raise
                  
               </Text>
             </View>
@@ -541,6 +543,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 onEndEditing={[Function]}
                 onFocus={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -581,6 +584,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 onEndEditing={[Function]}
                 onFocus={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -620,6 +624,7 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
                 keyboardType="number-pad"
                 onEndEditing={[Function]}
                 onFocus={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -676,507 +681,6 @@ exports[`Table Component BuildingBuildTable Visually looks the same 1`] = `
               >
                 
               </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </RCTScrollView>
-  </View>
-</View>
-`;
-
-exports[`Table Component BuildingBuildTable Visually looks the same 2`] = `
-<View
-  style={
-    Object {
-      "marginBottom": 20,
-      "marginTop": 20,
-    }
-  }
->
-  <View
-    style={
-      Object {
-        "height": 45,
-      }
-    }
-  >
-    <View
-      style={
-        Object {
-          "alignSelf": "stretch",
-          "flex": 1,
-          "flexDirection": "row",
-          "height": 45,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Set
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Weight
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Reps
-        </Text>
-      </View>
-    </View>
-  </View>
-  <View>
-    <RCTScrollView
-      data={
-        Array [
-          Object {
-            "reps": 12,
-            "set": 1,
-            "weight": 50,
-          },
-          Object {
-            "reps": 12,
-            "set": 2,
-            "weight": 50,
-          },
-          Object {
-            "reps": 12,
-            "set": 3,
-            "weight": 50,
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
-      onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
-    >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          <View
-            style={
-              Object {
-                "alignSelf": "stretch",
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                1
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={3}
-                onEndEditing={[Function]}
-                onSubmitEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                50
-              </TextInput>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={2}
-                onEndEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                12
-              </TextInput>
-            </View>
-          </View>
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          <View
-            style={
-              Object {
-                "alignSelf": "stretch",
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                2
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={3}
-                onEndEditing={[Function]}
-                onSubmitEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                50
-              </TextInput>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={2}
-                onEndEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                12
-              </TextInput>
-            </View>
-          </View>
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          <View
-            style={
-              Object {
-                "alignSelf": "stretch",
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                3
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={3}
-                onEndEditing={[Function]}
-                onSubmitEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                50
-              </TextInput>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <TextInput
-                allowFontScaling={true}
-                clearTextOnFocus={true}
-                keyboardType="number-pad"
-                maxLength={2}
-                onEndEditing={[Function]}
-                returnKeyType="done"
-                style={
-                  Object {
-                    "borderBottomColor": "white",
-                    "borderBottomWidth": 1,
-                    "color": "#FFF",
-                    "fontFamily": "Eczar-Regular",
-                    "fontSize": 15,
-                    "minWidth": "80%",
-                    "textAlign": "center",
-                  }
-                }
-                underlineColorAndroid="transparent"
-              >
-                12
-              </TextInput>
             </View>
           </View>
         </View>
@@ -1331,6 +835,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
       onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
       renderItem={[Function]}
       scrollEventThrottle={50}
       stickyHeaderIndices={Array []}
@@ -1398,6 +903,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 maxLength={3}
                 onEndEditing={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1434,6 +940,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 keyboardType="number-pad"
                 maxLength={2}
                 onEndEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1512,6 +1019,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 maxLength={3}
                 onEndEditing={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1548,6 +1056,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 keyboardType="number-pad"
                 maxLength={2}
                 onEndEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1626,6 +1135,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 maxLength={3}
                 onEndEditing={[Function]}
                 onSubmitEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1662,6 +1172,7 @@ exports[`Table Component ExerciseInputTable Visually looks the same 1`] = `
                 keyboardType="number-pad"
                 maxLength={2}
                 onEndEditing={[Function]}
+                rejectResponderTermination={true}
                 returnKeyType="done"
                 style={
                   Object {
@@ -1854,425 +1365,7 @@ exports[`Table Component TrackSummaryTable Visually looks the same 1`] = `
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
       onScrollEndDrag={[Function]}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
-    >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          <View
-            style={
-              Object {
-                "alignSelf": "stretch",
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                1
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                100
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                10
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                1000
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          <View
-            style={
-              Object {
-                "alignSelf": "stretch",
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                2
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                200
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                8
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "paddingBottom": 20,
-                  "paddingLeft": 0,
-                  "paddingRight": 10,
-                  "paddingTop": 10,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "RobotoCondensed-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "600",
-                  }
-                }
-              >
-                1600
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </RCTScrollView>
-  </View>
-</View>
-`;
-
-exports[`Table Component Visually looks the same 1`] = `
-<View
-  style={
-    Object {
-      "marginBottom": 20,
-      "marginTop": 20,
-    }
-  }
->
-  <View
-    style={
-      Object {
-        "height": 45,
-      }
-    }
-  >
-    <View
-      style={
-        Object {
-          "alignSelf": "stretch",
-          "flex": 1,
-          "flexDirection": "row",
-          "height": 45,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Set
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Weight
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Reps
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "borderBottomWidth": 2,
-            "borderColor": "#fff",
-            "flex": 1,
-            "height": 45,
-            "paddingBottom": 10,
-            "paddingLeft": 0,
-            "paddingTop": 10,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFF",
-              "fontFamily": "RobotoCondensed-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-            }
-          }
-        >
-          Total
-        </Text>
-      </View>
-    </View>
-  </View>
-  <View>
-    <RCTScrollView
-      data={
-        Array [
-          Object {
-            "reps": 10,
-            "set": 1,
-            "weight": 100,
-          },
-          Object {
-            "reps": 8,
-            "set": 2,
-            "weight": 200,
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
-      onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
       renderItem={[Function]}
       scrollEventThrottle={50}
       stickyHeaderIndices={Array []}

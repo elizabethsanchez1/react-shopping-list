@@ -10,7 +10,7 @@ export const BuildingBuildTableBody = ( { items, customSet, checkIfCustom, updat
     data={ items }
     renderItem={ ( { item, index } ) => (
       <BuildingBuildRow
-        exercise={ item.exercise }
+        exercise={ item.name }
         weight={ item.weight }
         sets={ item.sets }
         reps={ item.reps }
@@ -23,7 +23,7 @@ export const BuildingBuildTableBody = ( { items, customSet, checkIfCustom, updat
       />
     )
     }
-    keyExtractor={ ( item, index ) => `${ item.exercise }${ index }` }
+    keyExtractor={ ( item, index ) => `${ item.name }${ index }` }
   />
 );
 

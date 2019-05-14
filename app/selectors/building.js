@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-
 export const getBuilding = state => state.building;
 
 export const getType = createSelector(
@@ -39,3 +38,10 @@ export const getBuildingSelectedWeek = createSelector(
   state => getBuilding( state ),
   reducer => reducer.selectedWeek,
 );
+
+
+export const getBuildingDayTitle = ( state, dayIndex ) => {
+  const buildObject = getSelectedBuildObject( state );
+  const selectedWeek = getBuildingSelectedWeek( state );
+  return buildObject[ selectedWeek ][ dayIndex ].day;
+};
