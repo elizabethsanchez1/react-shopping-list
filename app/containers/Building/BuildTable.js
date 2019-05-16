@@ -33,12 +33,15 @@ class BuildTable extends Component {
     NavigationService.navigate( 'CustomSet' );
   };
 
+
   render() {
     const { dayIndex, editField } = this.props;
 
     return (
       <BuildingBuildTable
         items={ this.props.exercises }
+        deleteExercises={ this.openDeleteScreen }
+        sortLink={ () => console.log( 'sorting' ) }
         updateField={
           update => editField( {
             ...update,

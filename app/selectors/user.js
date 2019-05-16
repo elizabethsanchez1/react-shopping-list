@@ -75,3 +75,8 @@ export const getEmail = createSelector(
     return '';
   },
 );
+
+export const getCustomExercises = createSelector(
+  state => getUser( state ),
+  user => user.customExercises,
+);

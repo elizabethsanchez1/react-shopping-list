@@ -1,19 +1,28 @@
 import {
-  ADD_CUSTOM_EXERCISE,
+  ADD_CUSTOM_EXERCISE_REQUEST,
   ADD_EXERCISES,
   GET_EXERCISES_FAILURE,
   GET_EXERCISES_REQUEST,
   GET_EXERCISES_SUCCESS,
   OPEN_EXERCISE_LIST,
-  SELECT_MUSCLE_GROUP, SELECT_EXERCISE,
-  STORE_EXERCISE_LIST, UPDATE_PROFILE_EXERCISES_FAILED,
-  UPDATE_PROFILE_EXERCISES_REQUEST, UPDATE_PROFILE_EXERCISES_SUCCESS,
-  UPDATE_SELECTIONS, FILTER_EXERCISE_LIST, SETUP_ADDING_EXERCISES, BUILDING_ADD_EXERCISES, OPEN_CUSTOM_SET, SAVE_CUSTOM_SET,
+  SELECT_MUSCLE_GROUP,
+  SELECT_EXERCISE,
+  STORE_EXERCISE_LIST,
+  UPDATE_PROFILE_EXERCISES_FAILED,
+  UPDATE_PROFILE_EXERCISES_REQUEST,
+  UPDATE_PROFILE_EXERCISES_SUCCESS,
+  UPDATE_SELECTIONS,
+  FILTER_EXERCISE_LIST,
+  SETUP_ADDING_EXERCISES,
+  BUILDING_ADD_EXERCISES,
+  OPEN_CUSTOM_SET,
+  SAVE_CUSTOM_SET,
+  ADD_CUSTOM_EXERCISE_SUCCESS, ADD_CUSTOM_EXERCISE_FAILURE,
 } from '../constants/exercises';
 import firebaseService from '../utilities/firebase';
 
 export function addCustomExercise(exercise) {
-  return { type: ADD_CUSTOM_EXERCISE, payload: { exercise } };
+  return { type: ADD_CUSTOM_EXERCISE_REQUEST, payload: { exercise } };
 }
 
 export function addExercises(selectedExercises) {
@@ -130,5 +139,20 @@ export const openCustomSetAction = data => ( {
 
 export const saveCustomSetAction = data => ( {
   type: SAVE_CUSTOM_SET,
+  payload: data,
+} );
+
+export const addCustomExerciseRequestAction = data => ( {
+  type: ADD_CUSTOM_EXERCISE_REQUEST,
+  payload: data,
+} );
+
+export const addCustomExerciseSuccessAction = data => ( {
+  type: ADD_CUSTOM_EXERCISE_SUCCESS,
+  payload: data,
+} );
+
+export const addCustomExerciseFailedAction = data => ( {
+  type: ADD_CUSTOM_EXERCISE_FAILURE,
   payload: data,
 } );

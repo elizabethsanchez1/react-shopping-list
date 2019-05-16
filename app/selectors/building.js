@@ -39,9 +39,33 @@ export const getBuildingSelectedWeek = createSelector(
   reducer => reducer.selectedWeek,
 );
 
+export const getBuildingSelectedDay = createSelector(
+  state => getBuilding( state ),
+  reducer => reducer.selectedDay,
+);
+
+export const getBuildingSelectedExercise = createSelector(
+  state => getBuilding( state ),
+  reducer => reducer.selectedExercise,
+);
 
 export const getBuildingDayTitle = ( state, dayIndex ) => {
   const buildObject = getSelectedBuildObject( state );
   const selectedWeek = getBuildingSelectedWeek( state );
   return buildObject[ selectedWeek ][ dayIndex ].day;
 };
+
+export const getExercisesBySelectedDay = createSelector(
+  state => getSelectedBuildObject( state ),
+  state => getBuildingSelectedWeek( state ),
+  state => getBuildingSelectedDay( state ),
+  ( buildObject, week, day ) => buildObject[ week ][ day ].exercises,
+);
+
+export const getBuildingSelectedExerciseObject = createSelector(
+  state => getSelectedBuildObject( state ),
+  state => getBuildingSelectedWeek( state ),
+  state => getBuildingSelectedDay( state ),
+  state => getBuildingSelectedExercise( state ),
+  ( buildObject, week, day, exercise ) => buildObject[ week ][ day ].exercises[ exercise ],
+);

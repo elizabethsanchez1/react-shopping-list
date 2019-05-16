@@ -1,5 +1,13 @@
-import { LISTEN_FOR_EXERCISE_LIST, RECEIVED_EXERCISE_LIST } from '../../constants/exerciseList';
-import { listenForExerciseListAction, receivedExerciseListAction } from '../exerciseList';
+import {
+  LISTEN_FOR_EXERCISE_LIST,
+  RECEIVED_CUSTOM_EXERCISES,
+  RECEIVED_EXERCISE_LIST
+} from '../../constants/exerciseList';
+import {
+  listenForExerciseListAction,
+  receivedCustomExercisesAction,
+  receivedExerciseListAction
+} from '../exerciseList';
 
 
 describe( 'exercise list action creators', () => {
@@ -20,6 +28,15 @@ describe( 'exercise list action creators', () => {
     };
 
     expect( receivedExerciseListAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'receivedCustomExercisesAction() should dispatch RECEIVED_CUSTOM_EXERCISES event', () => {
+    const expectedAction = {
+      type: RECEIVED_CUSTOM_EXERCISES,
+      payload: 1,
+    };
+
+    expect( receivedCustomExercisesAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

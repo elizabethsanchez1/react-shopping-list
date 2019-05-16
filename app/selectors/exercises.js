@@ -1,5 +1,11 @@
 import { createSelector } from 'reselect';
-import { getBuilding, getSelectedBuildObject } from './building';
+import {
+  getBuilding,
+  getBuildingSelectedExercise, getBuildingSelectedExerciseObject,
+  getExercisesBySelectedDay,
+  getSelectedBuildObject
+} from './building';
+import { baseExerciseList } from '../config/baseExerciseList';
 
 
 export const getExercises = state => state.exercisesNEW;
@@ -36,12 +42,8 @@ export const haveCustomSetsBeenAdded = exercise => {
 };
 
 export const getCustomSetExerciseSets = createSelector(
-  state => getBuilding( state ),
-  state => getSelectedBuildObject( state ),
-  ( buildReducer, buildObject ) => {
-    const { selectedWeek, selectedDay, selectedExercise } = buildReducer;
-    const exercise = buildObject[ selectedWeek ][ selectedDay ].exercises[ selectedExercise ];
-
+  state => getCustomSetExercise( state ),
+  exercise => {
     const { weight, reps, sets, customSet } = exercise;
     const setTracking = [];
     const defaultSets = 3;
@@ -72,12 +74,8 @@ export const getCustomSetExerciseSets = createSelector(
 );
 
 export const getCustomSetExercise = createSelector(
-  state => getBuilding( state ),
-  state => getSelectedBuildObject( state ),
-  ( buildReducer, buildObject ) => {
-    const { selectedWeek, selectedDay, selectedExercise } = buildReducer;
-    return buildObject[ selectedWeek ][ selectedDay ].exercises[ selectedExercise ];
-  }
+  state => getBuildingSelectedExerciseObject( state ),
+  exercise => exercise,
 );
 
 export const formatCustomSets = data => {
@@ -105,4 +103,20 @@ export const formatCustomSets = data => {
     reps: repRange,
     customSet: sets,
   }
+};
+
+export const getSortableExerciseList = createSelector(
+  state => getExercisesBySelectedDay( state ),
+  exercises => {
+    const data = {};
+    exercises.forEach( ( exercise, index ) => {
+      data[ index + 1 ] = { name: exercise.name };
+    } );
+
+    return data;
+  }
+);
+
+export const muscleGroupFormatCustomExercise = () => {
+  return baseExerciseList.map( muscleGroup => { return { value: muscleGroup } } );
 };

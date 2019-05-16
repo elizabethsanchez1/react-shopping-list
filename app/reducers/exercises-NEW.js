@@ -1,17 +1,12 @@
 import {
-  BUILDING_ADD_EXERCISES,
-  FILTER_EXERCISE_LIST,
+  ADD_CUSTOM_EXERCISE_SUCCESS,
   SELECT_EXERCISE,
   SELECT_MUSCLE_GROUP,
   SETUP_ADDING_EXERCISES,
 } from '../constants/exercises';
+import { sortAlphabetically } from './exerciseList';
 
 
-/*
-* TODO
-*  currently deselecting an exercise does not update the add items
-* at the top of the page on the exercise list page
-* */
 export const handleExerciseSelection = ( state, action ) => {
   const { selectedMuscleGroup, exerciseList, selectedExercises } = state;
   const { name } = action.payload;
@@ -53,8 +48,36 @@ export const handleExerciseSelection = ( state, action ) => {
   };
 };
 
+export const handleCustomExercise = ( state, action ) => {
+  const { exerciseList, selectedExercises } = state;
+  const exercise = {
+    ...action.payload,
+    selected: true,
+  };
+
+  const updatedExerciseList = {
+    ...exerciseList,
+    [ exercise.muscleGroup ]: [
+      ...exerciseList[ exercise.muscleGroup ],
+      exercise,
+    ],
+  };
+
+  return {
+    ...state,
+    exerciseList: sortAlphabetically( updatedExerciseList ),
+    selectedExercises: [
+      ...selectedExercises,
+      exercise,
+    ],
+  };
+};
+
 const exercisesNEW = ( state = {}, action ) => {
   switch ( action.type ) {
+
+    case ADD_CUSTOM_EXERCISE_SUCCESS:
+      return handleCustomExercise( state, action );
 
     case SETUP_ADDING_EXERCISES:
       return {

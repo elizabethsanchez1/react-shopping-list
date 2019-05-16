@@ -5,7 +5,7 @@ import {
   getUid,
   getName,
   getGender,
-  getPrimaryGoal, getEmail
+  getPrimaryGoal, getEmail, getCustomExercises
 } from '../user';
 
 const state = {
@@ -13,13 +13,14 @@ const state = {
     email: '',
     uid: '',
     preferredWeightMeasurement: 'lbs',
+    customExercises: [],
   },
 };
 
 describe( 'user selectors', () => {
 
-  it( 'should user the user reducer', () => {
-    expect( getUser( state ) ).toEqual( { email: '', uid: '', preferredWeightMeasurement: 'lbs' } );
+  it( 'should return the user reducer', () => {
+    expect( getUser( state ) ).toEqual( state.user );
   } );
 
   it( 'should return boolean depending on whether the user is logged in', () => {
@@ -62,7 +63,7 @@ describe( 'user selectors', () => {
   } );
 
   it( 'getName() should return first and last name', () => {
-    const state = {
+    const state1 = {
       user: {
         uid: 1,
         firstName: 'Jose',
@@ -70,40 +71,44 @@ describe( 'user selectors', () => {
       },
     };
 
-    expect( getName( state ) ).toEqual( { firstName: 'Jose', lastName: 'Sanchez' } );
+    expect( getName( state1 ) ).toEqual( { firstName: 'Jose', lastName: 'Sanchez' } );
   } );
 
   it( 'getGender() should return gender as a string', () => {
-    const state = {
+    const state1 = {
       user: {
         uid: 1,
         gender: 'Male',
       },
     };
 
-    expect( getGender( state ) ).toEqual( 'Male' );
+    expect( getGender( state1 ) ).toEqual( 'Male' );
   } );
 
   it( 'getPrimaryGoal() should return primary goal as a string', () => {
-    const state = {
+    const state1 = {
       user: {
         uid: 1,
         primaryGoal: 'Build Strength',
       },
     };
 
-    expect( getPrimaryGoal( state ) ).toEqual( 'Build Strength' );
+    expect( getPrimaryGoal( state1 ) ).toEqual( 'Build Strength' );
   } );
 
   it( 'getEmail() should return email as a string', () => {
-    const state = {
+    const state1 = {
       user: {
         uid: 1,
         email: 'email address',
       },
     };
 
-    expect( getEmail( state ) ).toEqual( 'email address' );
+    expect( getEmail( state1 ) ).toEqual( 'email address' );
+  } );
+
+  it( 'getCustomExercises() should return to me the users custom exercises', () => {
+    expect( getCustomExercises( state ) ).toEqual( state.user.customExercises );
   } );
 
 } );

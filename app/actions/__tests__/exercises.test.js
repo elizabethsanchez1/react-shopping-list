@@ -1,4 +1,6 @@
 import {
+  ADD_CUSTOM_EXERCISE_FAILURE,
+  ADD_CUSTOM_EXERCISE_REQUEST, ADD_CUSTOM_EXERCISE_SUCCESS,
   BUILDING_ADD_EXERCISES,
   FILTER_EXERCISE_LIST, OPEN_CUSTOM_SET,
   OPEN_EXERCISE_LIST, SAVE_CUSTOM_SET,
@@ -6,6 +8,8 @@ import {
   SELECT_MUSCLE_GROUP, SETUP_ADDING_EXERCISES
 } from '../../constants/exercises';
 import {
+  addCustomExerciseFailedAction,
+  addCustomExerciseRequestAction, addCustomExerciseSuccessAction,
   buildingAddExercisesAction,
   filterExerciseListAction, openCustomSetAction,
   openExerciseListAction, saveCustomSetAction,
@@ -79,5 +83,31 @@ describe( 'exercises action creators', () => {
     expect( saveCustomSetAction( 1 ) ).toEqual( expectedAction );
   } );
 
+  it( 'addCustomExerciseRequestAction() should dispatch ADD_CUSTOM_EXERCISE_REQUEST event', () => {
+    const expectedAction = {
+      type: ADD_CUSTOM_EXERCISE_REQUEST,
+      payload: 1,
+    };
+
+    expect( addCustomExerciseRequestAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'addCustomExerciseSuccessAction() should dispatch ADD_CUSTOM_EXERCISE_SUCCESS event', () => {
+    const expectedAction = {
+      type: ADD_CUSTOM_EXERCISE_SUCCESS,
+      payload: 1,
+    };
+
+    expect( addCustomExerciseSuccessAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'addCustomExerciseFailedAction() should dispatch ADD_CUSTOM_EXERCISE_FAILURE event', () => {
+    const expectedAction = {
+      type: ADD_CUSTOM_EXERCISE_FAILURE,
+      payload: 1,
+    };
+
+    expect( addCustomExerciseFailedAction( 1 ) ).toEqual( expectedAction );
+  } );
 
 } );

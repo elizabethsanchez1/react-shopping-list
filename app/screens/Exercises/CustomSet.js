@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view/index';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-elements/src/index';
 import theme from '../../styles/theme.style';
-import Container from '../../components/Container/index';
+import Container from '../../components/Container';
 import { PrimaryButton } from '../../components/Button';
 import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
 import { formatCustomSets, getCustomSetExercise, getCustomSetExerciseSets } from '../../selectors/exercises';

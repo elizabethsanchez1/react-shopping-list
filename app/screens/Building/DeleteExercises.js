@@ -1,86 +1,68 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Container from '../../components/Container/index';
 import { Text, FlatList } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Container from '../../components/Container/index';
 import theme from '../../styles/theme.style';
-import { getDaysExercises, getWorkoutType } from "../../selectors/workoutsApi";
-import * as program from "../../actions/program";
-import * as workout from "../../actions/workout";
+import { getExercisesBySelectedDay } from '../../selectors/building';
+import { buildDeleteExerciseAction } from '../../actions/building';
 
 
 class DeleteExercises extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exercises: {},
-    };
-  }
 
-  deleteExercise = (itemIndex) => {
-    this.props.actions[this.props.type].deleteExercise(itemIndex);
-  };
+  deleteExercise = deleteIndex => this.props.deleteExercise( { deleteIndex } );
 
   render() {
-    return(
+    return (
       <Container>
         <Text
-          style={{
+          style={ {
             fontSize: theme.FONT_SIZE_LARGE,
             color: theme.PRIMARY_FONT_COLOR,
             fontFamily: theme.PRIMARY_FONT_FAMILY,
             textAlign: 'center',
             marginTop: 20,
-          }}
-        >Tap on exercise to delete</Text>
+          } }
+        >Tap on exercise to delete
+        </Text>
 
         <List
-          containerStyle={{
+          containerStyle={ {
             backgroundColor: 'transparent',
             borderTopWidth: 0,
-          }}
+          } }
         >
           <FlatList
-            data={this.props.exercises}
-            renderItem={({item, index}) => (
+            data={ this.props.exercises }
+            renderItem={ ( { item, index } ) => (
               <ListItem
-                titleStyle={{color: theme.PRIMARY_FONT_COLOR}}
-                containerStyle={{borderBottomColor: 'white',}}
+                titleStyle={ { color: theme.PRIMARY_FONT_COLOR } }
+                containerStyle={ { borderBottomColor: 'white' } }
                 hideChevron
-                title={item.exercise}
-                onPress={() => this.deleteExercise(index)}
+                title={ item.name }
+                onPress={ () => this.deleteExercise( index ) }
               />
-            )}
-            keyExtractor={(item, index) => `${item.exercise + index}`}
+            ) }
+            keyExtractor={ ( item, index ) => `${ item.name + index }` }
           />
         </List>
       </Container>
-    )
+    );
   }
 }
 
 DeleteExercises.propTypes = {
-  actions: PropTypes.object,
-  type: PropTypes.string,
   exercises: PropTypes.array,
+  deleteExercise: PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  return {
-    exercises: getDaysExercises(state),
-    type: getWorkoutType(state),
-  }
-}
+const mapStateToProps = state => ( {
+  exercises: getExercisesBySelectedDay( state ),
+} );
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: {
-      program: bindActionCreators(program, dispatch),
-      workout: bindActionCreators(workout, dispatch),
-    }
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  deleteExercise: data => dispatch( buildDeleteExerciseAction( data ) ),
+} );
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteExercises);
+export default connect( mapStateToProps, mapDispatchToProps )( DeleteExercises );

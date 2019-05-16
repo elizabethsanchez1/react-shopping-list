@@ -1,8 +1,8 @@
 import building from '../building';
 import {
-  addProgramAction, buildEditFieldAction,
+  addProgramAction, buildDeleteExerciseAction, buildEditFieldAction, buildUpdateExerciseOrderAction,
   createProgramAction,
-  editProgramAction,
+  editProgramAction, openDeleteScreenAction,
   storeProgramConfigAction, updateDayTitleAction,
 } from '../../actions/building';
 import {
@@ -514,6 +514,184 @@ describe( 'Building reducer logic', () => {
                 ],
               },
             ],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+  } );
+
+  it( 'buildUpdateExerciseOrderAction() should pass in an object of exercises and an array specifying what the new order should be, the reducer should re-order the exercises and store them in response to BUILD_UPDATE_EXERCISE_ORDER event', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                compound: false,
+                name: 'Bench press',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '1',
+                weight: '2',
+                sets: '3',
+              },
+              {
+                compound: false,
+                name: 'Situps',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '5',
+                weight: '6',
+                sets: '7',
+              },
+              {
+                compound: false,
+                name: 'Pull ups',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '8',
+                weight: '9',
+                sets: '10',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const data = {
+      newOrder: [ '3', '2', '1' ],
+    };
+    const action = buildUpdateExerciseOrderAction( data );
+
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                compound: false,
+                name: 'Pull ups',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '8',
+                weight: '9',
+                sets: '10',
+              },
+              {
+                compound: false,
+                name: 'Situps',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '5',
+                weight: '6',
+                sets: '7',
+              },
+              {
+                compound: false,
+                name: 'Bench press',
+                muscleGroup: 'Abs',
+                isolation: true,
+                type: 'standard',
+                rpe: '',
+                reps: '1',
+                weight: '2',
+                sets: '3',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'openDeleteScreenAction() should pass in a selectedDay index to store so we know what exercises to retrieve on the delete page', () => {
+    const previousState = {
+      selectedDay: '',
+    };
+    const data = { selectedDay: 0 };
+    const action = openDeleteScreenAction( data );
+    const expectedState = { selectedDay: 0 };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'buildDeleteExerciseAction() should pass in an index of the exercises that we need to delete from the exercises for the specific day', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Situps',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                rpe: '',
+                reps: '',
+                sets: '',
+                weight: '',
+                type: 'standard',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const data = { deleteIndex: 0 };
+    const action = buildDeleteExerciseAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 1,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
           },
         ],
       },

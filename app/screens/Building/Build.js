@@ -33,6 +33,7 @@ import { BUILDING } from '../../constants/reducerObjects';
 import { openExerciseListAction } from '../../actions/exercises';
 import DayHeader from '../../containers/Building/DayHeader';
 import BuildTable from '../../containers/Building/BuildTable';
+import { openDeleteScreenAction } from '../../actions/building';
 
 const styles = StyleSheet.create( {
   container: {
@@ -221,40 +222,9 @@ class Build extends Component {
     this.props.navigation.navigate( 'MuscleGroupList' );
   };
 
-  sortExercises = ( dayIndex ) => {
-    if ( this.props.type === 'program' ) {
-      this.props.actions.program.sortExercises( dayIndex );
-    }
-
-    this.props.navigation.navigate( 'Sort' )
-  };
-
-  deleteExercises = ( weekSelected, daySelected ) => {
-    if ( this.props.type === 'program' ) {
-      this.props.actions.program.openDeletePage( daySelected );
-    }
-
+  deleteExercises = ( selectedDay ) => {
+    this.props.openDeleteScreen( { selectedDay } );
     this.props.navigation.navigate( 'DeleteExercises' );
-  };
-
-  customSet = ( daySelected, exerciseSelected ) => {
-    this.props.actions[ this.props.type ].openCustomSet( exerciseSelected, daySelected );
-    this.props.navigation.navigate( 'CustomSet' );
-  };
-
-  checkIfCustom = ( exercise, exerciseSelected, daySelected ) => {
-    // if ( exercise.weight.indexOf( '-' ) > -1 ||
-    //   exercise.reps.indexOf( '-' ) > -1 )
-    // {
-    //   this.customSet( daySelected, exerciseSelected );
-    // }
-  };
-
-  updateDay = ( name, daySelected ) => {
-    // if (name !== '') {
-    //   this.props.actions.program.updateDay(name, daySelected);
-    // }
-    this.props.updateDay( name, daySelected );
   };
 
   copyFrom = () => {
@@ -354,7 +324,7 @@ class Build extends Component {
                     title1="ADD ITEM"
                     onPress1={ () => this.addExercises( selectedWeek, index ) }
                     title2="DELETE ITEM"
-                    onPress2={ () => this.deleteExercises( selectedWeek, index ) }
+                    onPress2={ () => this.deleteExercises( index ) }
                   />
                 </Card>
 
@@ -381,6 +351,7 @@ Build.propTypes = {
   buildObject: PropTypes.object,
   selectedWeek: PropTypes.string,
   openExerciseList: PropTypes.func,
+  openDeleteScreen: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -408,6 +379,7 @@ const mapDispatchToProps = dispatch => ( {
   saveWorkout: ( uid, type ) => dispatch( saveWorkout( uid, type ) ),
   updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
   openExerciseList: data => dispatch( openExerciseListAction( data ) ),
+  openDeleteScreen: data => dispatch( openDeleteScreenAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Build );

@@ -1,11 +1,12 @@
 import {
   formatCustomSets,
-  getClonedExerciseList, getCustomSetExercise, getCustomSetExerciseSets, getExerciseForCustomSet,
-  getExercises,
+  getClonedExerciseList, getCustomSetExercise, getCustomSetExerciseSets,
+  getExercises, muscleGroupFormatCustomExercise,
   getSelectedExercises,
   getSelectedExercisesByMuscleGroup,
-  getSelectedMuscleGroup, haveCustomSetsBeenAdded,
+  getSelectedMuscleGroup, getSortableExerciseList, haveCustomSetsBeenAdded,
 } from '../exercises';
+import { baseExerciseList } from '../../config/baseExerciseList';
 
 const state = {
   building: {
@@ -32,7 +33,7 @@ const state = {
             },
             {
               compound: false,
-              name: 'Situps',
+              name: 'Pull ups',
               muscleGroup: 'Abs',
               isolation: true,
               type: 'standard',
@@ -245,6 +246,42 @@ describe( 'exercises selectors', () => {
     };
 
     expect( formatCustomSets( { sets, exercise } ) ).toEqual( expectedValue );
+
+  } );
+
+  it( 'getSortableExerciseList() should take the array of exercises selected and transform them into an Object of keyed properties with the key being the number like 1,2,3 etc', () => {
+
+    const expectedValue = {
+      1: {
+        name: 'Situps',
+      },
+      2: {
+        name: 'Pull ups',
+      },
+    };
+
+    expect( getSortableExerciseList( state ) ).toEqual( expectedValue );
+  } );
+
+  it( 'muscleGroupFormatCustomExercise() should return the muscle group list from inside the config file baseExerciseList.js in the format that customExercise screen needs it', () => {
+
+    const expectedValue = [
+      { value: 'Abs' },
+      { value: 'Back' },
+      { value: 'Biceps' },
+      { value: 'Calves' },
+      { value: 'Chest' },
+      { value: 'Forearms' },
+      { value: 'Glutes' },
+      { value: 'Hamstrings' },
+      { value: 'Quads' },
+      { value: 'Shoulders' },
+      { value: 'Traps' },
+      { value: 'Triceps' },
+    ];
+
+    expect( muscleGroupFormatCustomExercise( baseExerciseList ) )
+      .toEqual( expectedValue );
 
   } );
 

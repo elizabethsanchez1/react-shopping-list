@@ -5,6 +5,7 @@ import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { USER } from '../constants/reducerObjects';
 import { listenForUserDocumentAction, receivedUserDocumentAction } from '../actions/user';
 import { LOG_OUT } from '../constants/authentication';
+import { receivedCustomExercisesAction } from '../actions/exerciseList';
 
 
 export function* userDocumentListener( uid ) {
@@ -35,6 +36,10 @@ export function* userDocumentListener( uid ) {
 
     yield put( receivedUserDocumentAction( response ) );
     yield put( hideLoadingAction( { dataType: USER } ) );
+
+    if ( response.customExercises.length > 0 ) {
+      yield put( receivedCustomExercisesAction( response.customExercises ) );
+    }
   }
 
 }

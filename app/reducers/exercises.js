@@ -1,6 +1,6 @@
 import { GET_PROFILE_SUCCESS } from "../constants/profile";
 import {
-  ADD_CUSTOM_EXERCISE,
+  ADD_CUSTOM_EXERCISE_REQUEST,
   ADD_EXERCISES,
   GET_EXERCISES_REQUEST,
   GET_EXERCISES_SUCCESS,
@@ -122,13 +122,13 @@ export const addCustomExercise = (exercise, exerciseList) => {
 
 export default function exercises( state = initialState, action) {
   switch (action.type) {
-    case ADD_CUSTOM_EXERCISE:
-      return Object.assign({}, state, {
-        exerciseList: addCustomExercise(action.payload.exercise, state.exerciseList),
-        customExercises: (state.customExercises !== '')
-                            ? [action.payload.exercise, ...state.customExercises]
-                            : [action.payload.exercise],
-      });
+    // case ADD_CUSTOM_EXERCISE_REQUEST:
+    //   return Object.assign({}, state, {
+    //     exerciseList: addCustomExercise(action.payload.exercise, state.exerciseList),
+    //     customExercises: (state.customExercises !== '')
+    //                         ? [action.payload.exercise, ...state.customExercises]
+    //                         : [action.payload.exercise],
+    //   });
 
     case ADD_EXERCISES:
       return Object.assign({}, state, {

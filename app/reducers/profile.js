@@ -6,7 +6,7 @@ import {
   UPDATE_LOADING
 } from '../constants/profile';
 import { createSelector } from 'reselect';
-import { ADD_CUSTOM_EXERCISE } from "../constants/exercises";
+import { ADD_CUSTOM_EXERCISE_REQUEST } from "../constants/exercises";
 import { LOGIN_FAILED } from "../constants/authentication";
 
 

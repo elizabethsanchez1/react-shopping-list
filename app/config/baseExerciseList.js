@@ -48,7 +48,7 @@ export const baseExerciseList = [
   QUADS,
   SHOULDERS,
   TRAPS,
-  TRICEPS
+  TRICEPS,
 ];
 
 export const muscleGroupSeparatedExercises = {

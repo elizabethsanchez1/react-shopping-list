@@ -1,5 +1,5 @@
 import firebase from 'react-native-firebase';
-import { takeEvery, call, put, take, select, fork } from 'redux-saga/effects';
+import { takeEvery, call, put, take, select, fork, all } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 import { eventChannel } from 'redux-saga';
 import { CREATE_USER_REQUEST, LOG_OUT, LOGIN_REQUEST } from '../constants/authentication';
@@ -152,11 +152,17 @@ export function* watchAuthchanges() {
     }
 
     if ( uid ) {
+      /*
+      * Grabbing custom exercises from user profile means
+      * we are expecting the exerciseList to already have arrived
+      * keep exerciseListListener well before userDocumentListener
+      * */
+
+      yield fork( exerciseListListener, uid );
       yield fork( bodyLogsListener, uid );
-      yield fork( userDocumentListener, uid );
       yield fork( completedExerciseListener, uid );
       yield fork( savedWorkoutsListener, uid );
-      yield fork( exerciseListListener, uid );
+      yield fork( userDocumentListener, uid );
     }
 
     if ( !uid ) {

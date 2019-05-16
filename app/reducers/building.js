@@ -3,9 +3,15 @@ import {
   ADD_PROGRAM,
   EDIT_PROGRAM,
   CREATE_PROGRAM,
-  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD,
+  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE,
 } from '../constants/building';
-import { BUILDING_ADD_EXERCISES, OPEN_CUSTOM_SET, OPEN_EXERCISE_LIST, SAVE_CUSTOM_SET } from '../constants/exercises';
+import {
+  BUILD_UPDATE_EXERCISE_ORDER,
+  BUILDING_ADD_EXERCISES,
+  OPEN_CUSTOM_SET,
+  OPEN_EXERCISE_LIST,
+  SAVE_CUSTOM_SET
+} from '../constants/exercises';
 
 export const createProgramObject = state => {
   const { weeks, daysPerWeek } = state;
@@ -59,6 +65,20 @@ export const handleDayNameUpdate = ( state, action ) => {
   };
 };
 
+export const handleDeletingExercise = ( state, action ) => {
+  const { selectedWeek, selectedDay, type } = state;
+  const { deleteIndex } = action.payload;
+
+  const updateBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+  const { exercises } = updateBuildObject[ selectedWeek ][ selectedDay ];
+  exercises.splice( deleteIndex, 1 );
+
+  return {
+    ...state,
+    [ type ]: updateBuildObject,
+  }
+};
+
 export const handleEditField = ( state, action ) => {
   const { value, field, exerciseLocation, selectedDay } = action.payload;
   const { type, selectedWeek } = state;
@@ -66,6 +86,23 @@ export const handleEditField = ( state, action ) => {
   const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
 
   updatedBuildObject[ selectedWeek ][ selectedDay ].exercises[ exerciseLocation ][ field ] = value;
+
+  return {
+    ...state,
+    [ type ]: updatedBuildObject,
+  };
+};
+
+export const handleExerciseReOrder = ( state, action ) => {
+  const { type, selectedWeek, selectedDay } = state;
+  const { newOrder } = action.payload;
+
+  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+  const selectedExercises = updatedBuildObject[ selectedWeek ][ selectedDay ].exercises;
+
+  updatedBuildObject[ selectedWeek ][ selectedDay ].exercises = newOrder.map( index => {
+    return selectedExercises[ parseInt( index, 10 ) - 1 ];
+  } );
 
   return {
     ...state,
@@ -101,8 +138,14 @@ const building = ( state = {}, action ) => {
     case BUILDING_ADD_EXERCISES:
       return handleAddingExercises( state, action );
 
+    case BUILD_DELETE_EXERCISE:
+      return handleDeletingExercise( state, action );
+
     case BUILD_EDIT_FIELD:
       return handleEditField( state, action );
+
+    case BUILD_UPDATE_EXERCISE_ORDER:
+      return handleExerciseReOrder( state, action );
 
     case CREATE_PROGRAM:
       return createProgramObject( state );
@@ -122,6 +165,12 @@ const building = ( state = {}, action ) => {
       };
 
     case OPEN_CUSTOM_SET:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case OPEN_DELETE_SCREEN:
       return {
         ...state,
         ...action.payload,

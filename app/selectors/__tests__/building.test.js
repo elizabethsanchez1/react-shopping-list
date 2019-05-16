@@ -3,7 +3,11 @@ import {
   getType,
   calculateWeeksForDropdown,
   getSelectedBuildObject,
-  getBuildingSelectedWeek, getBuildingDayTitle, haveCustomSetsBeenAdded,
+  getBuildingSelectedWeek,
+  getBuildingDayTitle,
+  haveCustomSetsBeenAdded,
+  getExercisesBySelectedDay,
+  getBuildingSelectedDay, getBuildingSelectedExercise, getBuildingSelectedExerciseObject,
 } from '../building';
 
 const state = {
@@ -141,5 +145,28 @@ describe( 'Building selectors', () => {
     expect( getBuildingDayTitle( state, 0 ) ).toEqual( 'Day 1' );
   } );
 
+  it( 'getExercisesBySelectedDay() should return the array of exercises for the given day', () => {
+    const { selectedWeek, selectedDay } = state.building;
+
+    expect( getExercisesBySelectedDay( state ) ).toEqual( state.building.program[ selectedWeek ][ selectedDay ].exercises );
+  } );
+
+  it( 'getBuildingSelectedWeek() should return selected week property', () => {
+    expect( getBuildingSelectedWeek( state ) ).toEqual( state.building.selectedWeek );
+  } );
+
+  it( 'getBuildingSelectedDay() should return selected day property', () => {
+    expect( getBuildingSelectedDay( state ) ).toEqual( state.building.selectedDay );
+  } );
+
+  it( 'getBuildingSelectedExercise() should return selectedExericise property', () => {
+    expect( getBuildingSelectedExercise( state ) ).toEqual( state.building.selectedExercise );
+  } );
+
+  it( 'getBuildingSelectedExerciseObject() should return the selected exercise object itself', () => {
+    const { selectedWeek, selectedDay, selectedExercise, type } = state.building;
+    expect( getBuildingSelectedExerciseObject( state ) )
+      .toEqual( state.building[ type ][ selectedWeek ][ selectedDay ].exercises[ selectedExercise ] );
+  } );
 
 } );

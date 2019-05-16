@@ -3,7 +3,7 @@ import {
   UPDATE_FIELD,
   SORT_EXERCISES,
   SAVE_EXERCISE_ORDER,
-  OPEN_DELETE_PAGE,
+  OPEN_DELETE_SCREEN,
   DELETE_EXERCISE,
   OPEN_CUSTOM_SET,
   SAVE_CUSTOM_SET,
@@ -21,9 +21,10 @@ import {
   UPDATE_DAY_TITLE,
   ADD_PROGRAM,
   EDIT_PROGRAM,
-  BUILD_EDIT_FIELD
+  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE
 } from '../constants/building';
 import firebaseService from '../utilities/firebase';
+import { BUILD_UPDATE_EXERCISE_ORDER } from '../constants/exercises';
 
 
 export function userAddingProgram(workoutType) {   // todo replaced
@@ -93,7 +94,7 @@ export function saveExerciseOrder(selectedRow, previousLocation, newLocation) {
 }
 
 export function openDeletePage(weekSelected, daySelected) {
-  return { type: OPEN_DELETE_PAGE, payload: { weekSelected, daySelected } }
+  return { type: OPEN_DELETE_SCREEN, payload: { weekSelected, daySelected } }
 }
 
 export function deleteExercise(itemIndex) {
@@ -242,19 +243,17 @@ export const updateDayTitleAction = data => ( {
   payload: data,
 } );
 
+export const buildUpdateExerciseOrderAction = data => ( {
+  type: BUILD_UPDATE_EXERCISE_ORDER,
+  payload: data,
+} );
 
+export const openDeleteScreenAction = data => ( {
+  type: OPEN_DELETE_SCREEN,
+  payload: data,
+} );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const buildDeleteExerciseAction = data => ( {
+  type: BUILD_DELETE_EXERCISE,
+  payload: data,
+} );

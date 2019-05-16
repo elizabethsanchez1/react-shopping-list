@@ -1,12 +1,14 @@
 import exercisesNEW from '../exercises-NEW';
 import { listenForExerciseListAction } from '../../actions/exerciseList';
 import {
+  addCustomExerciseSuccessAction,
   buildingAddExercisesAction,
   filterExerciseListAction,
   selectExerciseAction,
   selectMuscleGroupAction,
   setUpAddingExercisesAction,
 } from '../../actions/exercises';
+import exerciseList from '../exerciseList';
 
 describe( 'exercises-NEW reducer unit tests', () => {
 
@@ -199,6 +201,75 @@ describe( 'exercises-NEW reducer unit tests', () => {
     };
 
     expect( exercisesNEW( {}, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'should handle storing the custom exercise and adding it to the selectedExercises list in response ADD_CUSTOM_EXERCISE_SUCCESS event', () => {
+    const data = {
+      compound: true,
+      isolation: false,
+      name: 'test',
+      muscleGroup: 'Abs',
+    };
+    const action = addCustomExerciseSuccessAction( data );
+    const previousState = {
+      exerciseList: {
+        Abs: [
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            'selected': false,
+          },
+          {
+            'compound': false,
+            'name': 'Machine Crunch',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            'selected': false,
+          },
+        ],
+      },
+      selectedExercises: [],
+    };
+    const expectedState = {
+      exerciseList: {
+        Abs: [
+          {
+            'compound': false,
+            'name': 'Machine Crunch',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            'selected': false,
+          },
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            'selected': false,
+          },
+          {
+            compound: true,
+            isolation: false,
+            name: 'test',
+            muscleGroup: 'Abs',
+            selected: true,
+          },
+        ],
+      },
+      selectedExercises: [
+        {
+          compound: true,
+          isolation: false,
+          name: 'test',
+          muscleGroup: 'Abs',
+          selected: true,
+        },
+      ],
+    };
+
+    expect( exercisesNEW( previousState, action ) ).toEqual( expectedState );
   } );
 
 } );
