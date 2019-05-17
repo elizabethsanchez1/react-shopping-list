@@ -1,12 +1,5 @@
 import { createSelector } from 'reselect';
 
-export const getBuilding = state => state.building;
-
-export const getType = createSelector(
-  state => getBuilding( state ),
-  building => building.type,
-);
-
 export const calculateWeeksForDropdown = weeks => {
 
   if ( typeof weeks === 'number' ) {
@@ -26,13 +19,13 @@ export const calculateWeeksForDropdown = weeks => {
 
 };
 
-export const getSelectedBuildObject = createSelector(
-  state => getBuilding( state ),
-  state => getType( state ),
-  ( reducer, type ) => {
-    return reducer[ type ];
-  },
-);
+export const computeDropdownWeeks = weeks => {
+  const updatedWeeks = [ ...weeks ];
+  updatedWeeks.unshift( { value: 'All Weeks' } );
+  return updatedWeeks;
+};
+
+export const getBuilding = state => state.building;
 
 export const getBuildingSelectedWeek = createSelector(
   state => getBuilding( state ),
@@ -68,4 +61,17 @@ export const getBuildingSelectedExerciseObject = createSelector(
   state => getBuildingSelectedDay( state ),
   state => getBuildingSelectedExercise( state ),
   ( buildObject, week, day, exercise ) => buildObject[ week ][ day ].exercises[ exercise ],
+);
+
+export const getSelectedBuildObject = createSelector(
+  state => getBuilding( state ),
+  state => getType( state ),
+  ( reducer, type ) => {
+    return reducer[ type ];
+  },
+);
+
+export const getType = createSelector(
+  state => getBuilding( state ),
+  building => building.type,
 );

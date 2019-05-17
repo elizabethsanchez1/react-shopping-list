@@ -21,7 +21,7 @@ import {
   UPDATE_DAY_TITLE,
   ADD_PROGRAM,
   EDIT_PROGRAM,
-  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE
+  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK
 } from '../constants/building';
 import firebaseService from '../utilities/firebase';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../constants/exercises';
@@ -217,8 +217,34 @@ export const addProgramAction = data => ( {
   payload: data,
 } );
 
+export const buildChangeWeekAction = data => ( {
+  type: BUILD_CHANGE_WEEK,
+  payload: data,
+} );
+
+export const buildDeleteExerciseAction = data => ( {
+  type: BUILD_DELETE_EXERCISE,
+  payload: data,
+} );
+
 export const buildEditFieldAction = data => ( {
   type: BUILD_EDIT_FIELD,
+  payload: data,
+} );
+
+export const buildUpdateExerciseOrderAction = data => ( {
+  type: BUILD_UPDATE_EXERCISE_ORDER,
+  payload: data,
+} );
+
+export const copyBuildObjectAction = data => ( {
+  type: COPY_BUILD_OBJECT,
+  payload: data,
+} );
+
+
+export const createProgramAction = data => ( {
+  type: CREATE_PROGRAM,
   payload: data,
 } );
 
@@ -228,32 +254,17 @@ export const editProgramAction = data => ( {
   payload: data,
 } );
 
-export const storeProgramConfigAction = data => ( {
-  type: STORE_PROGRAM_CONFIG,
-  payload: data,
-} );
-
-export const createProgramAction = data => ( {
-  type: CREATE_PROGRAM,
-  payload: data,
-} );
-
-export const updateDayTitleAction = data => ( {
-  type: UPDATE_DAY_TITLE,
-  payload: data,
-} );
-
-export const buildUpdateExerciseOrderAction = data => ( {
-  type: BUILD_UPDATE_EXERCISE_ORDER,
-  payload: data,
-} );
-
 export const openDeleteScreenAction = data => ( {
   type: OPEN_DELETE_SCREEN,
   payload: data,
 } );
 
-export const buildDeleteExerciseAction = data => ( {
-  type: BUILD_DELETE_EXERCISE,
+export const storeProgramConfigAction = data => ( {
+  type: STORE_PROGRAM_CONFIG,
+  payload: data,
+} );
+
+export const updateDayTitleAction = data => ( {
+  type: UPDATE_DAY_TITLE,
   payload: data,
 } );

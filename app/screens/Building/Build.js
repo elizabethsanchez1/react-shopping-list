@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Card } from 'react-native-elements';
-import Container from '../../components/Container/index';
-import { BuildingBuildDropdown } from '../../components/Form/index';
-import { PrimaryButton, Link, ButtonBar } from '../../components/Button';
-import { BuildingBuildCard } from '../../components/Card/index';
-import { Loading } from '../../components/Loading/index';
+import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Container from '../../components/Container/index';
+import { Loading } from '../../components/Loading/index';
 import * as program from '../../actions/program';
 import * as workout from '../../actions/workout';
 import * as exercises from '../../actions/exercises';
@@ -22,75 +18,26 @@ import {
   getWorkout,
   getWeekSelected,
   getDaySelected,
-  getSaveWorkoutLoadingState, getBuildSaveRedirect,
+  getBuildSaveRedirect,
 } from '../../selectors/workoutsApi';
-import { getBuildingSelectedWeek, getSelectedBuildObject, getType } from '../../selectors/building';
+import {
+  computeDropdownWeeks,
+  getBuildingSelectedWeek,
+  getSelectedBuildObject,
+  getType,
+} from '../../selectors/building';
 import { retrievedExerciseList } from '../../reducers/exercises';
 import { getUid } from '../../selectors/authentication';
 import { updateDay } from '../../actions/program';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { BUILDING } from '../../constants/reducerObjects';
-import { openExerciseListAction } from '../../actions/exercises';
 import DayHeader from '../../containers/Building/DayHeader';
 import BuildTable from '../../containers/Building/BuildTable';
-import { openDeleteScreenAction } from '../../actions/building';
+import DoubleDropdown from '../../containers/Building/DoubleDropdown';
+import CardFooter from '../../containers/Building/CardFooter';
+import { buildChangeWeekAction } from '../../actions/building';
 
 const styles = StyleSheet.create( {
-  container: {
-    flex: 1,
-    padding: 15,
-    paddingTop: 30,
-    backgroundColor: '#fff',
-  },
-  head: {
-    height: 40,
-    backgroundColor: '#f1f8ff',
-  },
-  text: {
-    margin: 6,
-  },
-  formContainer: {
-    marginBottom: 20,
-  },
-  tableContainer: {
-    padding: 15,
-  },
-  leftAligned: {
-    marginHorizontal: 15,
-  },
-  overRide: {
-    marginHorizontal: -15,
-  },
-  table: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  row: {
-    flex: 1,
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-  },
-  cell: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#dddddd',
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  largerCell: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#dddddd',
-    flex: 2,
-    alignSelf: 'stretch',
-  },
-
-
-  /// new styles
-  linkContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
   titleStyle: {
     fontSize: theme.FONT_SIZE_HEADERBAR,
     fontFamily: theme.PRIMARY_FONT_FAMILY,
@@ -109,9 +56,84 @@ const styles = StyleSheet.create( {
     elevation: 1,
     marginTop: 30,
   },
+  headerTitleContainer: {
+    width: 100,
+    marginTop: -17,
+    paddingLeft: 10,
+  },
+  headerTitleInput: { borderBottomWidth: 0 },
+  headerRight: { backgroundColor: 'transparent' },
+  fontSize: { fontSize: 18 },
+  headerLeft: {
+    backgroundColor: 'transparent',
+    padding: 5,
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginLeft: 0,
+  },
+  headerLeftContainer: { marginLeft: 0 },
+  icon: {
+    marginRight: -5,
+    marginLeft: -5,
+    marginTop: -3,
+  },
 } );
 
 class Build extends Component {
+  static navigationOptions = ( { navigation } ) => {
+    const params = navigation.state.params || {};
+
+    console.log( 'Navigation param: ', navigation );
+
+    return {
+      headerTitle: (
+        ( params.weeks.length > 1 )
+          ? (
+            <Dropdown
+              placeholder="Week 1"
+              placeholderTextColor="white"
+              baseColor="white"
+              textColor="white"
+              containerStyle={ styles.headerTitleContainer }
+              inputContainerStyle={ styles.headerTitleInput }
+              // pickerStyle={{ width: 200 }}
+              selectedItemColor='black'
+              dropdownPosition={ 0 }
+              fontSize={ 18 }
+              data={ params.weeks }
+              onChangeText={ value => params.changeWeek( value ) }
+            />
+          )
+          : 'Build'
+      ),
+      headerRight: (
+        <Button
+          buttonStyle={ styles.headerRight }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ styles.fontSize }
+          title='Save'
+          onPress={ () => params.saveData() }
+        />
+      ),
+      headerLeft: (
+        <Button
+          title="Dashboard"
+          containerViewStyle={ styles.headerLeftContainer }
+          buttonStyle={ styles.headerLeft }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ styles.fontSize }
+          icon={ {
+            name: 'chevron-left',
+            color: theme.ACTIVE_TAB_COLOR,
+            size: 40,
+            style: styles.icon,
+          } }
+          onPress={ () => navigation.goBack() }
+        />
+      ),
+    };
+  };
+
   constructor( props ) {
     super( props );
     this.state = {
@@ -123,80 +145,13 @@ class Build extends Component {
     };
   }
 
-  static navigationOptions = ( { navigation } ) => {
-    const params = navigation.state.params || {};
-
-    console.log( 'Navigation param: ', navigation );
-
-    return {
-      headerTitle: (
-        ( params.weeks.length > 1 )
-          ? <Dropdown
-            placeholder="Week 1"
-            placeholderTextColor="white"
-            baseColor="white"
-            textColor="white"
-            containerStyle={ { width: 100, marginTop: -17, paddingLeft: 10 } }
-            inputContainerStyle={ { borderBottomWidth: 0 } }
-            // pickerStyle={{ width: 200 }}
-            selectedItemColor='black'
-            dropdownPosition={ 0 }
-            fontSize={ 18 }
-            data={ params.weeks }
-            onChangeText={ ( value ) => navigation.state.params.changeWeek( value ) }
-          />
-          : 'Build'
-      ),
-      headerRight: (
-        <Button
-          buttonStyle={ { backgroundColor: 'transparent' } }
-          color={ theme.ACTIVE_TAB_COLOR }
-          textStyle={ { fontSize: 18 } }
-          title='Save'
-          onPress={ () => navigation.state.params.saveData() }
-        />
-      ),
-      headerLeft: (
-        <Button
-          title="Dashboard"
-          containerViewStyle={ {
-            marginLeft: 0,
-          } }
-          buttonStyle={ {
-            backgroundColor: 'transparent',
-            padding: 5,
-            justifyContent: 'center',
-            alignContent: 'center',
-            marginLeft: 0,
-          } }
-          color={ theme.ACTIVE_TAB_COLOR }
-          textStyle={ { fontSize: 18 } }
-          icon={ {
-            name: 'chevron-left',
-            color: theme.ACTIVE_TAB_COLOR,
-            size: 40,
-            style: { marginRight: -5, marginLeft: -5, marginTop: -3 },
-          } }
-          onPress={ () => navigation.goBack() }
-        />
-      )
-    }
-  };
-
   componentDidMount() {
     const { weeks } = this.props.navigation.state.params;
     this.props.navigation.setParams( { saveData: this.saveData.bind( this ) } );
 
     if ( this.props.type === 'program' ) {
-      this.props.navigation.setParams( {
-        changeWeek: this.changeWeek.bind( this ),
-      } );
-
-      const updatedWeeks = JSON.parse( JSON.stringify( weeks ) );
-      updatedWeeks.unshift( { value: 'All Weeks' } );
-      this.setState( {
-        weeksDropdown: updatedWeeks,
-      } );
+      this.props.navigation.setParams( { changeWeek: this.changeWeek.bind( this ) } );
+      this.setState( { weeksDropdown: computeDropdownWeeks( weeks ) } );
     }
   }
 
@@ -212,40 +167,12 @@ class Build extends Component {
     this.props.saveWorkout( this.props.uid, this.props.type );
   };
 
-  changeWeek = ( value ) => {
-    this.props.actions.program.changeWeek( value );
-  };
-
-  addExercises = ( weekSelected, daySelected ) => {
-    // this.props.actions.exercises.openExerciseList( daySelected );
-    this.props.openExerciseList( daySelected );
-    this.props.navigation.navigate( 'MuscleGroupList' );
-  };
-
-  deleteExercises = ( selectedDay ) => {
-    this.props.openDeleteScreen( { selectedDay } );
-    this.props.navigation.navigate( 'DeleteExercises' );
-  };
-
-  copyFrom = () => {
-    const { copyFrom, copyTo } = this.state;
-
-    if ( copyFrom !== '' && copyTo !== '' ) {
-      this.props.actions[ this.props.type ].copyWeek(
-        copyFrom.replace( /\s/g, '' ).toLowerCase(),
-        copyTo.replace( /\s/g, '' ).toLowerCase()
-      );
-    }
-  };
+  changeWeek = week => this.props.changeWeek( week );
 
   render() {
     console.log( 'Build.js props: ', this.props );
     console.log( 'Build.js state: ', this.state );
-
-    const { weeks } = this.props.navigation.state.params;
-    const { copyFrom, copyTo, weeksDropdown } = this.state;
-    const { buildObject, selectedWeek } = this.props;
-
+    const { buildObject, selectedWeek, navigation } = this.props;
 
     if ( this.props.loading ) {
       return <Loading />;
@@ -255,22 +182,7 @@ class Build extends Component {
       <Container>
         <KeyboardAwareScrollView>
           <View>
-            <BuildingBuildDropdown
-              dropdown1Data={ weeks }
-              dropdown2Data={ ( weeksDropdown ) ? weeksDropdown : weeks }
-              onChange={ update => this.setState( update ) }
-            />
-            {
-              ( copyFrom !== '' && copyTo !== '' )
-              && (
-                <PrimaryButton
-                  buttonStyle={ { padding: 10 } }
-                  containerViewStyle={ { width: '40%', alignSelf: 'flex-end' } }
-                  title="COPY DATA"
-                  onPress={ () => this.copyFrom() }
-                />
-              )
-            }
+            <DoubleDropdown data={ navigation.state.params.weeks } />
             <FlatList
               data={ buildObject[ selectedWeek ] }
               renderItem={ ( { item, index } ) => (
@@ -281,50 +193,14 @@ class Build extends Component {
                 >
                   <DayHeader day={ index } />
 
-
                   <BuildTable
                     dayIndex={ index }
                     exercises={ item.exercises }
                   />
-                  {/*<BuildingBuildCard*/}
-                  {/*  sortLink={ () => this.sortExercises( index ) }*/}
-                  {/*  addExercises={ () => this.addExercises( selectedWeek, index ) }*/}
-                  {/*  deleteExercises={*/}
-                  {/*    () => this.deleteExercises( selectedWeek, index )*/}
-                  {/*  }*/}
-                  {/*  exercises={ item.exercises }*/}
-                  {/*  updateField={ update => this.updateField( update, index ) }*/}
-                  {/*  customSet={ exerciseIndex => this.customSet( index, exerciseIndex ) }*/}
-                  {/*  checkIfCustom={*/}
-                  {/*    ( exercise, exerciseSelected ) => this.checkIfCustom(*/}
-                  {/*      exercise,*/}
-                  {/*      exerciseSelected,*/}
-                  {/*      index,*/}
-                  {/*    )*/}
-                  {/*  }*/}
-                  {/*  day={ buildObject[ selectedWeek ][ index ].day }*/}
-                  {/*  dayIndex={ index }*/}
-                  {/*  updateDay={ name => this.updateDay( name, index ) }*/}
-                  {/*/>*/}
 
-
-                  {
-                    ( item.exercises.length !== 0 ) &&
-                    (
-                      <View style={ styles.linkContainer }>
-                        <Link
-                          title="Sort Exercises"
-                          onPress={ () => this.sortExercises( index ) }
-                        />
-                      </View>
-                    )
-                  }
-
-                  <ButtonBar
-                    title1="ADD ITEM"
-                    onPress1={ () => this.addExercises( selectedWeek, index ) }
-                    title2="DELETE ITEM"
-                    onPress2={ () => this.deleteExercises( index ) }
+                  <CardFooter
+                    exercises={ item.exercises }
+                    dayIndex={ index }
                   />
                 </Card>
 
@@ -342,7 +218,6 @@ class Build extends Component {
 Build.propTypes = {
   navigation: PropTypes.object,
   actions: PropTypes.object,
-  retrievedExerciseList: PropTypes.bool,
   uid: PropTypes.string,
   loading: PropTypes.bool,
   redirect: PropTypes.bool,
@@ -350,8 +225,7 @@ Build.propTypes = {
   type: PropTypes.string.isRequired,
   buildObject: PropTypes.object,
   selectedWeek: PropTypes.string,
-  openExerciseList: PropTypes.func,
-  openDeleteScreen: PropTypes.func,
+  changeWeek: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -378,8 +252,7 @@ const mapDispatchToProps = dispatch => ( {
   },
   saveWorkout: ( uid, type ) => dispatch( saveWorkout( uid, type ) ),
   updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
-  openExerciseList: data => dispatch( openExerciseListAction( data ) ),
-  openDeleteScreen: data => dispatch( openDeleteScreenAction( data ) ),
+  changeWeek: data => dispatch( buildChangeWeekAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Build );

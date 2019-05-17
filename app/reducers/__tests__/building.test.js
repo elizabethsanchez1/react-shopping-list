@@ -1,15 +1,21 @@
 import building from '../building';
 import {
-  addProgramAction, buildDeleteExerciseAction, buildEditFieldAction, buildUpdateExerciseOrderAction,
+  addProgramAction, buildChangeWeekAction,
+  buildDeleteExerciseAction,
+  buildEditFieldAction,
+  buildUpdateExerciseOrderAction,
+  copyBuildObjectAction,
   createProgramAction,
-  editProgramAction, openDeleteScreenAction,
-  storeProgramConfigAction, updateDayTitleAction,
+  editProgramAction,
+  openDeleteScreenAction,
+  storeProgramConfigAction,
+  updateDayTitleAction,
 } from '../../actions/building';
 import {
   buildingAddExercisesAction,
   openCustomSetAction,
   openExerciseListAction,
-  saveCustomSetAction
+  saveCustomSetAction,
 } from '../../actions/exercises';
 
 describe( 'Building reducer logic', () => {
@@ -699,6 +705,309 @@ describe( 'Building reducer logic', () => {
 
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+  } );
+
+  it( 'copyBuildObjectAction() should pass in a copyFrom and copyTo string that tells us what week from the build object to copy from and where to copy the data', () => {
+    const previousState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 3,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+        'week2': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+        'week3': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+    const data = { copyFrom: 'Week 1', copyTo: 'Week 2' };
+    const action = copyBuildObjectAction( data );
+    const expectedState = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 3,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+        'week2': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+        'week3': [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [],
+          },
+          {
+            'completed': false,
+            'day': 'Day 2',
+            'exercises': [],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+    const data1 = { copyFrom: 'Week 1', copyTo: 'All Weeks' };
+    const action1 = copyBuildObjectAction( data1 );
+    const expectedState1 = {
+      'type': 'program',
+      'selectedWeek': 'week1',
+      'selectedDay': 0,
+      selectedExercise: 0,
+      'weeks': 3,
+      'daysPerWeek': '2',
+      'program': {
+        'week1': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+        'week2': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+        'week3': [
+          {
+            'completed': false,
+            'day': 'Ab Day',
+            'exercises': [
+              {
+                'compound': false,
+                'name': 'Hanging Leg Raises',
+                'muscleGroup': 'Abs',
+                'isolation': true,
+                'rpe': '',
+                'reps': '10',
+                'sets': '3',
+                'weight': '50',
+                'type': 'standard',
+              },
+            ],
+          },
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'compound': true,
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+                'isolation': false,
+                'rpe': '',
+                'reps': '8',
+                'sets': '5',
+                'weight': '225',
+                'type': 'standard',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState, action1 ) ).toEqual( expectedState1 );
+  } );
+
+  it( 'buildChangeWeekAction() will pass in a new selected week that needs to update the selectedWeek field', () => {
+    const previousState = { selectedWeek: 'week1' };
+    const data = 'Week 3';
+    const action = buildChangeWeekAction( data );
+    const expectedState = { selectedWeek: 'week3' };
+
+    expect( building( previousState, action ) ).toEqual( expectedState );
   } );
 
 } );

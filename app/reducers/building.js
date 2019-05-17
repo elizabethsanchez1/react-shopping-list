@@ -3,14 +3,14 @@ import {
   ADD_PROGRAM,
   EDIT_PROGRAM,
   CREATE_PROGRAM,
-  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE,
+  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK,
 } from '../constants/building';
 import {
   BUILD_UPDATE_EXERCISE_ORDER,
   BUILDING_ADD_EXERCISES,
   OPEN_CUSTOM_SET,
   OPEN_EXERCISE_LIST,
-  SAVE_CUSTOM_SET
+  SAVE_CUSTOM_SET,
 } from '../constants/exercises';
 
 export const createProgramObject = state => {
@@ -52,6 +52,32 @@ export const handleAddingExercises = ( state, action ) => {
   return { ...state, [ type ]: updatedProgram };
 };
 
+export const handleCopyingWeeks = ( state, action ) => {
+  const { copyFrom, copyTo } = action.payload;
+  const { type } = state;
+
+  const formattedCopyFrom = copyFrom.replace( /\s/g, '' ).toLowerCase();
+  const formattedCopyTo = copyTo.replace( /\s/g, '' ).toLowerCase();
+  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+  const desiredData = JSON.parse( JSON.stringify(
+    state[ type ][ formattedCopyFrom ],
+  ) );
+
+  if ( formattedCopyTo === 'allweeks' ) {
+    Object.keys( updatedBuildObject ).forEach( week => {
+      updatedBuildObject[ week ] = desiredData;
+    } );
+  }
+  else {
+    updatedBuildObject[ formattedCopyTo ] = desiredData;
+  }
+
+  return {
+    ...state,
+    [ type ]: updatedBuildObject,
+  };
+};
+
 export const handleDayNameUpdate = ( state, action ) => {
   const { selectedWeek, type } = state;
   const { text, index } = action.payload;
@@ -76,7 +102,7 @@ export const handleDeletingExercise = ( state, action ) => {
   return {
     ...state,
     [ type ]: updateBuildObject,
-  }
+  };
 };
 
 export const handleEditField = ( state, action ) => {
@@ -135,8 +161,17 @@ const building = ( state = {}, action ) => {
         selectedDay: 0,
       };
 
+    case COPY_BUILD_OBJECT:
+      return handleCopyingWeeks( state, action );
+
     case BUILDING_ADD_EXERCISES:
       return handleAddingExercises( state, action );
+
+    case BUILD_CHANGE_WEEK:
+      return {
+        ...state,
+        selectedWeek: action.payload.replace( /\s/g, '' ).toLowerCase(),
+      };
 
     case BUILD_DELETE_EXERCISE:
       return handleDeletingExercise( state, action );

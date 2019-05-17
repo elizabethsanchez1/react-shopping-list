@@ -1,23 +1,37 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
-import styles from './styles';
-import theme from '../../styles/theme.style';
 
-const BuildingBuildDropdown = (props) => {
-  if (props.dropdown1Data.length > 1) {
+const styles = StyleSheet.create( {
+  container: {
+    flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  leftDropdown: {
+    width: '50%',
+    paddingRight: 15,
+  },
+  rightDropdown: {
+    width: '50%',
+    paddingLeft: 15,
+  },
+} );
+
+const BuildingBuildDropdown = ( { dropdown1Data, dropdown2Data, onChange } ) => {
+  if ( dropdown1Data.length > 1 ) {
     return (
-      <View style={{flexDirection: 'row', paddingLeft: 20, paddingRight: 20}}>
+      <View style={ styles.container }>
         <Dropdown
           label="Copy from"
           placeholderTextColor="white"
           baseColor='white'
           textColor='white'
           selectedItemColor='black'
-          containerStyle={{width: '50%', paddingRight: 15}}
-          data={props.dropdown1Data}
-          onChangeText={value => props.onChange({copyFrom: value})}
+          containerStyle={ styles.leftDropdown }
+          data={ dropdown1Data }
+          onChangeText={ value => onChange( { copyFrom: value } ) }
         />
         <Dropdown
           label="Copy to"
@@ -25,9 +39,9 @@ const BuildingBuildDropdown = (props) => {
           baseColor='white'
           textColor='white'
           selectedItemColor='black'
-          containerStyle={{width: '50%', paddingLeft: 15}}
-          data={props.dropdown2Data}
-          onChangeText={value => props.onChange({copyTo: value})}
+          containerStyle={ styles.rightDropdown }
+          data={ dropdown2Data }
+          onChangeText={ value => onChange( { copyTo: value } ) }
         />
       </View>
     );

@@ -7,7 +7,7 @@ import {
   getBuildingDayTitle,
   haveCustomSetsBeenAdded,
   getExercisesBySelectedDay,
-  getBuildingSelectedDay, getBuildingSelectedExercise, getBuildingSelectedExerciseObject,
+  getBuildingSelectedDay, getBuildingSelectedExercise, getBuildingSelectedExerciseObject, computeDropdownWeeks,
 } from '../building';
 
 const state = {
@@ -167,6 +167,23 @@ describe( 'Building selectors', () => {
     const { selectedWeek, selectedDay, selectedExercise, type } = state.building;
     expect( getBuildingSelectedExerciseObject( state ) )
       .toEqual( state.building[ type ][ selectedWeek ][ selectedDay ].exercises[ selectedExercise ] );
+  } );
+
+  it( 'computeDropdownWeeks() should take some values and format them in a way that our dropdown component can read as well as add as the first option All Weeks ', () => {
+
+    const data = [
+      { 'value': 'Week 1' },
+      { 'value': 'Week 2' },
+      { 'value': 'Week 3' },
+    ];
+    const expectedValue = [
+      { 'value': 'All Weeks' },
+      { 'value': 'Week 1' },
+      { 'value': 'Week 2' },
+      { 'value': 'Week 3' },
+    ];
+    expect( computeDropdownWeeks( data ) ).toEqual( expectedValue );
+
   } );
 
 } );

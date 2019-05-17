@@ -1,7 +1,12 @@
 import {
-  addProgramAction, buildDeleteExerciseAction, buildEditFieldAction, buildUpdateExerciseOrderAction,
+  addProgramAction, buildChangeWeekAction,
+  buildDeleteExerciseAction,
+  buildEditFieldAction,
+  buildUpdateExerciseOrderAction,
+  copyBuildObjectAction,
   createProgramAction,
-  editProgramAction, openDeleteScreenAction,
+  editProgramAction,
+  openDeleteScreenAction,
   storeProgramConfigAction,
   updateDayTitleAction
 } from '../building';
@@ -10,7 +15,7 @@ import {
   ADD_PROGRAM,
   STORE_PROGRAM_CONFIG,
   CREATE_PROGRAM,
-  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE
+  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK
 } from '../../constants/building';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../../constants/exercises';
 
@@ -97,6 +102,24 @@ describe( 'Building action creators', () => {
     };
 
     expect( buildDeleteExerciseAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'copyBuildObjectAction() should dispatch COPY_BUILD_OBJECT event', () => {
+    const expectedAction = {
+      type: COPY_BUILD_OBJECT,
+      payload: 1,
+    };
+
+    expect( copyBuildObjectAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'buildChangeWeekAction() should dispatch BUILD_CHANGE_WEEK event', () => {
+    const expectedAction = {
+      type: BUILD_CHANGE_WEEK,
+      payload: 1,
+    };
+
+    expect( buildChangeWeekAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

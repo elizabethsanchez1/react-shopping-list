@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
-import BuildingBuildTable from '../../components/Table/BuildingBuildTable';
 import { connect } from 'react-redux';
+import BuildingBuildTable from '../../components/Table/BuildingBuildTable';
 import { buildEditFieldAction } from '../../actions/building';
 import { getType } from '../../selectors/building';
 import { haveCustomSetsBeenAdded } from '../../selectors/exercises';
 import { openCustomSetAction } from '../../actions/exercises';
 import NavigationService from '../../utilities/navigationService';
-
-const styles = StyleSheet.create( {} );
 
 class BuildTable extends Component {
   constructor( props ) {
@@ -41,7 +38,6 @@ class BuildTable extends Component {
       <BuildingBuildTable
         items={ this.props.exercises }
         deleteExercises={ this.openDeleteScreen }
-        sortLink={ () => console.log( 'sorting' ) }
         updateField={
           update => editField( {
             ...update,
