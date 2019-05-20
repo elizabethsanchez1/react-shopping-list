@@ -6,6 +6,7 @@ import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { BUILDING } from '../constants/reducerObjects';
 import { getBuildSaveInfo } from '../selectors/building';
 import NavigationService from '../utilities/navigationService';
+import { handleErrorAction } from '../actions/errors';
 
 export function* buildSaveWorkoutREST( buildObject ) {
   const collection = firebase.firestore().collection( 'savedWorkouts' );
@@ -55,7 +56,8 @@ export function* buildSaveWorkout() {
     }
   }
   catch ( error ) {
-    console.log( 'build save workout error: ', error );
+    yield put( handleErrorAction( { error, dataType: BUILDING } ) );
+    Alert.alert( 'Error', error.message, [ { text: 'OK' } ] );
   }
 
   yield put( hideLoadingAction( { dataType: BUILDING } ) );

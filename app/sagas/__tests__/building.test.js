@@ -7,10 +7,11 @@ import {
   buildSaveWorkoutREST,
   buildUpdateWorkoutREST
 } from '../building';
-import { buildDeleteExerciseAction, buildSaveWorkoutAction } from '../../actions/building';
+import { buildSaveWorkoutAction } from '../../actions/building';
 import { hideLoadingAction, showLoadingAction } from '../../actions/loading';
 import { BUILDING } from '../../constants/reducerObjects';
 import { getBuildSaveInfo } from '../../selectors/building';
+import { handleErrorAction } from '../../actions/errors';
 
 
 describe( 'Building saga functionality', () => {
@@ -96,6 +97,35 @@ describe( 'Building saga functionality', () => {
       // expect( gen.next( buildInfo ).value )
       //   .toEqual( call( buildUpdateWorkoutREST, completedBuildInfo ) );
 
+
+    } );
+
+    it( 'should handle failure flow create/editing a program/workout', () => {
+      const gen = cloneableGenerator( buildSaveWorkout )( action );
+      const buildInfo = { uid: 15, name: 'test', type: 'program', buildObject: {} };
+      const completedBuildInfo = {
+        ...buildInfo,
+        activeAttempt: '',
+        attempts: [],
+        created: new Date(),
+      };
+
+      expect( gen.next().value )
+        .toEqual( put( showLoadingAction( { dataType: BUILDING } ) ) );
+
+      expect( gen.next().value ).toEqual( select( getBuildSaveInfo ) );
+
+      expect( gen.next( completedBuildInfo ).value )
+        .toEqual( call( buildSaveWorkoutREST, completedBuildInfo ) );
+
+      expect( gen.throw( {} ).value )
+        .toEqual( put( handleErrorAction( {
+          error: {},
+          dataType: BUILDING,
+        } ) ) );
+
+      expect( gen.next().value )
+        .toEqual( put( hideLoadingAction( { dataType: BUILDING } ) ) );
 
     } );
 
