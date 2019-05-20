@@ -82,8 +82,6 @@ class Tabs extends Component {
   };
 
   render() {
-    console.log( 'TABS component: ', this.props );
-
     return (
       <TabView
         style={ { ...styles.tabHeader, ...this.props.tabHeaderStyling } }

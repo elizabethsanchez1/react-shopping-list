@@ -46,12 +46,34 @@ export const getBuildingSelectedExercise = createSelector(
 export const getBuildingDayTitle = ( state, dayIndex ) => {
   const buildObject = getSelectedBuildObject( state );
   const selectedWeek = getBuildingSelectedWeek( state );
-  return buildObject[ selectedWeek ][ dayIndex ].day;
+  const type = getType( state );
+
+  if ( type === 'program' ) {
+    return buildObject[ selectedWeek ][ dayIndex ].day;
+  }
+
+  if ( type === 'workout' ) {
+    return buildObject.day
+  }
+
+  return '';
 };
 
 export const getBuildObjectName = createSelector(
   state => getBuilding( state ),
-  buildObject => buildObject.name,
+  state => getType( state ),
+  ( buildObject, type ) => {
+
+    if ( type === 'program' ) {
+      return buildObject.name;
+    }
+
+    if ( type === 'workout' ) {
+      return buildObject.workout.day;
+    }
+
+    return '';
+  },
 );
 
 export const getBuildSaveInfo = createSelector(
@@ -68,7 +90,18 @@ export const getExercisesBySelectedDay = createSelector(
   state => getSelectedBuildObject( state ),
   state => getBuildingSelectedWeek( state ),
   state => getBuildingSelectedDay( state ),
-  ( buildObject, week, day ) => buildObject[ week ][ day ].exercises,
+  state => getType( state ),
+  ( buildObject, week, day, type ) => {
+    if ( type === 'program' ) {
+      return buildObject[ week ][ day ].exercises;
+    }
+
+    if ( type === 'workout' ) {
+      return buildObject.exercises;
+    }
+
+    return null;
+  }
 );
 
 export const getBuildingSelectedExerciseObject = createSelector(
@@ -76,7 +109,19 @@ export const getBuildingSelectedExerciseObject = createSelector(
   state => getBuildingSelectedWeek( state ),
   state => getBuildingSelectedDay( state ),
   state => getBuildingSelectedExercise( state ),
-  ( buildObject, week, day, exercise ) => buildObject[ week ][ day ].exercises[ exercise ],
+  state => getType( state ),
+  ( buildObject, week, day, exercise, type ) => {
+
+    if ( type === 'program' ) {
+      return buildObject[ week ][ day ].exercises[ exercise ];
+    }
+
+    if ( type === 'workout' ) {
+      return buildObject.exercises[ exercise ];
+    }
+
+    return null;
+  }
 );
 
 export const getSelectedBuildObject = createSelector(

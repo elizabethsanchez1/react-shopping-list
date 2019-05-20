@@ -47,7 +47,6 @@ class MuscleGroupList extends Component {
   static navigationOptions = ( { navigation } ) => {
     if ( navigation.state.params && navigation.state.params.showButton ) {
       const { exerciseCount, addExercises } = navigation.state.params;
-
       return {
         headerRight: (
           <Button
@@ -77,12 +76,10 @@ class MuscleGroupList extends Component {
 
   componentDidUpdate( prevProps ) {
     if ( prevProps.selectedExercises.length !== this.props.selectedExercises.length ) {
-      if ( this.props.selectedExercises.length > 0 ) {
-        this.props.navigation.setParams( {
-          showButton: true,
-          exerciseCount: this.props.selectedExercises.length,
-        } );
-      }
+      this.props.navigation.setParams( {
+        showButton: true,
+        exerciseCount: this.props.selectedExercises.length,
+      } );
     }
   }
 

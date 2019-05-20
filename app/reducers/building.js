@@ -1,9 +1,15 @@
 import {
-  STORE_PROGRAM_CONFIG,
+  STORE_BUILD_OBJECT_CONFIG,
   ADD_PROGRAM,
   EDIT_PROGRAM,
-  CREATE_PROGRAM,
-  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK,
+  CREATE_BUILD_OBJECT,
+  UPDATE_DAY_TITLE,
+  BUILD_EDIT_FIELD,
+  OPEN_DELETE_SCREEN,
+  BUILD_DELETE_EXERCISE,
+  COPY_BUILD_OBJECT,
+  BUILD_CHANGE_WEEK,
+  ADD_WORKOUT,
 } from '../constants/building';
 import {
   BUILD_UPDATE_EXERCISE_ORDER,
@@ -14,28 +20,43 @@ import {
 } from '../constants/exercises';
 
 export const createProgramObject = state => {
-  const { weeks, daysPerWeek } = state;
-  const program = {};
+  const { weeks, daysPerWeek, type, name } = state;
 
-  for ( let i = 0; i < parseInt( weeks, 10 ); i += 1 ) {
-    program[ `week${ i + 1 }` ] = [];
+  if ( type === 'program' ) {
+    const program = {};
+    for ( let i = 0; i < parseInt( weeks, 10 ); i += 1 ) {
+      program[ `week${ i + 1 }` ] = [];
 
-    for ( let j = 0; j < parseInt( daysPerWeek, 10 ); j += 1 ) {
-      program[ `week${ i + 1 }` ].push( {
-        completed: false,
-        day: `Day ${ j + 1 }`,
-        exercises: [],
-      } );
+      for ( let j = 0; j < parseInt( daysPerWeek, 10 ); j += 1 ) {
+        program[ `week${ i + 1 }` ].push( {
+          completed: false,
+          day: `Day ${ j + 1 }`,
+          exercises: [],
+        } );
+      }
     }
+
+    return { ...state, program };
   }
 
-  return { ...state, program };
+  if ( type === 'workout' ) {
+    const updateState = {
+      ...state,
+      workout: {
+        completed: false,
+        day: name,
+        exercises: [],
+      },
+    };
+    delete updateState.name;
+    return updateState;
+  }
+
+  return state;
 };
 
 export const handleAddingExercises = ( state, action ) => {
-  const { selectedWeek, selectedDay, program, type } = state;
-  const updatedProgram = JSON.parse( JSON.stringify( program ) );
-
+  const { selectedWeek, selectedDay, type } = state;
   const exercises = action.payload.map( item => {
     const { selected, ...otherExerciseProps } = item;
     return {
@@ -48,8 +69,29 @@ export const handleAddingExercises = ( state, action ) => {
     };
   } );
 
-  updatedProgram[ selectedWeek ][ selectedDay ].exercises.push( ...exercises );
-  return { ...state, [ type ]: updatedProgram };
+  if ( type === 'program' ) {
+    const updatedProgram = JSON.parse( JSON.stringify( state[ type ] ) );
+    updatedProgram[ selectedWeek ][ selectedDay ].exercises.push( ...exercises );
+    return {
+      ...state,
+      program: updatedProgram,
+    };
+  }
+
+  if ( type === 'workout' ) {
+    return {
+      ...state,
+      workout: {
+        ...state.workout,
+        exercises: [
+          ...state.workout.exercises,
+          ...exercises,
+        ],
+      },
+    };
+  }
+
+  return null;
 };
 
 export const handleCopyingWeeks = ( state, action ) => {
@@ -82,71 +124,165 @@ export const handleDayNameUpdate = ( state, action ) => {
   const { selectedWeek, type } = state;
   const { text, index } = action.payload;
 
-  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
-  updatedBuildObject[ selectedWeek ][ index ].day = text;
+  if ( type === 'program' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+    updatedBuildObject[ selectedWeek ][ index ].day = text;
 
-  return {
-    ...state,
-    [ type ]: updatedBuildObject,
-  };
+    return {
+      ...state,
+      [ type ]: updatedBuildObject,
+    };
+  }
+
+  if ( type === 'workout' ) {
+    return {
+      ...state,
+      [ type ]: {
+        ...state[ type ],
+        day: text,
+      },
+    };
+  }
+
+  return state;
 };
 
 export const handleDeletingExercise = ( state, action ) => {
   const { selectedWeek, selectedDay, type } = state;
   const { deleteIndex } = action.payload;
 
-  const updateBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
-  const { exercises } = updateBuildObject[ selectedWeek ][ selectedDay ];
-  exercises.splice( deleteIndex, 1 );
+  if ( type === 'program' ) {
+    const updateBuildObject = JSON.parse( JSON.stringify( state.program ) );
+    const { exercises } = updateBuildObject[ selectedWeek ][ selectedDay ];
+    exercises.splice( deleteIndex, 1 );
 
-  return {
-    ...state,
-    [ type ]: updateBuildObject,
-  };
+    return {
+      ...state,
+      program: updateBuildObject,
+    };
+  }
+
+  if ( type === 'workout' ) {
+    const updateBuildObject = JSON.parse( JSON.stringify( state.workout ) );
+    const { exercises } = updateBuildObject;
+    exercises.splice( deleteIndex, 1 );
+
+    return {
+      ...state,
+      workout: updateBuildObject,
+    };
+  }
+
+  return state;
 };
 
 export const handleEditField = ( state, action ) => {
   const { value, field, exerciseLocation, selectedDay } = action.payload;
   const { type, selectedWeek } = state;
 
-  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+  if ( type === 'program' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state.program ) );
+    updatedBuildObject[ selectedWeek ][ selectedDay ].exercises[ exerciseLocation ][ field ] = value;
 
-  updatedBuildObject[ selectedWeek ][ selectedDay ].exercises[ exerciseLocation ][ field ] = value;
+    return {
+      ...state,
+      [ type ]: updatedBuildObject,
+    };
+  }
 
-  return {
-    ...state,
-    [ type ]: updatedBuildObject,
-  };
+  if ( type === 'workout' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state.workout ) );
+    updatedBuildObject.exercises[ exerciseLocation ][ field ] = value;
+
+    return {
+      ...state,
+      workout: updatedBuildObject,
+    };
+  }
+
+  return null;
 };
 
 export const handleExerciseReOrder = ( state, action ) => {
   const { type, selectedWeek, selectedDay } = state;
   const { newOrder } = action.payload;
 
-  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
-  const selectedExercises = updatedBuildObject[ selectedWeek ][ selectedDay ].exercises;
+  if ( type === 'program' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state.program ) );
+    const selectedExercises = updatedBuildObject[ selectedWeek ][ selectedDay ].exercises;
 
-  updatedBuildObject[ selectedWeek ][ selectedDay ].exercises = newOrder.map( index => {
-    return selectedExercises[ parseInt( index, 10 ) - 1 ];
-  } );
+    updatedBuildObject[ selectedWeek ][ selectedDay ].exercises = newOrder.map( index => {
+      return selectedExercises[ parseInt( index, 10 ) - 1 ];
+    } );
 
-  return {
-    ...state,
-    [ type ]: updatedBuildObject,
-  };
+    return {
+      ...state,
+      program: updatedBuildObject,
+    };
+  }
+
+  if ( type === 'workout' ) {
+    const updateBuildObject = JSON.parse( JSON.stringify( state.workout ) );
+    const selectedExercises = updateBuildObject.exercises;
+    updateBuildObject.exercises = newOrder.map( index => {
+      return selectedExercises[ parseInt( index, 10 ) - 1 ];
+    } );
+
+    return {
+      ...state,
+      workout: updateBuildObject,
+    };
+  }
+
+  return state;
 };
 
 export const handleStoringCustomSet = ( state, action ) => {
   const { selectedWeek, selectedDay, selectedExercise, type } = state;
 
-  const updatedBuildObject = JSON.parse( JSON.stringify( state[ type ] ) );
+  if ( type === 'program' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state.program ) );
+    updatedBuildObject[ selectedWeek ][ selectedDay ].exercises[ selectedExercise ] = action.payload;
 
-  updatedBuildObject[ selectedWeek ][ selectedDay ].exercises[ selectedExercise ] = action.payload;
+    return {
+      ...state,
+      program: updatedBuildObject,
+    };
+  }
 
-  return {
-    ...state,
-    [ type ]: updatedBuildObject,
-  };
+  if ( type === 'workout' ) {
+    const updatedBuildObject = JSON.parse( JSON.stringify( state.workout ) );
+    updatedBuildObject.exercises[ selectedExercise ] = action.payload;
+
+    return {
+      ...state,
+      workout: updatedBuildObject,
+    };
+  }
+
+  return null;
+};
+
+export const handleOpeningCustomSet = ( state, action ) => {
+  const { type } = state;
+  const { selectedDay, selectedExercise } = action.payload;
+
+  if ( type === 'program' ) {
+    return {
+      ...state,
+      selectedDay,
+      selectedExercise,
+    };
+  }
+
+  if ( type === 'workout' ) {
+    return {
+      ...state,
+      selectedExercise,
+    };
+  }
+
+  return null;
 };
 
 const building = ( state = {}, action ) => {
@@ -154,15 +290,17 @@ const building = ( state = {}, action ) => {
 
     case ADD_PROGRAM:
       return {
-        active: true,
         type: 'program',
         editing: false,
         selectedWeek: 'week1',
         selectedDay: 0,
       };
 
-    case COPY_BUILD_OBJECT:
-      return handleCopyingWeeks( state, action );
+    case ADD_WORKOUT:
+      return {
+        type: 'workout',
+        editing: false,
+      };
 
     case BUILDING_ADD_EXERCISES:
       return handleAddingExercises( state, action );
@@ -182,13 +320,15 @@ const building = ( state = {}, action ) => {
     case BUILD_UPDATE_EXERCISE_ORDER:
       return handleExerciseReOrder( state, action );
 
-    case CREATE_PROGRAM:
+    case COPY_BUILD_OBJECT:
+      return handleCopyingWeeks( state, action );
+
+    case CREATE_BUILD_OBJECT:
       return createProgramObject( state );
 
     case EDIT_PROGRAM:
       return {
         ...state,
-        active: true,
         type: 'program',
         program: JSON.parse( JSON.stringify( action.payload ) ),
         editing: true,
@@ -200,10 +340,7 @@ const building = ( state = {}, action ) => {
       };
 
     case OPEN_CUSTOM_SET:
-      return {
-        ...state,
-        ...action.payload,
-      };
+      return handleOpeningCustomSet( state, action );
 
     case OPEN_DELETE_SCREEN:
       return {
@@ -220,7 +357,7 @@ const building = ( state = {}, action ) => {
     case SAVE_CUSTOM_SET:
       return handleStoringCustomSet( state, action );
 
-    case STORE_PROGRAM_CONFIG:
+    case STORE_BUILD_OBJECT_CONFIG:
       return { ...state, ...action.payload };
 
     case UPDATE_DAY_TITLE:

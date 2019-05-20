@@ -5,7 +5,6 @@ import {
   getSelectedBuildObject,
   getBuildingSelectedWeek,
   getBuildingDayTitle,
-  haveCustomSetsBeenAdded,
   getExercisesBySelectedDay,
   getBuildingSelectedDay,
   getBuildingSelectedExercise,
@@ -76,6 +75,34 @@ const state = {
   },
 };
 
+const workoutState = {
+  building: {
+    type: 'workout',
+    template: '',
+    selectedExercise: 0,
+    workout: {
+      completed: false,
+      day: 'Upper body',
+      exercises: [
+        {
+          'compound': false,
+          'name': 'Situps',
+          'muscleGroup': 'Abs',
+          'isolation': true,
+          rpe: '',
+          reps: '',
+          sets: '',
+          weight: '10',
+          type: 'standard',
+        },
+      ],
+    },
+  },
+  user: {
+    uid: 15,
+  },
+};
+
 describe( 'Building selectors', () => {
 
   it( 'getBuilding() should return building reducer', () => {
@@ -113,35 +140,23 @@ describe( 'Building selectors', () => {
 
   it( 'getSelectedBuildObject() should based on the currently selected type return either the program or workout object in the redux store', () => {
 
-    const state = {
+    const state1 = {
       building: {
         type: 'program',
         program: { test: true },
       },
     };
 
-    expect( getSelectedBuildObject( state ) ).toEqual( state.building.program );
+    expect( getSelectedBuildObject( state1 ) ).toEqual( state1.building.program );
 
-    const state1 = {
+    const state2 = {
       building: {
         type: 'workout',
         workout: { test: true },
       },
     };
 
-    expect( getSelectedBuildObject( state1 ) ).toEqual( state1.building.workout );
-
-  } );
-
-  it( 'getSelectedBuildObject() should based on the currently selected type return either the program or workout object in the redux store', () => {
-
-    const state1 = {
-      building: {
-        selectedWeek: 0,
-      },
-    };
-
-    expect( getBuildingSelectedWeek( state1 ) ).toEqual( state1.building.selectedWeek );
+    expect( getSelectedBuildObject( state2 ) ).toEqual( state2.building.workout );
 
   } );
 
@@ -151,12 +166,21 @@ describe( 'Building selectors', () => {
 
   it( 'getBuildingDayTitle() should return the title for the given for that day', () => {
     expect( getBuildingDayTitle( state, 0 ) ).toEqual( 'Day 1' );
+
+    expect( getBuildingDayTitle( workoutState, undefined ) )
+      .toEqual( 'Upper body' );
   } );
 
-  it( 'getExercisesBySelectedDay() should return the array of exercises for the given day', () => {
+  it( 'getExercisesBySelectedDay() for type program should return the array of exercises for the given day', () => {
     const { selectedWeek, selectedDay } = state.building;
 
     expect( getExercisesBySelectedDay( state ) ).toEqual( state.building.program[ selectedWeek ][ selectedDay ].exercises );
+  } );
+
+  it( 'getExercisesBySelectedDay() for type workout should return the array of exercises for the given day', () => {
+
+    expect( getExercisesBySelectedDay( workoutState ) )
+      .toEqual( workoutState.building.workout.exercises );
   } );
 
   it( 'getBuildingSelectedWeek() should return selected week property', () => {
@@ -171,10 +195,17 @@ describe( 'Building selectors', () => {
     expect( getBuildingSelectedExercise( state ) ).toEqual( state.building.selectedExercise );
   } );
 
-  it( 'getBuildingSelectedExerciseObject() should return the selected exercise object itself', () => {
+  it( 'getBuildingSelectedExerciseObject() for type programs should return the selected exercise object itself', () => {
     const { selectedWeek, selectedDay, selectedExercise, type } = state.building;
     expect( getBuildingSelectedExerciseObject( state ) )
       .toEqual( state.building[ type ][ selectedWeek ][ selectedDay ].exercises[ selectedExercise ] );
+  } );
+
+  it( 'getBuildingSelectedExerciseObject() for type workouts should return the selected exercise object itself', () => {
+    const { selectedExercise } = workoutState.building;
+
+    expect( getBuildingSelectedExerciseObject( workoutState ) )
+      .toEqual( workoutState.building.workout.exercises[ selectedExercise ] );
   } );
 
   it( 'computeDropdownWeeks() should take some values and format them in a way that our dropdown component can read as well as add as the first option All Weeks ', () => {
@@ -196,6 +227,10 @@ describe( 'Building selectors', () => {
 
   it( 'getBuildObjectName() should return the name of the program/workout', () => {
     expect( getBuildObjectName( state ) ).toEqual( state.building.name );
+
+    expect( getBuildObjectName( workoutState ) )
+      .toEqual( workoutState.building.workout.day );
+
   } );
 
   it( 'getBuildSaveInfo() should return the uid, type of program being build, the project object and the name given to the program/workout all in one selector call', () => {

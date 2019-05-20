@@ -13,15 +13,15 @@ import {
   SAVE_WORKOUT,
   SAVE_SUCCESSFUL,
   SAVE_FAILED,
-  STORE_PROGRAM_CONFIG,
+  STORE_BUILD_OBJECT_CONFIG,
   HIDE_ALERT,
   USER_EDITING_PROGRAM,
   USER_EDITING_WORKOUT,
-  CREATE_PROGRAM,
+  CREATE_BUILD_OBJECT,
   UPDATE_DAY_TITLE,
   ADD_PROGRAM,
   EDIT_PROGRAM,
-  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK, BUILD_SAVE_WORKOUT
+  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK, BUILD_SAVE_WORKOUT, ADD_WORKOUT
 } from '../constants/building';
 import firebaseService from '../utilities/firebase';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../constants/exercises';
@@ -217,6 +217,11 @@ export const addProgramAction = data => ( {
   payload: data,
 } );
 
+export const addWorkoutAction = data => ( {
+  type: ADD_WORKOUT,
+  payload: data,
+} );
+
 export const buildChangeWeekAction = data => ( {
   type: BUILD_CHANGE_WEEK,
   payload: data,
@@ -248,8 +253,8 @@ export const copyBuildObjectAction = data => ( {
 } );
 
 
-export const createProgramAction = data => ( {
-  type: CREATE_PROGRAM,
+export const createBuildObjectAction = data => ( {
+  type: CREATE_BUILD_OBJECT,
   payload: data,
 } );
 
@@ -264,8 +269,8 @@ export const openDeleteScreenAction = data => ( {
   payload: data,
 } );
 
-export const storeProgramConfigAction = data => ( {
-  type: STORE_PROGRAM_CONFIG,
+export const storeBuildObjectConfigAction = data => ( {
+  type: STORE_BUILD_OBJECT_CONFIG,
   payload: data,
 } );
 

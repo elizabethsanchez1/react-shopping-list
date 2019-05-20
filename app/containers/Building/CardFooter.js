@@ -7,7 +7,6 @@ import { openExerciseListAction } from '../../actions/exercises';
 import NavigationService from '../../utilities/navigationService';
 import { openDeleteScreenAction } from '../../actions/building';
 
-
 const styles = StyleSheet.create( {
   linkContainer: {
     alignItems: 'flex-start',

@@ -1,27 +1,27 @@
 import {
-  addProgramAction, buildChangeWeekAction,
+  addProgramAction, addWorkoutAction, buildChangeWeekAction,
   buildDeleteExerciseAction,
   buildEditFieldAction, buildSaveWorkoutAction,
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
-  createProgramAction,
+  createBuildObjectAction,
   editProgramAction,
   openDeleteScreenAction,
-  storeProgramConfigAction,
+  storeBuildObjectConfigAction,
   updateDayTitleAction
 } from '../building';
 import {
   EDIT_PROGRAM,
   ADD_PROGRAM,
-  STORE_PROGRAM_CONFIG,
-  CREATE_PROGRAM,
+  STORE_BUILD_OBJECT_CONFIG,
+  CREATE_BUILD_OBJECT,
   UPDATE_DAY_TITLE,
   BUILD_EDIT_FIELD,
   OPEN_DELETE_SCREEN,
   BUILD_DELETE_EXERCISE,
   COPY_BUILD_OBJECT,
   BUILD_CHANGE_WEEK,
-  BUILD_SAVE_WORKOUT
+  BUILD_SAVE_WORKOUT, ADD_WORKOUT
 } from '../../constants/building';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../../constants/exercises';
 
@@ -47,22 +47,22 @@ describe( 'Building action creators', () => {
     expect( addProgramAction( 1 ) ).toEqual( expectedAction );
   } );
 
-  it( 'storeProgramConfigAction() should dispatch STORE_PROGRAM_CONFIG event', () => {
+  it( 'storeBuildObjectConfigAction() should dispatch STORE_BUILD_OBJECT_CONFIG event', () => {
     const expectedAction = {
-      type: STORE_PROGRAM_CONFIG,
+      type: STORE_BUILD_OBJECT_CONFIG,
       payload: 1,
     };
 
-    expect( storeProgramConfigAction( 1 ) ).toEqual( expectedAction );
+    expect( storeBuildObjectConfigAction( 1 ) ).toEqual( expectedAction );
   } );
 
-  it( 'createProgramAction() should dispatch CREATE_PROGRAM event', () => {
+  it( 'createBuildObjectAction() should dispatch CREATE_BUILD_OBJECT event', () => {
     const expectedAction = {
-      type: CREATE_PROGRAM,
+      type: CREATE_BUILD_OBJECT,
       payload: undefined,
     };
 
-    expect( createProgramAction() ).toEqual( expectedAction );
+    expect( createBuildObjectAction() ).toEqual( expectedAction );
   } );
 
   it( 'updateDayTitleAction() should dispatch UPDATE_DAY_TITLE event', () => {
@@ -135,6 +135,15 @@ describe( 'Building action creators', () => {
     };
 
     expect( buildSaveWorkoutAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'addWorkoutAction() should dispatch ADD_WORKOUT event', () => {
+    const expectedAction = {
+      type: ADD_WORKOUT,
+      payload: 1,
+    };
+
+    expect( addWorkoutAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import Container from '../../components/Container/index';
 import { SavedWorkoutCard } from '../../components/Card/index';
 import { FloatingButton } from '../../components/Button';
 import theme from '../../styles/theme.style';
 import Tabs from '../../components/Tabs/Tabs';
-import { addProgram, editProgram } from '../../actions/program';
-import { addWorkout, editWorkout } from '../../actions/workout';
+import { editWorkout } from '../../actions/workout';
 import { Loading } from '../../components/Loading/index';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { getPrograms, getWorkouts } from '../../selectors/savedWorkouts';
-import { BUILDING, SAVED_WORKOUTS } from '../../constants/reducerObjects';
+import { SAVED_WORKOUTS } from '../../constants/reducerObjects';
 import { calculateWeeksForDropdown } from '../../selectors/building';
-import { addProgramAction, editProgramAction } from '../../actions/building';
+import { addProgramAction, addWorkoutAction, editProgramAction } from '../../actions/building';
 
 
 class BuildDashboard extends Component {
@@ -106,7 +104,7 @@ class BuildDashboard extends Component {
         renderItem={ ( { item, index } ) => (
           <SavedWorkoutCard
             title={ item.name }
-            description={ `${ item.workout.week1[ 0 ].exercises.length } Exercises` }
+            description={ `${ item.workout.exercises.length } Exercises` }
             createdDate={ `${ item.created.formatted }` }
             onClick={ () => this.selectCard( index, 'workout' ) }
           />
@@ -157,6 +155,7 @@ BuildDashboard.propTypes = {
   isLoading: PropTypes.bool,
   editProgram: PropTypes.func,
   addProgram: PropTypes.func,
+  addWorkout: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -168,7 +167,7 @@ const mapStateToProps = state => ( {
 const mapDispatchToProps = dispatch => ( {
   addProgram: () => dispatch( addProgramAction() ),
   editProgram: program => dispatch( editProgramAction( program ) ),
-  addWorkout: () => dispatch( addWorkout() ),
+  addWorkout: () => dispatch( addWorkoutAction() ),
   editWorkout: workout => dispatch( editWorkout( workout ) ),
 } );
 

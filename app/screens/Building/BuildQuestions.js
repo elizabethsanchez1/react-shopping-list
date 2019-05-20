@@ -10,7 +10,7 @@ import theme from '../../styles/theme.style';
 import { calculateWeeksForDropdown, getType } from '../../selectors/building';
 import * as program from '../../actions/program';
 import * as workout from '../../actions/workout';
-import { createProgramAction, storeProgramConfigAction } from '../../actions/building';
+import { createBuildObjectAction, storeBuildObjectConfigAction } from '../../actions/building';
 
 
 const styles = StyleSheet.create( {
@@ -43,7 +43,7 @@ class BuildQuestions extends Component {
     super( props );
     this.state = {
       name: '',
-      weeks: 1,
+      weeks: ( props.type === 'program' ) ? 1 : 0,
       daysPerWeek: 1,
       schedule: '',
       template: '',
@@ -64,12 +64,13 @@ class BuildQuestions extends Component {
 
     if ( this.props.type === 'program' ) {
       this.props.storeProgramConfig( this.state );
-      this.props.createProgram();
-    } else {
-      this.props.actions.workout.storeWorkoutConfig( this.state );
-      this.props.actions.workout.createWorkoutObject();
     }
 
+    if ( this.props.type === 'workout' ) {
+      this.props.storeProgramConfig( { name: this.state.name, template: '' } );
+    }
+
+    this.props.createBuildObject();
     this.props.navigation.navigate( 'Build', { weeks: dropdownWeeks } );
   };
 
@@ -184,7 +185,7 @@ BuildQuestions.propTypes = {
   navigation: PropTypes.object,
   type: PropTypes.string.isRequired,
   storeProgramConfig: PropTypes.func,
-  createProgram: PropTypes.func,
+  createBuildObject: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -196,8 +197,8 @@ const mapDispatchToProps = dispatch => ( {
     program: bindActionCreators( program, dispatch ),
     workout: bindActionCreators( workout, dispatch ),
   },
-  createProgram: () => dispatch( createProgramAction() ),
-  storeProgramConfig: data => dispatch( storeProgramConfigAction( data ) ),
+  createBuildObject: () => dispatch( createBuildObjectAction() ),
+  storeProgramConfig: data => dispatch( storeBuildObjectConfigAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( BuildQuestions );

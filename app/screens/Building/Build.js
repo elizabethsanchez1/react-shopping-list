@@ -166,7 +166,7 @@ class Build extends Component {
   render() {
     console.log( 'Build.js props: ', this.props );
     console.log( 'Build.js state: ', this.state );
-    const { buildObject, selectedWeek, navigation } = this.props;
+    const { buildObject, selectedWeek, navigation, type } = this.props;
 
     if ( this.props.loading ) {
       return <Loading />;
@@ -175,34 +175,54 @@ class Build extends Component {
     return (
       <Container>
         <KeyboardAwareScrollView>
-          <View>
-            <DoubleDropdown data={ navigation.state.params.weeks } />
-            <FlatList
-              data={ buildObject[ selectedWeek ] }
-              renderItem={ ( { item, index } ) => (
-                <Card
-                  titleStyle={ styles.titleStyle }
-                  dividerStyle={ { display: 'none' } }
-                  containerStyle={ styles.cardContainer }
-                >
-                  <DayHeader day={ index } />
-
-                  <BuildTable
-                    dayIndex={ index }
-                    exercises={ item.exercises }
+          {
+            ( type === 'program' )
+              ? (
+                <View>
+                  <DoubleDropdown data={ navigation.state.params.weeks } />
+                  <FlatList
+                    data={ buildObject[ selectedWeek ] }
+                    renderItem={ ( { item, index } ) => (
+                      <Card
+                        titleStyle={ styles.titleStyle }
+                        dividerStyle={ { display: 'none' } }
+                        containerStyle={ styles.cardContainer }
+                      >
+                        <DayHeader day={ index } />
+                        <BuildTable
+                          dayIndex={ index }
+                          exercises={ item.exercises }
+                        />
+                        <CardFooter
+                          exercises={ item.exercises }
+                          dayIndex={ index }
+                        />
+                      </Card>
+                    ) }
+                    keyExtractor={ item => item.day }
                   />
-
-                  <CardFooter
-                    exercises={ item.exercises }
-                    dayIndex={ index }
-                  />
-                </Card>
-
-              ) }
-              keyExtractor={ item => item.day }
-            />
-          </View>
-
+                </View>
+              )
+              : (
+                <View>
+                  <Card
+                    titleStyle={ styles.titleStyle }
+                    dividerStyle={ { display: 'none' } }
+                    containerStyle={ styles.cardContainer }
+                  >
+                    <DayHeader />
+                    <BuildTable
+                      dayIndex={ 0 }
+                      exercises={ buildObject.exercises }
+                    />
+                    <CardFooter
+                      exercises={ buildObject.exercises }
+                      dayIndex={ 0 }
+                    />
+                  </Card>
+                </View>
+              )
+          }
         </KeyboardAwareScrollView>
       </Container>
     );

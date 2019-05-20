@@ -1,14 +1,14 @@
 import building from '../building';
 import {
-  addProgramAction, buildChangeWeekAction,
+  addProgramAction, addWorkoutAction, buildChangeWeekAction,
   buildDeleteExerciseAction,
   buildEditFieldAction,
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
-  createProgramAction,
+  createBuildObjectAction,
   editProgramAction,
   openDeleteScreenAction,
-  storeProgramConfigAction,
+  storeBuildObjectConfigAction,
   updateDayTitleAction,
 } from '../../actions/building';
 import {
@@ -35,7 +35,6 @@ describe( 'Building reducer logic', () => {
     const previousState = {};
     const action = editProgramAction( program );
     const expectedState = {
-      active: true,
       type: 'program',
       program: JSON.parse( JSON.stringify( program ) ),
       editing: true,
@@ -54,7 +53,6 @@ describe( 'Building reducer logic', () => {
     const previousState = {};
     const action = addProgramAction();
     const expectedState = {
-      active: true,
       type: 'program',
       editing: false,
       selectedWeek: 'week1',
@@ -65,7 +63,17 @@ describe( 'Building reducer logic', () => {
 
   } );
 
-  it( 'should handle STORE_PROGRAM_CONFIG', () => {
+  it( 'addWorkoutAction() should create an empty workout object', () => {
+    const action = addWorkoutAction();
+    const expectedState = {
+      type: 'workout',
+      editing: false,
+    };
+
+    expect( building( {}, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'should handle STORE_BUILD_OBJECT_CONFIG', () => {
     const previousState = {};
     const payload = {
       name: 'test',
@@ -74,7 +82,7 @@ describe( 'Building reducer logic', () => {
       schedule: '',
       template: '',
     };
-    const action = storeProgramConfigAction( payload );
+    const action = storeBuildObjectConfigAction( payload );
     const expectedState = {
       name: 'test',
       weeks: [],
@@ -85,14 +93,27 @@ describe( 'Building reducer logic', () => {
 
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+    const payload1 = {
+      name: 'test',
+      template: '',
+    };
+    const action1 = storeBuildObjectConfigAction( payload1 );
+    const expectedState1 = {
+      name: 'test',
+      template: '',
+    };
+
+    expect( building( previousState, action1 ) ).toEqual( expectedState1 );
+
   } );
 
-  it( 'should handle CREATE_PROGRAM', () => {
-    const previousState = { weeks: 4, daysPerWeek: 2 };
-    const action = createProgramAction();
+  it( 'should handle CREATE_BUILD_OBJECT', () => {
+    const previousState = { weeks: 4, daysPerWeek: 2, type: 'program' };
+    const action = createBuildObjectAction();
     const expectedState = {
       weeks: 4,
       daysPerWeek: 2,
+      type: 'program',
       program: {
         'week1': [
           {
@@ -144,14 +165,23 @@ describe( 'Building reducer logic', () => {
         ],
       },
     };
-
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+    const previousState1 = { type: 'workout', template: '', name: 'test' };
+    const expectedState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'test',
+        exercises: [],
+      },
+    };
+    expect( building( previousState1, action ) ).toEqual( expectedState1 );
   } );
 
   it( 'buidlingAddExercisesAction() should store newly add exercises in response to  BUILDING_ADD_EXERCISES', () => {
     const previousState = {
-      'active': true,
       'type': 'program',
       'editing': false,
       'selectedWeek': 'week1',
@@ -194,7 +224,6 @@ describe( 'Building reducer logic', () => {
     ];
     const action = buildingAddExercisesAction( data );
     const expectedState = {
-      'active': true,
       'type': 'program',
       'editing': false,
       'selectedWeek': 'week1',
@@ -237,13 +266,60 @@ describe( 'Building reducer logic', () => {
           {
             'completed': false,
             'day': 'Day 2',
-            'exercises': [],
+            'exercises': [
+
+            ],
           },
         ],
       },
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+
+    const previousState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'test',
+        exercises: [],
+      },
+    };
+    const expectedState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'test',
+        exercises: [
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '',
+            type: 'standard',
+          },
+          {
+            'compound': false,
+            'name': 'Machine Crunch',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '',
+            type: 'standard',
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState1, action ) ).toEqual( expectedState1 );
   } );
 
   it( 'updateDayTitleAction() should update title of the day for the selectedWeek in response to UPDATE_DAY_TITLE event', () => {
@@ -293,6 +369,30 @@ describe( 'Building reducer logic', () => {
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+
+    const previousState1 = {
+      type: 'workout',
+      workout: {
+        completed: false,
+        day: '',
+        exercises: [],
+      },
+      template: '',
+    };
+    const data1 = { text: 'Upper Body', index: undefined };
+    const action1 = updateDayTitleAction( data1 );
+    const expectedState1 = {
+      type: 'workout',
+      workout: {
+        completed: false,
+        day: 'Upper Body',
+        exercises: [],
+      },
+      template: '',
+    };
+
+    expect( building( previousState1, action1 ) ).toEqual( expectedState1 );
   } );
 
   it( 'buildEditFieldAction() should update the field described in the action in response to BUILD_EDIT_FIELD event', () => {
@@ -389,6 +489,61 @@ describe( 'Building reducer logic', () => {
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+
+    // workout scenario
+    const previousState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '',
+            type: 'standard',
+          },
+        ],
+      },
+    };
+    const data1 = {
+      exerciseLocation: 0,
+      field: 'weight',
+      value: '100',
+      selectedDay: undefined,
+    };
+    const action1 = buildEditFieldAction( data1 );
+    const expectedState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '100',
+            type: 'standard',
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState1, action1 ) ).toEqual( expectedState1 );
+
   } );
 
   it( 'openExerciseListAction should pass the day selected so we can store that information so that when we add exercises, we know what day to add them to in response to OPEN_EXERCISE_LIST event', () => {
@@ -414,6 +569,18 @@ describe( 'Building reducer logic', () => {
 
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+
+    const previousState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'test',
+        exercises: [],
+      },
+    };
+    const action1 = openExerciseListAction();
+    expect( building( previousState1, action1 ) ).toEqual( previousState1 );
   } );
 
   it( 'openCustomSetAction() should pass us day selected index and exercises location index so that when we finish adding a custom set we know where to store it in response to OPEN_CUSTOM_SET event', () => {
@@ -440,9 +607,33 @@ describe( 'Building reducer logic', () => {
 
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+    // Workout scenario
+
+    const previousState1 = {
+      type: 'workout',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [],
+      },
+    };
+    const data1 = { selectedDay: undefined, selectedExercise: 0 };
+    const action1 = openCustomSetAction( data1 );
+    const expectedState1 = {
+      type: 'workout',
+      selectedExercise: 0,
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [],
+      },
+    };
+
+    expect( building( previousState1, action1 ) ).toEqual( expectedState1 );
+
   } );
 
-  it( 'openCustomSetAction() should pass us day selected index and exercises location index so that when we finish adding a custom set we know where to store it in response to OPEN_CUSTOM_SET event', () => {
+  it( 'saveCustomSetAction() should pass us an formatted exercise object that we can just save in response to SAVE_CUSTOM_SET event', () => {
     const previousState = {
       'type': 'program',
       'selectedWeek': 'week1',
@@ -527,6 +718,56 @@ describe( 'Building reducer logic', () => {
 
     expect( building( previousState, action ) ).toEqual( expectedState );
 
+    // Workout scenario
+    const previousState1 = {
+      type: 'workout',
+      selectedExercise: 0,
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [
+          {
+            compound: false,
+            name: 'Situps',
+            muscleGroup: 'Abs',
+            isolation: true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '',
+            type: 'standard',
+          },
+        ],
+      },
+    };
+    const expectedState1 = {
+      type: 'workout',
+      selectedExercise: 0,
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [
+          {
+            compound: false,
+            name: 'Situps',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '8-12',
+            weight: '100-120',
+            sets: '3',
+            customSet: [
+              { set: 1, weight: '100', reps: '8' },
+              { set: 2, weight: '110', reps: '10' },
+              { set: 3, weight: '120', reps: '12' },
+            ],
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState1, action ) ).toEqual( expectedState1 );
   } );
 
   it( 'buildUpdateExerciseOrderAction() should pass in an object of exercises and an array specifying what the new order should be, the reducer should re-order the exercises and store them in response to BUILD_UPDATE_EXERCISE_ORDER event', () => {
@@ -640,9 +881,101 @@ describe( 'Building reducer logic', () => {
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+    // Workout Scenario
+
+    const previousState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        'exercises': [
+          {
+            compound: false,
+            name: 'Bench press',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '1',
+            weight: '2',
+            sets: '3',
+          },
+          {
+            compound: false,
+            name: 'Situps',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '5',
+            weight: '6',
+            sets: '7',
+          },
+          {
+            compound: false,
+            name: 'Pull ups',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '8',
+            weight: '9',
+            sets: '10',
+          },
+        ],
+      },
+    };
+    const expectedState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        'exercises': [
+          {
+            compound: false,
+            name: 'Pull ups',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '8',
+            weight: '9',
+            sets: '10',
+          },
+          {
+            compound: false,
+            name: 'Situps',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '5',
+            weight: '6',
+            sets: '7',
+          },
+          {
+            compound: false,
+            name: 'Bench press',
+            muscleGroup: 'Abs',
+            isolation: true,
+            type: 'standard',
+            rpe: '',
+            reps: '1',
+            weight: '2',
+            sets: '3',
+          },
+        ],
+      },
+    };
+
+    expect( building( previousState1, action ) ).toEqual( expectedState1 );
+
   } );
 
-  it( 'openDeleteScreenAction() should pass in a selectedDay index to store so we know what exercises to retrieve on the delete page', () => {
+  it( 'openDeleteScreenAction() should pass in a selectedDay index to store so we know what exercises to retrieve on the delete page in response to OPEN_DELETE_SCREEN event', () => {
     const previousState = {
       selectedDay: '',
     };
@@ -651,9 +984,14 @@ describe( 'Building reducer logic', () => {
     const expectedState = { selectedDay: 0 };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+    // workout scenario
+    const action1 = openDeleteScreenAction();
+    const expectedState1 = {};
+    expect( building( {}, action1 ) ).toEqual( expectedState1 );
   } );
 
-  it( 'buildDeleteExerciseAction() should pass in an index of the exercises that we need to delete from the exercises for the specific day', () => {
+  it( 'buildDeleteExerciseAction() should pass in an index of the exercises that we need to delete from the exercises for the specific day in response to BUILD_DELETE_EXERCISE event', () => {
     const previousState = {
       'type': 'program',
       'selectedWeek': 'week1',
@@ -704,6 +1042,40 @@ describe( 'Building reducer logic', () => {
     };
 
     expect( building( previousState, action ) ).toEqual( expectedState );
+
+    // Workout Scenario
+    const previousState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [
+          {
+            'compound': false,
+            'name': 'Situps',
+            'muscleGroup': 'Abs',
+            'isolation': true,
+            rpe: '',
+            reps: '',
+            sets: '',
+            weight: '',
+            type: 'standard',
+          },
+        ],
+      },
+    };
+    const expectedState1 = {
+      type: 'workout',
+      template: '',
+      workout: {
+        completed: false,
+        day: 'Day 1',
+        exercises: [],
+      },
+    };
+
+    expect( building( previousState1, action ) ).toEqual( expectedState1 );
 
   } );
 
