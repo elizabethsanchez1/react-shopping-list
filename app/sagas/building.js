@@ -7,35 +7,52 @@ import { BUILDING } from '../constants/reducerObjects';
 import { getBuildSaveInfo } from '../selectors/building';
 import NavigationService from '../utilities/navigationService';
 
-export function* buildSaveWorkoutREST( buildInfo ) {
+export function* buildSaveWorkoutREST( buildObject ) {
   const collection = firebase.firestore().collection( 'savedWorkouts' );
-  return yield call( [ collection, collection.add ], buildInfo );
+  return yield call( [ collection, collection.add ], buildObject );
+}
+
+export function* buildUpdateWorkoutREST( buildObject ) {
+  const collection = firebase.firestore()
+    .collection( 'savedWorkouts' )
+    .doc( buildObject.documentId );
+
+  const updateObject = { ...buildObject };
+  delete updateObject.documentId;
+  return yield call( [ collection, collection.set ], updateObject, { merge: true } );
 }
 
 export function* buildSaveWorkout() {
   yield put( showLoadingAction( { dataType: BUILDING } ) );
   const buildInfo = yield select( getBuildSaveInfo );
+  let completedBuildInfo = { ...buildInfo };
 
   try {
-    let completedBuildInfo;
-
-    if ( buildInfo.type === 'program' ) {
-      completedBuildInfo = {
-        ...buildInfo,
-        activeAttempt: '',
-        attempts: [],
-        created: new Date(),
-      };
+    if ( buildInfo.editing ) {
+      delete completedBuildInfo.editing;
+      yield call( buildUpdateWorkoutREST, completedBuildInfo );
     }
 
-    if ( buildInfo.type === 'workout' ) {
-      completedBuildInfo = {
-        ...buildInfo,
-        created: new Date(),
-      };
-    }
+    if ( !buildInfo.editing ) {
 
-    yield call( buildSaveWorkoutREST, completedBuildInfo );
+      if ( buildInfo.type === 'program' ) {
+        completedBuildInfo = {
+          ...buildInfo,
+          activeAttempt: '',
+          attempts: [],
+          created: new Date(),
+        };
+      }
+
+      if ( buildInfo.type === 'workout' ) {
+        completedBuildInfo = {
+          ...buildInfo,
+          created: new Date(),
+        };
+      }
+
+      yield call( buildSaveWorkoutREST, completedBuildInfo );
+    }
   }
   catch ( error ) {
     console.log( 'build save workout error: ', error );

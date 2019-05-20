@@ -10,7 +10,7 @@ import {
   getBuildingSelectedExercise,
   getBuildingSelectedExerciseObject,
   computeDropdownWeeks,
-  getBuildObjectName, getBuildSaveInfo,
+  getBuildObjectName, getBuildSaveInfo, getBuildEditFlag, getBuildDocumentId,
 } from '../building';
 
 const state = {
@@ -69,6 +69,7 @@ const state = {
     selectedDay: 0,
     selectedExercise: 0,
     name: 'testing',
+    documentId: 5,
   },
   user: {
     uid: 15,
@@ -77,6 +78,7 @@ const state = {
 
 const workoutState = {
   building: {
+    editing: true,
     type: 'workout',
     template: '',
     selectedExercise: 0,
@@ -240,9 +242,34 @@ describe( 'Building selectors', () => {
       name: state.building.name,
       type,
       [ type ] : state.building[ type ],
+      editing: false,
+      documentId: state.building.documentId,
     };
 
     expect( getBuildSaveInfo( state ) ).toEqual( expectedValues );
+
+
+    const expectedValues1 = {
+      userId: state.user.uid,
+      type: 'workout',
+      workout : workoutState.building.workout,
+      editing: true,
+      documentId: workoutState.building.documentId,
+    };
+
+    expect( getBuildSaveInfo( workoutState ) ).toEqual( expectedValues1 );
+
+  } );
+
+  it( 'getBuildEditFlag() should return a boolean depending on whether we are editing a program or workout', () => {
+
+    expect( getBuildEditFlag( state ) ).toEqual( false );
+    expect( getBuildEditFlag( workoutState ) ).toEqual( true );
+
+  } );
+
+  it( 'getBuildDocumentId() should return the document id for the program or workout we are editing', () => {
+    expect( getBuildDocumentId( state ) ).toEqual( 5 );
   } );
 
 } );

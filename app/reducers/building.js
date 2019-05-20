@@ -1,7 +1,7 @@
 import {
   STORE_BUILD_OBJECT_CONFIG,
   ADD_PROGRAM,
-  EDIT_PROGRAM,
+  BUILD_EDIT_PROGRAM,
   CREATE_BUILD_OBJECT,
   UPDATE_DAY_TITLE,
   BUILD_EDIT_FIELD,
@@ -9,7 +9,7 @@ import {
   BUILD_DELETE_EXERCISE,
   COPY_BUILD_OBJECT,
   BUILD_CHANGE_WEEK,
-  ADD_WORKOUT,
+  ADD_WORKOUT, BUILD_EDIT_WORKOUT,
 } from '../constants/building';
 import {
   BUILD_UPDATE_EXERCISE_ORDER,
@@ -317,6 +317,29 @@ const building = ( state = {}, action ) => {
     case BUILD_EDIT_FIELD:
       return handleEditField( state, action );
 
+    case BUILD_EDIT_PROGRAM:
+      return {
+        ...state,
+        type: 'program',
+        program: JSON.parse( JSON.stringify( action.payload.program ) ),
+        editing: true,
+        weeks: Object.keys( action.payload.program ).length,
+        daysPerWeek: action.payload.program.week1.length,
+        name: action.payload.name,
+        selectedWeek: 'week1',
+        selectedDay: 0,
+        documentId: action.payload.documentId,
+      };
+
+    case BUILD_EDIT_WORKOUT:
+      return {
+        ...state,
+        editing: true,
+        type: 'workout',
+        workout: action.payload.workout,
+        documentId: action.payload.documentId,
+      };
+
     case BUILD_UPDATE_EXERCISE_ORDER:
       return handleExerciseReOrder( state, action );
 
@@ -325,19 +348,6 @@ const building = ( state = {}, action ) => {
 
     case CREATE_BUILD_OBJECT:
       return createProgramObject( state );
-
-    case EDIT_PROGRAM:
-      return {
-        ...state,
-        type: 'program',
-        program: JSON.parse( JSON.stringify( action.payload ) ),
-        editing: true,
-        weeks: Object.keys( action.payload ).length,
-        daysPerWeek: action.payload.week1.length,
-        name: action.payload.name,
-        selectedWeek: 'week1',
-        selectedDay: 0,
-      };
 
     case OPEN_CUSTOM_SET:
       return handleOpeningCustomSet( state, action );

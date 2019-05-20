@@ -20,8 +20,14 @@ import {
   CREATE_BUILD_OBJECT,
   UPDATE_DAY_TITLE,
   ADD_PROGRAM,
-  EDIT_PROGRAM,
-  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK, BUILD_SAVE_WORKOUT, ADD_WORKOUT
+  BUILD_EDIT_PROGRAM,
+  BUILD_EDIT_FIELD,
+  BUILD_DELETE_EXERCISE,
+  COPY_BUILD_OBJECT,
+  BUILD_CHANGE_WEEK,
+  BUILD_SAVE_WORKOUT,
+  ADD_WORKOUT,
+  BUILD_EDIT_WORKOUT
 } from '../constants/building';
 import firebaseService from '../utilities/firebase';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../constants/exercises';
@@ -258,9 +264,13 @@ export const createBuildObjectAction = data => ( {
   payload: data,
 } );
 
-// TODO does this need to be BUILD_EDIT_PROGRAM
 export const editProgramAction = data => ( {
-  type: EDIT_PROGRAM,
+  type: BUILD_EDIT_PROGRAM,
+  payload: data,
+} );
+
+export const editWorkoutAction = data => ( {
+  type: BUILD_EDIT_WORKOUT,
   payload: data,
 } );
 

@@ -7,13 +7,12 @@ import { SavedWorkoutCard } from '../../components/Card/index';
 import { FloatingButton } from '../../components/Button';
 import theme from '../../styles/theme.style';
 import Tabs from '../../components/Tabs/Tabs';
-import { editWorkout } from '../../actions/workout';
 import { Loading } from '../../components/Loading/index';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { getPrograms, getWorkouts } from '../../selectors/savedWorkouts';
 import { SAVED_WORKOUTS } from '../../constants/reducerObjects';
 import { calculateWeeksForDropdown } from '../../selectors/building';
-import { addProgramAction, addWorkoutAction, editProgramAction } from '../../actions/building';
+import { addProgramAction, addWorkoutAction, editProgramAction, editWorkoutAction } from '../../actions/building';
 
 
 class BuildDashboard extends Component {
@@ -47,10 +46,11 @@ class BuildDashboard extends Component {
     if ( type === 'program' ) {
       this.props.editProgram( this.props.programs[ cardIndex ] );
       weeks = calculateWeeksForDropdown( this.props.programs[ cardIndex ].program );
+    }
 
-    } else {
+    if ( type === 'workout' ) {
       this.props.editWorkout( this.props.workouts[ cardIndex ] );
-      weeks = calculateWeeksForDropdown( this.props.workouts[ cardIndex ] ).workout;
+      weeks = calculateWeeksForDropdown( 1 );
     }
 
     this.props.navigation.navigate( 'Build', { weeks } );
@@ -103,13 +103,13 @@ class BuildDashboard extends Component {
         data={ this.props.workouts }
         renderItem={ ( { item, index } ) => (
           <SavedWorkoutCard
-            title={ item.name }
+            title={ item.workout.day }
             description={ `${ item.workout.exercises.length } Exercises` }
             createdDate={ `${ item.created.formatted }` }
             onClick={ () => this.selectCard( index, 'workout' ) }
           />
         ) }
-        keyExtractor={ item => item.name }
+        keyExtractor={ item => item.workout.day }
       />
       <View
         style={ {
@@ -126,7 +126,6 @@ class BuildDashboard extends Component {
   );
 
   render() {
-    console.log( 'Dashboard state: ', this.state );
     if ( this.props.isLoading ) {
       return <Loading />;
     }
@@ -156,6 +155,7 @@ BuildDashboard.propTypes = {
   editProgram: PropTypes.func,
   addProgram: PropTypes.func,
   addWorkout: PropTypes.func,
+  editWorkout: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -168,7 +168,7 @@ const mapDispatchToProps = dispatch => ( {
   addProgram: () => dispatch( addProgramAction() ),
   editProgram: program => dispatch( editProgramAction( program ) ),
   addWorkout: () => dispatch( addWorkoutAction() ),
-  editWorkout: workout => dispatch( editWorkout( workout ) ),
+  editWorkout: workout => dispatch( editWorkoutAction( workout ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( BuildDashboard );

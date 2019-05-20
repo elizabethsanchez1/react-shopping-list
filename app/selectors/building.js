@@ -76,13 +76,47 @@ export const getBuildObjectName = createSelector(
   },
 );
 
+export const getBuildEditFlag = createSelector(
+  state => getBuilding( state ),
+  buildObject => !!buildObject.editing,
+)
+
+export const getBuildDocumentId = createSelector(
+  state => getBuilding( state ),
+  buildObject => buildObject.documentId,
+);
+
 export const getBuildSaveInfo = createSelector(
   state => getUid( state ),
   state => getSelectedBuildObject( state ),
   state => getBuildObjectName( state ),
   state => getType( state ),
-  ( uid, buildObject, name, type ) => {
-    return { userId: uid, [ type ]: buildObject, name, type };
+  state => getBuildEditFlag( state ),
+  state => getBuildDocumentId( state ),
+  ( uid, buildObject, name, type, editing, documentId ) => {
+
+    if ( type === 'program' ) {
+      return {
+        userId: uid,
+        [ type ]: buildObject,
+        name,
+        type,
+        editing,
+        documentId,
+      };
+    }
+
+    if ( type === 'workout' ) {
+      return {
+        userId: uid,
+        [ type ]: buildObject,
+        type,
+        editing,
+        documentId,
+      };
+    }
+
+    return null;
   }
 )
 

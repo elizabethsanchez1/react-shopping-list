@@ -6,7 +6,7 @@ import {
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
   createBuildObjectAction,
-  editProgramAction,
+  editProgramAction, editWorkoutAction,
   openDeleteScreenAction,
   storeBuildObjectConfigAction,
   updateDayTitleAction,
@@ -24,28 +24,116 @@ describe( 'Building reducer logic', () => {
     expect( building( {}, {} ) ).toEqual( {} );
   } );
 
-  it( 'should handle EDIT_PROGRAM', () => {
-    const program = {
-      week1: [ {}, {}, {}, {} ],
-      week2: [ {}, {}, {}, {} ],
-      week3: [ {}, {}, {}, {} ],
-      week4: [ {}, {}, {}, {} ],
-      week5: [ {}, {}, {}, {} ],
+  it( 'editProgramAction() should handle populating state with the right information for the program they selected in response to BUILD_EDIT_PROGRAM event', () => {
+    const data = {
+      'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+      'program': {
+        week1: [
+          {
+            'completed': false,
+            'day': 'Day 1',
+            'exercises': [
+              {
+                'weight': '50',
+                'compound': false,
+                'reps': '10',
+                'sets': '3',
+                'rpe': '',
+                'isolation': true,
+                'type': 'standard',
+                'name': 'Barbell Curl',
+                'muscleGroup': 'Biceps',
+              },
+            ],
+          },
+        ],
+        week2: [
+          {
+            'completed': false,
+            'day': 'Chest Day',
+            'exercises': [
+              {
+                'weight': '225',
+                'compound': true,
+                'reps': '10',
+                'sets': '3',
+                'rpe': '',
+                'isolation': false,
+                'type': 'standard',
+                'name': 'Barbell Bench Press',
+                'muscleGroup': 'Chest',
+              },
+            ],
+          },
+        ],
+      },
+      'created': {
+        'seconds': 1558385745,
+        'nanoseconds': 81000000,
+        'formatted': '05/20/2019',
+      },
+      'attempts': [],
+      'type': 'program',
+      'activeAttempt': '',
+      'name': 'Test Program',
+      'documentId': 'NFvDhOBCEKNj1gDcYxzF',
     };
     const previousState = {};
-    const action = editProgramAction( program );
+    const action = editProgramAction( data );
+
     const expectedState = {
       type: 'program',
-      program: JSON.parse( JSON.stringify( program ) ),
+      program: JSON.parse( JSON.stringify( action.payload.program ) ),
       editing: true,
-      weeks: Object.keys( program ).length,
-      daysPerWeek: action.payload.week1.length,
+      weeks: Object.keys( action.payload.program ).length,
+      daysPerWeek: action.payload.program.week1.length,
       name: action.payload.name,
       selectedWeek: 'week1',
       selectedDay: 0,
+      documentId: 'NFvDhOBCEKNj1gDcYxzF',
+    };
+    expect( building( previousState, action ) ).toEqual( expectedState );
+
+  } );
+
+  it( 'editWorkoutAction() should handle populating state with the right info for the workout selected in response to BUILD_EDIT_WORKOUT', () => {
+    const data = {
+      'created': {
+        'seconds': 1558384945,
+        'nanoseconds': 604000000,
+        'formatted': '05/20/2019',
+      },
+      'workout': {
+        'day': 'Test Day',
+        'exercises': [
+          {
+            'weight': '100',
+            'sets': '3',
+            'reps': '10',
+            'compound': false,
+            'isolation': true,
+            'rpe': '',
+            'type': 'standard',
+            'muscleGroup': 'Abs',
+            'name': 'Hanging Leg Raises',
+          },
+        ],
+        'completed': false,
+      },
+      'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+      'type': 'workout',
+      'name': 'Chest Day',
+      'documentId': 'ZJIxNDaCV75eIXq3DQPI',
+    };
+    const action = editWorkoutAction( data );
+    const expectedState = {
+      type: 'workout',
+      editing: true,
+      workout: action.payload.workout,
+      documentId: 'ZJIxNDaCV75eIXq3DQPI',
     };
 
-    expect( building( previousState, action ) ).toEqual( expectedState );
+    expect( building( {}, action ) ).toEqual( expectedState );
 
   } );
 

@@ -5,13 +5,13 @@ import {
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
   createBuildObjectAction,
-  editProgramAction,
+  editProgramAction, editWorkoutAction,
   openDeleteScreenAction,
   storeBuildObjectConfigAction,
   updateDayTitleAction
 } from '../building';
 import {
-  EDIT_PROGRAM,
+  BUILD_EDIT_PROGRAM,
   ADD_PROGRAM,
   STORE_BUILD_OBJECT_CONFIG,
   CREATE_BUILD_OBJECT,
@@ -21,16 +21,16 @@ import {
   BUILD_DELETE_EXERCISE,
   COPY_BUILD_OBJECT,
   BUILD_CHANGE_WEEK,
-  BUILD_SAVE_WORKOUT, ADD_WORKOUT
+  BUILD_SAVE_WORKOUT, ADD_WORKOUT, BUILD_EDIT_WORKOUT
 } from '../../constants/building';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../../constants/exercises';
 
 
 describe( 'Building action creators', () => {
 
-  it( 'editProgramAction() should dispatch EDIT_PROGRAM event', () => {
+  it( 'editProgramAction() should dispatch BUILD_EDIT_PROGRAM event', () => {
     const expectedAction = {
-      type: EDIT_PROGRAM,
+      type: BUILD_EDIT_PROGRAM,
       payload: 1,
     };
 
@@ -144,6 +144,15 @@ describe( 'Building action creators', () => {
     };
 
     expect( addWorkoutAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'editWorkoutAction() should dispatch BUILD_EDIT_WORKOUT event', () => {
+    const expectedAction = {
+      type: BUILD_EDIT_WORKOUT,
+      payload: 1,
+    };
+
+    expect( editWorkoutAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );
