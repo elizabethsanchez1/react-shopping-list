@@ -7,7 +7,11 @@ import {
   getBuildingDayTitle,
   haveCustomSetsBeenAdded,
   getExercisesBySelectedDay,
-  getBuildingSelectedDay, getBuildingSelectedExercise, getBuildingSelectedExerciseObject, computeDropdownWeeks,
+  getBuildingSelectedDay,
+  getBuildingSelectedExercise,
+  getBuildingSelectedExerciseObject,
+  computeDropdownWeeks,
+  getBuildObjectName, getBuildSaveInfo,
 } from '../building';
 
 const state = {
@@ -65,6 +69,10 @@ const state = {
     selectedWeek: 'week1',
     selectedDay: 0,
     selectedExercise: 0,
+    name: 'testing',
+  },
+  user: {
+    uid: 15,
   },
 };
 
@@ -184,6 +192,22 @@ describe( 'Building selectors', () => {
     ];
     expect( computeDropdownWeeks( data ) ).toEqual( expectedValue );
 
+  } );
+
+  it( 'getBuildObjectName() should return the name of the program/workout', () => {
+    expect( getBuildObjectName( state ) ).toEqual( state.building.name );
+  } );
+
+  it( 'getBuildSaveInfo() should return the uid, type of program being build, the project object and the name given to the program/workout all in one selector call', () => {
+    const { type } = state.building;
+    const expectedValues = {
+      userId: state.user.uid,
+      name: state.building.name,
+      type,
+      [ type ] : state.building[ type ],
+    };
+
+    expect( getBuildSaveInfo( state ) ).toEqual( expectedValues );
   } );
 
 } );

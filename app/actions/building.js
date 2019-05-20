@@ -21,7 +21,7 @@ import {
   UPDATE_DAY_TITLE,
   ADD_PROGRAM,
   EDIT_PROGRAM,
-  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK
+  BUILD_EDIT_FIELD, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK, BUILD_SAVE_WORKOUT
 } from '../constants/building';
 import firebaseService from '../utilities/firebase';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../constants/exercises';
@@ -229,6 +229,11 @@ export const buildDeleteExerciseAction = data => ( {
 
 export const buildEditFieldAction = data => ( {
   type: BUILD_EDIT_FIELD,
+  payload: data,
+} );
+
+export const buildSaveWorkoutAction = data => ( {
+  type: BUILD_SAVE_WORKOUT,
   payload: data,
 } );
 

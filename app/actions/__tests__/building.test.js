@@ -1,7 +1,7 @@
 import {
   addProgramAction, buildChangeWeekAction,
   buildDeleteExerciseAction,
-  buildEditFieldAction,
+  buildEditFieldAction, buildSaveWorkoutAction,
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
   createProgramAction,
@@ -15,7 +15,13 @@ import {
   ADD_PROGRAM,
   STORE_PROGRAM_CONFIG,
   CREATE_PROGRAM,
-  UPDATE_DAY_TITLE, BUILD_EDIT_FIELD, OPEN_DELETE_SCREEN, BUILD_DELETE_EXERCISE, COPY_BUILD_OBJECT, BUILD_CHANGE_WEEK
+  UPDATE_DAY_TITLE,
+  BUILD_EDIT_FIELD,
+  OPEN_DELETE_SCREEN,
+  BUILD_DELETE_EXERCISE,
+  COPY_BUILD_OBJECT,
+  BUILD_CHANGE_WEEK,
+  BUILD_SAVE_WORKOUT
 } from '../../constants/building';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../../constants/exercises';
 
@@ -120,6 +126,15 @@ describe( 'Building action creators', () => {
     };
 
     expect( buildChangeWeekAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'buildSaveWorkoutAction() should dispatch BUILD_SAVE_WORKOUT event', () => {
+    const expectedAction = {
+      type: BUILD_SAVE_WORKOUT,
+      payload: 1,
+    };
+
+    expect( buildSaveWorkoutAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

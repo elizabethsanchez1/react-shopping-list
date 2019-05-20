@@ -104,6 +104,12 @@ exports[`Tabs Component Tabs base visually looks the same 1`] = `
           <View>
             <View
               accessibilityLabel="FIRST TAB"
+              accessibilityRole="button"
+              accessibilityStates={
+                Array [
+                  "selected",
+                ]
+              }
               accessible={true}
               isTVSelectable={true}
               onResponderGrant={[Function]}
@@ -156,6 +162,8 @@ exports[`Tabs Component Tabs base visually looks the same 1`] = `
             </View>
             <View
               accessibilityLabel="SECOND TAB"
+              accessibilityRole="button"
+              accessibilityStates={Array []}
               accessible={true}
               isTVSelectable={true}
               onResponderGrant={[Function]}

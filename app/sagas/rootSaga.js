@@ -3,6 +3,7 @@ import { watchLoginRequest, watchAuthchanges, watchRegisterRequest, watchLogOut 
 import { watchProfileUpdate } from './profile';
 import { watchAddCustomExercise, watchOpenExerciseList } from './exercises';
 import config from '../config/dev.config';
+import { watchBuildSaveWorkoutRequest } from './building';
 
 
 export default function* rootSaga() {
@@ -10,6 +11,7 @@ export default function* rootSaga() {
     yield all( [
       fork( watchAuthchanges ),
       fork( watchAddCustomExercise ),
+      fork( watchBuildSaveWorkoutRequest ),
       fork( watchLoginRequest ),
       fork( watchLogOut ),
       fork( watchOpenExerciseList ),

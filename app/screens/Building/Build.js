@@ -35,7 +35,7 @@ import DayHeader from '../../containers/Building/DayHeader';
 import BuildTable from '../../containers/Building/BuildTable';
 import DoubleDropdown from '../../containers/Building/DoubleDropdown';
 import CardFooter from '../../containers/Building/CardFooter';
-import { buildChangeWeekAction } from '../../actions/building';
+import { buildChangeWeekAction, buildSaveWorkoutAction } from '../../actions/building';
 
 const styles = StyleSheet.create( {
   titleStyle: {
@@ -82,9 +82,6 @@ const styles = StyleSheet.create( {
 class Build extends Component {
   static navigationOptions = ( { navigation } ) => {
     const params = navigation.state.params || {};
-
-    console.log( 'Navigation param: ', navigation );
-
     return {
       headerTitle: (
         ( params.weeks.length > 1 )
@@ -162,10 +159,7 @@ class Build extends Component {
     }
   }
 
-  saveData = () => {
-    this.setState( { loading: true } );
-    this.props.saveWorkout( this.props.uid, this.props.type );
-  };
+  saveData = () => this.props.saveWorkout();
 
   changeWeek = week => this.props.changeWeek( week );
 
@@ -226,6 +220,7 @@ Build.propTypes = {
   buildObject: PropTypes.object,
   selectedWeek: PropTypes.string,
   changeWeek: PropTypes.func,
+  saveWorkout: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -250,7 +245,7 @@ const mapDispatchToProps = dispatch => ( {
     exercises: bindActionCreators( exercises, dispatch ),
     workoutApi: bindActionCreators( workoutApi, dispatch ),
   },
-  saveWorkout: ( uid, type ) => dispatch( saveWorkout( uid, type ) ),
+  saveWorkout: () => dispatch( buildSaveWorkoutAction() ),
   updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
   changeWeek: data => dispatch( buildChangeWeekAction( data ) ),
 } );

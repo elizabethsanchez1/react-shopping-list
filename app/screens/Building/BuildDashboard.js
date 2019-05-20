@@ -32,7 +32,15 @@ class BuildDashboard extends Component {
 
   constructor( props ) {
     super( props );
-    this.state = {};
+    this.state = {
+      refreshProgram: false,
+    };
+  }
+
+  componentDidUpdate( prevProps ) {
+    if ( prevProps.programs.length !== this.props.programs.length ) {
+      this.setState( { refreshProgram: !this.state.refreshProgram } );
+    }
   }
 
   selectCard = ( cardIndex, type ) => {
@@ -53,10 +61,10 @@ class BuildDashboard extends Component {
   createWorkout = type => {
     if ( type === 'program' ) {
       this.props.addProgram();
-    } else {
+    }
+    if ( type === 'workout' ) {
       this.props.addWorkout();
     }
-
     this.props.navigation.navigate( 'BuildQuestions' );
   };
 
@@ -68,7 +76,7 @@ class BuildDashboard extends Component {
           <SavedWorkoutCard
             title={ item.name }
             description={ `${ Object.keys( item.program ).length } weeks` }
-            createdDate={ `${ moment( item.created ).format( 'L' ) }` }
+            createdDate={ `${ item.created.formatted }` }
             onClick={ () => this.selectCard( index, 'program' ) }
           />
         ) }
@@ -83,7 +91,7 @@ class BuildDashboard extends Component {
       >
         <FloatingButton
           onClick={ () => {
-            this.props.addProgram()
+            this.props.addProgram();
             this.props.navigation.navigate( 'BuildQuestions' );
           } }
         />
@@ -99,7 +107,7 @@ class BuildDashboard extends Component {
           <SavedWorkoutCard
             title={ item.name }
             description={ `${ item.workout.week1[ 0 ].exercises.length } Exercises` }
-            createdDate={ `${ item.created.date }` }
+            createdDate={ `${ item.created.formatted }` }
             onClick={ () => this.selectCard( index, 'workout' ) }
           />
         ) }
@@ -119,8 +127,8 @@ class BuildDashboard extends Component {
     </View>
   );
 
-
   render() {
+    console.log( 'Dashboard state: ', this.state );
     if ( this.props.isLoading ) {
       return <Loading />;
     }

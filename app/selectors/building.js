@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { getUid } from './user';
 
 export const calculateWeeksForDropdown = weeks => {
 
@@ -47,6 +48,21 @@ export const getBuildingDayTitle = ( state, dayIndex ) => {
   const selectedWeek = getBuildingSelectedWeek( state );
   return buildObject[ selectedWeek ][ dayIndex ].day;
 };
+
+export const getBuildObjectName = createSelector(
+  state => getBuilding( state ),
+  buildObject => buildObject.name,
+);
+
+export const getBuildSaveInfo = createSelector(
+  state => getUid( state ),
+  state => getSelectedBuildObject( state ),
+  state => getBuildObjectName( state ),
+  state => getType( state ),
+  ( uid, buildObject, name, type ) => {
+    return { userId: uid, [ type ]: buildObject, name, type };
+  }
+)
 
 export const getExercisesBySelectedDay = createSelector(
   state => getSelectedBuildObject( state ),
