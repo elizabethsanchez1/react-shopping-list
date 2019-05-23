@@ -15,7 +15,7 @@ import {
   QUICK_TRACK,
   MODIFY_SETS,
   STORE_ADD_EXERCISE_INDEX,
-  ADD_EXERCISES, TRACK_SELECTED_PROGRAM, TRACK_SELECTED_WORKOUT,
+  ADD_EXERCISES, TRACK_SELECTED_PROGRAM, TRACK_SELECTED_WORKOUT, TRACK_SELECTED_PROGRAM_DAY,
 } from '../constants/track';
 import firebaseService from '../utilities/firebase';
 import {  Alert } from 'react-native';
@@ -143,6 +143,11 @@ export function updateProgramAttempts(attemptInfo) {
 }
 
 // V2
+export const trackSelectedDayAction = data => ( {
+  type: TRACK_SELECTED_PROGRAM_DAY,
+  payload: data,
+} );
+
 export const trackSelectedProgramAction = data => ( {
   type: TRACK_SELECTED_PROGRAM,
   payload: data,

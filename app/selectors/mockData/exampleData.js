@@ -2085,6 +2085,46 @@ export const program = {
   'documentId': 'r1YwPJm87oVHFVdPfk9G',
 };
 
+export const workout = {
+  'editing': false,
+  'documentId': 'LGb5866MpxZne4fSz9Hc',
+  'workout': {
+    'day': 'Arm Day',
+    'exercises': [
+      {
+        'weight': '50',
+        'sets': '3',
+        'reps': '10',
+        'compound': false,
+        'isolation': true,
+        'rpe': '',
+        'type': 'standard',
+        'muscleGroup': 'Biceps',
+        'name': 'Barbell Curl',
+      },
+      {
+        'weight': '25',
+        'sets': '3',
+        'reps': '12',
+        'compound': false,
+        'isolation': true,
+        'rpe': '',
+        'type': 'standard',
+        'muscleGroup': 'Biceps',
+        'name': 'Dumbbell Hammer Curl',
+      },
+    ],
+    'completed': false,
+  },
+  'created': {
+    'seconds': 1558615180,
+    'nanoseconds': 562000000,
+    'formatted': '05/23/2019',
+  },
+  'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+  'type': 'workout',
+};
+
 export const completedExercises = [
   {
     'week': 'week7',

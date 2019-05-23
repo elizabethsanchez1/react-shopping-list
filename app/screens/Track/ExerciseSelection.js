@@ -9,6 +9,7 @@ import {
   getTrackProgramWeeks,
   getDaysForEachWeek,
 } from '../../selectors/track';
+import { trackSelectedDayAction } from '../../actions/track';
 
 const styles = StyleSheet.create( {
   list: {
@@ -81,7 +82,11 @@ class ExerciseSelection extends Component {
     }
     else {
       console.log( 'route user to tracker' );
-      // this.props.navigation.navigate( 'Tracker' );
+      this.props.selectDay( {
+        week: this.state.selectedWeek,
+        dayIndex: index,
+      } );
+      this.props.navigation.navigate( 'Tracker' );
     }
 
   };
@@ -119,6 +124,7 @@ ExerciseSelection.propTypes = {
   navigation: PropTypes.object,
   programWeeks: PropTypes.array,
   daysByWeek: PropTypes.object,
+  selectDay: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
@@ -128,6 +134,7 @@ const mapStateToProps = state => ( {
 
 const mapDispatchToProps = dispatch => ( {
   // actions: bindActionCreators( actions, dispatch ),
+  selectDay: data => dispatch( trackSelectedDayAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( ExerciseSelection );

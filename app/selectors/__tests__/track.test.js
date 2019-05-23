@@ -8,10 +8,10 @@ import {
   getTrackProgramWeeks,
   getStartedTrackingByProgram,
   markCompletedFlagsByDate,
-  getDaysForEachWeek,
+  getDaysForEachWeek, getTrackSets, getTrackSelectedInfo, getTrackType, getTrackDay, getTrackExercisesByDay,
 } from '../track';
 
-import { program, completedExercises, savedWorkouts } from '../mockData/exampleData';
+import { program, completedExercises, savedWorkouts, workout } from '../mockData/exampleData';
 
 // const savedWorkouts = {
 //   programs: [
@@ -89,6 +89,43 @@ const state = {
   track: {
     type: 'program',
     trackObject: program,
+    selected: {
+      week: 'week1',
+      day: 0,
+    },
+    sets: [
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+        { set: 4, weight: '', reps: '', previous: '' },
+      ],
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+      ],
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+      ],
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+      ],
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+      ],
+      [
+        { set: 1, weight: '', reps: '', previous: '' },
+        { set: 2, weight: '', reps: '', previous: '' },
+        { set: 3, weight: '', reps: '', previous: '' },
+      ],
+    ],
   },
   completedExercises,
   savedWorkouts,
@@ -97,7 +134,7 @@ const state = {
 const workoutState = {
   track: {
     type: 'workout',
-    trackObject: {},
+    trackObject: workout,
   },
   completedExercises,
   savedWorkouts,
@@ -570,6 +607,40 @@ describe( 'Track selectors', () => {
       ],
     };
     expect( getDaysForEachWeek( state ) ).toEqual( expectedValues );
+  } );
+
+  it( 'getTrackSets() should return the trackable sets for both programs and workout', () => {
+    const expectedValues = state.track.sets;
+
+    expect( getTrackSets( state ) ).toEqual( expectedValues );
+  } );
+
+  it( 'getTrackType() should return whether we are tracking a program or workout', () => {
+    const expectedValues = state.track.type;
+    expect( getTrackType( state ) ).toEqual( expectedValues );
+  } );
+
+  it( 'getTrackSelectedInfo() should return the selected information', () => {
+    const expectedValue = state.track.selected;
+    expect( getTrackSelectedInfo( state ) ).toEqual( expectedValue );
+  } );
+
+  it( 'getTrackName() should return the name of the day the user is currently tracking', () => {
+    const expectedValue = 'Upper Body 1';
+    expect( getTrackDay( state ) ).toEqual( expectedValue );
+
+    const expectedValue1 = 'Arm Day';
+    expect( getTrackDay( workoutState ) ).toEqual( expectedValue1 );
+  } );
+
+  it( 'getTrackExercisesByDay() should return an array of exercises for the selected day for either a program or workout', () => {
+    const { week, day } = state.track.selected;
+    const expectedValue = state.track.trackObject.program[ week ][ day ].exercises;
+    expect( getTrackExercisesByDay( state ) ).toEqual( expectedValue );
+
+
+    const expectedValue1 = workoutState.track.trackObject.workout.exercises;
+    expect( getTrackExercisesByDay( workoutState ) ).toEqual( expectedValue1 );
   } );
 
 } );

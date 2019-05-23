@@ -4,6 +4,8 @@ import { TRACK_SELECTED_PROGRAM } from '../../constants/track';
 import { trackSelectedProgramAction } from '../../actions/track';
 import { TRACK_SELECTED_WORKOUT } from '../../constants/track';
 import { trackSelectedWorkoutAction } from '../../actions/track';
+import { TRACK_SELECTED_PROGRAM_DAY } from '../../constants/track';
+import { trackSelectedDayAction } from '../../actions/track';
 
 
 describe( 'Track action creators', () => {
@@ -24,6 +26,15 @@ describe( 'Track action creators', () => {
     };
 
     expect( trackSelectedWorkoutAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'trackSelectedDayAction() should dispatch TRACK_SELECTED_PROGRAM_DAY', () => {
+    const expectedAction = {
+      type: TRACK_SELECTED_PROGRAM_DAY,
+      payload: 1,
+    };
+
+    expect( trackSelectedDayAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

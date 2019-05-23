@@ -119,8 +119,6 @@ export const getTrackedExercises = state => state.track.trackedExercises;
 
 export const getTrackerSetupLoadingState = state => state.track.trackerSetupLoading;
 
-export const getTrackType = state => state.track.type;
-
 
 // V2 UNIT TESTED SELECTORS
 
@@ -159,11 +157,119 @@ export const getCompletedPercentages = createSelector(
   },
 );
 
+export const getDaysForEachWeek = state => {
+  const attempt = getActiveAttempt( state );
+  const completedExercises = getCompletedExercisesByAttempt( state, attempt );
+  const trackObject = getTrackObject( state );
+  const { program } = trackObject;
+
+  // ordered array of all weeks in program
+  const weeks = Object.keys( program ).sort( ( a, b ) => {
+    return parseInt( a.substring( 4 ), 10 ) - parseInt( b.substring( 4 ), 10 );
+  } );
+
+  // completed exercises keyed by week object
+  const completedDaysByWeeks = {};
+  weeks.forEach( week => { completedDaysByWeeks[ week ] = {} } );
+
+  completedExercises.forEach( exercise => {
+    const { week, dayName } = exercise;
+
+    if ( completedDaysByWeeks[ week ][ dayName ] ) {
+      completedDaysByWeeks[ week ][ dayName ].push( exercise );
+    }
+    else {
+      completedDaysByWeeks[ week ][ dayName ] = [ exercise ];
+    }
+  } );
+
+  // program planned days keyed by week object
+  const daysByWeek = {};
+  weeks.forEach( week => {
+    daysByWeek[ week ] = program[ week ].map( day => {
+      const selectedDay = completedDaysByWeeks[ week ][ day.day ];
+      const completed = !!( selectedDay && selectedDay.length > 0 );
+
+      return {
+        label: ( completed ) ? `${ day.day }  Completed` : day.day,
+        completed,
+      };
+    } );
+  } );
+
+  return daysByWeek;
+};
+
 export const getTrack = state => state.track;
+
+export const getTrackDay = createSelector(
+  state => getTrackSelectedInfo( state ),
+  state => getTrackObject( state ),
+  state => getTrackType( state ),
+  ( selected, trackObject, type ) => {
+
+    if ( type === 'program' ) {
+      const { week, day } = selected;
+      return trackObject.program[ week ][ day ].day
+    }
+
+    if ( type === 'workout' ) {
+      return trackObject.workout.day;
+    }
+
+    return '';
+  }
+);
+
+export const getTrackExercisesByDay = createSelector(
+  state => getTrackObject( state ),
+  state => getTrackType( state ),
+  state => getTrackSelectedInfo( state ),
+  ( trackObject, type, selected ) => {
+    if ( type === 'program' ) {
+      const { week, day } = selected;
+
+      return trackObject.program[ week ][ day ].exercises;
+    }
+
+    if ( type === 'workout' ) {
+      return trackObject.workout.exercises;
+    }
+
+    return [];
+  }
+);
 
 export const getTrackObject = createSelector(
   state => getTrack( state ),
   reducer => reducer.trackObject,
+);
+
+export const getTrackProgramWeeks = createSelector(
+  state => markCompletedFlagsByDate( state ),
+  programWeeks => programWeeks,
+);
+
+export const getTrackSelectedInfo = createSelector(
+  state => getTrack( state ),
+  reducer => reducer.selected,
+);
+
+export const getTrackSets = createSelector(
+  state => getTrack( state ),
+  reducer => reducer.sets,
+);
+
+export const getTrackType = createSelector(
+  state => getTrack( state ),
+  reducer => reducer.type,
+);
+
+// TODO FIX THIS - TECHNICAL DEBT
+// Currently not accounting for multiple attempts
+export const getStartedTrackingByProgram = createSelector(
+  state => getTrackObject( state ),
+  trackObject => trackObject.attempts[ 0 ].startedTracking.seconds,
 );
 
 export const getWeeksFromProgram = trackObject => {
@@ -243,58 +349,3 @@ export const markCompletedFlagsByDate = state => {
     };
   } );
 };
-
-export const getTrackProgramWeeks = createSelector(
-  state => markCompletedFlagsByDate( state ),
-  programWeeks => programWeeks,
-);
-
-export const getDaysForEachWeek = state => {
-  const attempt = getActiveAttempt( state );
-  const completedExercises = getCompletedExercisesByAttempt( state, attempt );
-  const trackObject = getTrackObject( state );
-  const { program } = trackObject;
-
-  // ordered array of all weeks in program
-  const weeks = Object.keys( program ).sort( ( a, b ) => {
-    return parseInt( a.substring( 4 ), 10 ) - parseInt( b.substring( 4 ), 10 );
-  } );
-
-  // completed exercises keyed by week object
-  const completedDaysByWeeks = {};
-  weeks.forEach( week => { completedDaysByWeeks[ week ] = {} } );
-
-  completedExercises.forEach( exercise => {
-    const { week, dayName } = exercise;
-
-    if ( completedDaysByWeeks[ week ][ dayName ] ) {
-      completedDaysByWeeks[ week ][ dayName ].push( exercise );
-    }
-    else {
-      completedDaysByWeeks[ week ][ dayName ] = [ exercise ];
-    }
-  } );
-
-  // program planned days keyed by week object
-  const daysByWeek = {};
-  weeks.forEach( week => {
-    daysByWeek[ week ] = program[ week ].map( day => {
-      const selectedDay = completedDaysByWeeks[ week ][ day.day ];
-      const completed = !!( selectedDay && selectedDay.length > 0 );
-
-      return {
-        label: ( completed ) ? `${ day.day }  Completed` : day.day,
-        completed,
-      };
-    } );
-  } );
-
-  return daysByWeek;
-};
-
-// TODO FIX THIS - TECHNICAL DEBT
-// Currently not accounting for multiple attempts
-export const getStartedTrackingByProgram = createSelector(
-  state => getTrackObject( state ),
-  trackObject => trackObject.attempts[ 0 ].startedTracking.seconds,
-);

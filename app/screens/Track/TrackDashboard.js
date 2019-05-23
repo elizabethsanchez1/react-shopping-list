@@ -39,19 +39,6 @@ class TrackDashboard extends Component {
     };
   }
 
-  // componentDidUpdate( prevProps ) {
-  //   const { programPercentages } = this.props;
-  //
-  //   Object.keys( programPercentages ).forEach( program => {
-  //     if ( programPercentages[ program ] !== prevProps.programPercentages[ program ] ) {
-  //       this.setState( {
-  //         updateProgramPercentages: !this.state.updateProgramPercentages,
-  //       } );
-  //     }
-  //   } );
-  //
-  // }
-
   selectTrack = ( index, type ) => {
     if ( type === 'program' ) {
       this.props.selectedProgram( this.props.programs[ index ] );
@@ -60,12 +47,12 @@ class TrackDashboard extends Component {
 
     if ( type === 'workout' ) {
       this.props.selectedWorkout( this.props.workouts[ index ] );
-      // this.props.navigation.navigate( 'Tracker' );
+      this.props.navigation.navigate( 'Tracker' );
     }
   };
   
   selectOptions = ( index, type ) => {
-    this.props.navigation.navigate( 'TrackSelection' );
+    this.props.navigation.navigate( 'ProgramSettings' );
   };
 
   programsView = () => {
@@ -154,6 +141,7 @@ const mapStateToProps = state => ( {
 const mapDispatchToProps = dispatch => ( {
   selectedProgram: program => dispatch( trackSelectedProgramAction( program ) ),
   selectedWorkout: workout => dispatch( trackSelectedWorkoutAction( workout ) ),
+
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( TrackDashboard );

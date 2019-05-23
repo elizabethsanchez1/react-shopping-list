@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -21,6 +21,20 @@ const styles = StyleSheet.create( {
 } );
 
 class ProgramSettings extends Component {
+  static navigationOptions = ( { navigation } ) => {
+    return {
+      headerRight: (
+        <Button
+          buttonStyle={ { backgroundColor: 'transparent' } }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ { fontSize: 18 } }
+          title='Save'
+          onPress={ () => navigation.state.params.beginTracking() }
+        />
+      ),
+    };
+  };
+
   constructor( props ) {
     super( props );
     this.state = {
@@ -34,20 +48,6 @@ class ProgramSettings extends Component {
     this.exercises = React.createRef();
   }
 
-  static navigationOptions = ( { navigation } ) => {
-    return {
-      headerRight: (
-        <Button
-          buttonStyle={ { backgroundColor: 'transparent' } }
-          color={ theme.ACTIVE_TAB_COLOR }
-          textStyle={ { fontSize: 18 } }
-          title='Continue'
-          onPress={ () => navigation.state.params.beginTracking() }
-        />
-      ),
-    };
-  };
-
   componentDidMount() {
     this.props.navigation.setParams( {
       beginTracking: this.beginTracking,
@@ -55,12 +55,12 @@ class ProgramSettings extends Component {
   }
 
   beginTracking = () => {
-    if ( this.state.continueProgram ) {
-      this.props.actions.continueProgram();
-    } else {
-      this.props.actions.resetProgram();
-    }
-    this.props.navigation.navigate( 'ExerciseSelection' );
+    // if ( this.state.continueProgram ) {
+    //   this.props.actions.continueProgram();
+    // } else {
+    //   this.props.actions.resetProgram();
+    // }
+    // this.props.navigation.navigate( 'ExerciseSelection' );
   };
 
   storeAnswer = ( question, answer ) => {
