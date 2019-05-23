@@ -1,25 +1,4 @@
 
-
-// export const OPEN_EXERCISE_LIST = 'OPEN_EXERCISE_LIST';
-// export const ADD_EXERCISES = 'ADD_EXERCISES';
-// export const RESET_DATA = 'RESET_DATA';
-// export const UPDATE_FIELD = 'UPDATE_FIELD';
-// export const SORT_EXERCISES = 'SORT_EXERCISES';
-// export const SAVE_EXERCISE_ORDER = 'SAVE_EXERCISE_ORDER';
-// export const DELETE_EXERCISE = 'DELETE_EXERCISE';
-// export const OPEN_CUSTOM_SET = 'OPEN_CUSTOM_SET';
-// export const SAVE_CUSTOM_SET = 'SAVE_CUSTOM_SET';
-//
-//
-// export const SAVE_WORKOUT = 'SAVE_WORKOUT';
-// export const SAVE_PROGRAM = 'SAVE_PROGRAM';
-// export const SAVE_SUCCESSFUL = 'SAVE_SUCCESSFUL';
-// export const SAVE_FAILED = 'SAVE_FAILED';
-// export const HIDE_ALERT = 'HIDE_ALERT';
-
-
-/* add from refactor */
-
 export const ADD_PROGRAM = 'ADD_PROGRAM';
 
 export const ADD_WORKOUT = 'ADD_WORKOUT';
@@ -38,7 +17,6 @@ export const BUILD_SAVE_WORKOUT = 'BUILD_SAVE_WORKOUT';
 
 export const COPY_BUILD_OBJECT = 'COPY_BUILD_OBJECT';
 
-
 export const CREATE_BUILD_OBJECT = 'CREATE_BUILD_OBJECT';
 
 export const OPEN_DELETE_SCREEN = 'OPEN_DELETE_SCREEN';
@@ -46,7 +24,3 @@ export const OPEN_DELETE_SCREEN = 'OPEN_DELETE_SCREEN';
 export const STORE_BUILD_OBJECT_CONFIG = 'STORE_BUILD_OBJECT_CONFIG';
 
 export const UPDATE_DAY_TITLE = 'UPDATE_DAY_TITLE';
-
-
-
-

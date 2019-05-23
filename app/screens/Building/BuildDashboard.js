@@ -126,6 +126,7 @@ class BuildDashboard extends Component {
   );
 
   render() {
+    console.log( 'Build Dashboard props', this.props );
     if ( this.props.isLoading ) {
       return <Loading />;
     }

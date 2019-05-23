@@ -4,6 +4,7 @@
 export const AUTHENTICATION = 'AUTHENTICATION';
 export const PROFILE = 'PROFILE';
 export const BUILDING = 'BUILDING';
+export const TRACK = 'TRACK';
 
 
 // DATA TYPES

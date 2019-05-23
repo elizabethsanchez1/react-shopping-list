@@ -10,9 +10,10 @@ describe( 'Exercises reducer logic', () => {
   it( 'should handle RECEIVED_EXERCISES event', () => {
     const savedExercises = [ 1, 2 ];
     const action = recievedCompletedExercisesAction( savedExercises );
+    const expectedState = [ 1, 2 ];
 
     expect( exercises( {}, action ) )
-      .toEqual( { exercises: savedExercises } );
+      .toEqual( expectedState );
   } );
 
 } );

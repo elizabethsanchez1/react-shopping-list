@@ -42,8 +42,6 @@ class Tabs extends Component {
       index: 0,
       routes: props.routes,
     };
-
-    console.log( 'props passed in: ', props );
   }
 
   renderTabBar = props => (

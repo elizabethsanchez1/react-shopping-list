@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import authentication from './authentication';
 import profile from './profile';
-import track from './track';
+import trackOLD from './track-OLD';
 import workoutsApi from './workoutsApi';
 import workout from './workout';
 import program from './program';
@@ -18,6 +18,7 @@ import savedWorkouts from './savedWorkouts';
 import exerciseList from './exerciseList';
 import building from './building';
 import exercisesNEW from './exercises-NEW';
+import track from './track';
 
 const appReducer = combineReducers( {
   authentication,
@@ -29,6 +30,7 @@ const appReducer = combineReducers( {
   exercisesNEW,
   profile,
   track,
+  trackOLD,
   workoutsApi,
   workout,
   program,

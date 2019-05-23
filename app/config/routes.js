@@ -1,14 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Button } from 'react-native-elements';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
 import Build from '../screens/Building/Build';
 import BuildDashboard from '../screens/Building/BuildDashboard';
 import BuildQuestions from '../screens/Building/BuildQuestions';
-import MuscleGroupList from '../screens/Building/MuscleGroupList';
-// import ExerciseList from '../screens/Building/ExerciseList';
 import DeleteExercises from '../screens/Building/DeleteExercises';
 import CustomExercise from '../screens/Exercises/CustomExercise';
 import TrackDashboard from '../screens/Track/TrackDashboard';
@@ -23,18 +19,20 @@ import Logs from '../screens/Logs/SelectedLogs';
 import theme from '../styles/theme.style';
 import CustomSet from '../screens/Exercises/CustomSet';
 import TrackSummary from '../screens/Track/TrackSummary';
-import TrackSelection from '../screens/Track/TrackSelection';
-// import AnalyticsDashboard from '../screens/Analytics/AnalyticsDashboard';
+import ProgramSettings from '../screens/Track/ProgramSettings';
 import ExerciseHistory from '../screens/Track/ExerciseHistory';
 import Login from '../screens/Authentication/Login';
 import TrackExerciseList from '../screens/Track/TrackExerciseList';
 import TrackMuscleGroupList from '../screens/Track/TrackMuscleGroupList';
-//vimport LineGraph from '../screens/Analytics/LineGraph';
 import Calendar from '../screens/Logs/Calendar';
-// import StorybookStack  from "../../oldStorybook/navigation";
 import MuscleGroups from '../screens/Exercises/MuscleGroupList';
 import ExerciseList from '../screens/Exercises/ExerciseList';
 import Debug from '../screens/Debug/debug';
+
+// import StorybookStack  from "../../oldStorybook/navigation";
+// import LineGraph from '../screens/Analytics/LineGraph';
+// import AnalyticsDashboard from '../screens/Analytics/AnalyticsDashboard';
+
 
 const navigationStyling = {
   headerStyle: {
@@ -152,10 +150,10 @@ export const TrackStack = createStackNavigator( {
       title: 'Summary',
     },
   },
-  TrackSelection: {
-    screen: TrackSelection,
+  ProgramSettings: {
+    screen: ProgramSettings,
     navigationOptions: {
-      title: 'Track Selection',
+      title: 'Program Settings',
     },
   },
   TrackExerciseList: {

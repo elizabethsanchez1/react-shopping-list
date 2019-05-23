@@ -1,7 +1,34 @@
 import * as constants from '../../constants/track';
 import * as actions from '../../actions/track';
+import { TRACK_SELECTED_PROGRAM } from '../../constants/track';
+import { trackSelectedProgramAction } from '../../actions/track';
+import { TRACK_SELECTED_WORKOUT } from '../../constants/track';
+import { trackSelectedWorkoutAction } from '../../actions/track';
 
-describe('Track action creators', () => {
+
+describe( 'Track action creators', () => {
+
+  it( 'trackSelectedProgramAction() should dispatch TRACK_SELECTED_PROGRAM', () => {
+    const expectedAction = {
+      type: TRACK_SELECTED_PROGRAM,
+      payload: 1,
+    };
+
+    expect( trackSelectedProgramAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'trackSelectedWorkoutAction() should dispatch TRACK_SELECTED_WORKOUT', () => {
+    const expectedAction = {
+      type: TRACK_SELECTED_WORKOUT,
+      payload: 1,
+    };
+
+    expect( trackSelectedWorkoutAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+} );
+
+describe.skip('Track action creators', () => {
 
   it('should create an action to update a field', () => {
     const exerciseSets = [

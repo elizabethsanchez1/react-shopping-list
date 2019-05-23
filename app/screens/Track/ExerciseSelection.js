@@ -1,190 +1,133 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, FlatList} from 'react-native';
-import {Button, List, ListItem} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Entypo';
+import { StyleSheet, FlatList } from 'react-native';
+import { Button, List, ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
 import Container from '../../components/Container/index';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as actions from '../../actions/track';
-import {markProgramCompletedFlags} from '../../actions/track';
 import theme from '../../styles/theme.style';
 import {
-  getBuildHistoryFlag,
-  getCompletedExercises,
-  getProgram,
-  getProgramWeeks, getSelectedData, getTracksSelectedDay, getTracksSelectedWeek,
-} from "../../selectors/track";
-import {Loading} from '../../components/Loading';
+  getTrackProgramWeeks,
+  getDaysForEachWeek,
+} from '../../selectors/track';
 
+const styles = StyleSheet.create( {
+  list: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+  },
+  title: { color: theme.PRIMARY_FONT_COLOR },
+  listItem: { borderBottomColor: theme.PRIMARY_FONT_COLOR },
+} );
 
 class ExerciseSelection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      program: {},
-      data: [],
-      weeks: true,
-    };
-  }
-
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ( { navigation } ) => {
     return {
       headerLeft: (
         <Button
           title="Back"
-          containerViewStyle={{
+          containerViewStyle={ {
             marginLeft: 0,
-          }}
-          buttonStyle={{
+          } }
+          buttonStyle={ {
             backgroundColor: 'transparent',
             padding: 5,
             justifyContent: 'center',
             alignContent: 'center',
             marginLeft: 0,
-          }}
-          color={theme.ACTIVE_TAB_COLOR}
-          textStyle={{fontSize: 18}}
-          icon={{
+          } }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ { fontSize: 18 } }
+          icon={ {
             name: 'chevron-left',
             color: theme.ACTIVE_TAB_COLOR,
             size: 40,
-            style: {marginRight: -5, marginLeft: -5, marginTop: -3},
-          }}
-          onPress={() => navigation.goBack()}
+            style: { marginRight: -5, marginLeft: -5, marginTop: -3 },
+          } }
+          onPress={ () => navigation.state.params.goBack() }
         />
-      )
-    }
+      ),
+    };
   };
 
+  constructor( props ) {
+    super( props );
+    this.state = {
+      weeks: true,
+      selectedWeek: '',
+    };
+  }
+
   componentDidMount() {
-    this.props.navigation.setParams({goBack: this.handleBack});
-    this.props.markProgramCompletedFlags(
-      this.props.selectedData,
-      this.props.completedExercises,
-    );
+    this.props.navigation.setParams( { goBack: this.handleBack } );
   }
 
   handleBack = () => {
-    const {weeks} = this.state;
-
-    if (weeks) {
-      this.props.navigation.navigate('TrackDashboard');
-    } else {
-
-      this.setState({
-        data: this.props.programWeeks,
-        weeks: true,
-      });
+    if ( this.state.weeks ) {
+      this.props.navigation.goBack();
+    }
+    else {
+      this.setState( { weeks: true } );
     }
   };
 
-  changeData = (item, index) => {
-    const {weeks} = this.state;
+  changeData = ( item, index ) => {
+    console.log( item, index );
 
-    if (weeks) {
-      this.props.actions.selectedWeek(item.week);
-      this.setState({
-        data: this.props.program[`week${index + 1}`],
+    if ( this.state.weeks ) {
+      this.setState( {
         weeks: false,
-      })
-    } else {
-      //send them to the tracker page
-      this.props.actions.selectedDay(index);
-
-
-      if (this.props.buildHistory) {
-        this.props.actions.buildExerciseHistory(
-          this.props.selectedData,
-          this.props.selectedWeek,
-          this.props.selectedDay,
-          this.props.completedExercises,
-        );
-      }
-
-      this.props.navigation.navigate('Tracker');
+        selectedWeek: item.week,
+      } );
     }
-  };
-
-  formatTitle = (item) => {
-    if (this.state.weeks) {
-      if (item.currentWeek) {
-        return `${item.label} --- Current Week`
-      }
-
-      if (item.completed) {
-        return `${item.label} Completed`
-      }
-
-      return `${item.label}`
+    else {
+      console.log( 'route user to tracker' );
+      // this.props.navigation.navigate( 'Tracker' );
     }
 
-    return `${item.day}`;
   };
 
   render() {
-    const {data, weeks} = this.state;
-    console.log('props in exercises selection', this.props);
+    const { weeks, selectedWeek } = this.state;
+    const { programWeeks, daysByWeek } = this.props;
+    console.log( 'exercise selection props', this.props );
+    console.log( 'exercise selection state', this.state );
 
     return (
       <Container>
-        <List
-          containerStyle={{
-            backgroundColor: 'transparent',
-            borderTopWidth: 0,
-          }}
-        >
+        <List containerStyle={ styles.list }>
           <FlatList
-            data={(weeks) ? this.props.programWeeks : data}
-            renderItem={({item, index}) => (
+            data={ ( weeks ) ? programWeeks : daysByWeek[ selectedWeek ] }
+            renderItem={ ( { item, index } ) => (
               <ListItem
-                titleStyle={{color: 'white'}}
-                containerStyle={{borderBottomColor: 'white',}}
-                chevronColor={'white'}
-                title={this.formatTitle(item)}
-                onPress={() => this.changeData(item, index)}
-                disabled={item.completed}
+                titleStyle={ styles.title }
+                containerStyle={ styles.listItem }
+                chevronColor="white"
+                title={ item.label }
+                onPress={ () => this.changeData( item, index ) }
+                disabled={ item.completed }
               />
-            )}
-            keyExtractor={(item) => (weeks) ? item.label : item.day}
+            ) }
+            keyExtractor={ ( item, index ) => `${ item.label + index }` }
           />
         </List>
       </Container>
-    )
+    );
   }
 }
 
 ExerciseSelection.propTypes = {
   navigation: PropTypes.object,
-  actions: PropTypes.object,
   programWeeks: PropTypes.array,
-  completedExercises: PropTypes.array,
-  buildHistory: PropTypes.bool,
-  program: PropTypes.object,
-  exercises: PropTypes.array,
-  selectedData: PropTypes.object,
-  selectedWeek: PropTypes.string,
-  selectedDay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  daysByWeek: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return {
-    programWeeks: getProgramWeeks(state),
-    program: getProgram(state),
-    completedExercises: getCompletedExercises(state),
-    buildHistory: getBuildHistoryFlag(state),
-    selectedData: getSelectedData(state),
-    selectedDay: getTracksSelectedDay(state),
-    selectedWeek: getTracksSelectedWeek(state),
-    //  exercises: getTrackExercises(state),
-  }
-}
+const mapStateToProps = state => ( {
+  programWeeks: getTrackProgramWeeks( state ),
+  daysByWeek: getDaysForEachWeek( state ),
+} );
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-    markProgramCompletedFlags: (data, exercises) => dispatch(markProgramCompletedFlags(data, exercises)),
-  };
-}
+const mapDispatchToProps = dispatch => ( {
+  // actions: bindActionCreators( actions, dispatch ),
+} );
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExerciseSelection);
+export default connect( mapStateToProps, mapDispatchToProps )( ExerciseSelection );
