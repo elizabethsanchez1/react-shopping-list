@@ -391,15 +391,15 @@ function editTrackDashboardReducer(state, action) {
       }
     }
 
-    case MODIFY_SETS:
-      return {
-        ...state,
-        trackableExerciseSets: modifySets(
-          action.payload.exerciseSets,
-          action.payload.exerciseIndex,
-          action.payload.modification
-        )
-      };
+    // case MODIFY_SETS:
+    //   return {
+    //     ...state,
+    //     trackableExerciseSets: modifySets(
+    //       action.payload.exerciseSets,
+    //       action.payload.exerciseIndex,
+    //       action.payload.modification
+    //     )
+    //   };
 
     case QUICK_TRACK:
       return {
@@ -485,8 +485,8 @@ export default function trackDashboardReducer(state = initialState, action) {
     case MARK_PROGRAM_COMPLETED_FLAGS:
       return markProgramCompletedFlags(state, action);
 
-    case MODIFY_SETS:
-      return editTrackDashboardReducer(state, action);
+    // case MODIFY_SETS:
+    //   return editTrackDashboardReducer(state, action);
 
     case QUICK_TRACK:
       return editTrackDashboardReducer(state, action);

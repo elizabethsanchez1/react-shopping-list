@@ -162,8 +162,8 @@ export const TrackStack = createStackNavigator( {
       title: 'Exercises',
     },
   },
-  TrackMuscleGroupList: {
-    screen: TrackMuscleGroupList,
+  MuscleGroupList: {
+    screen: MuscleGroups,
     navigationOptions: {
       title: 'Muscle Groups',
     },

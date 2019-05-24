@@ -1,4 +1,10 @@
-import { trackSelectedDayAction, trackSelectedProgramAction, trackSelectedWorkoutAction } from '../../actions/track';
+import {
+  modifySetsAction,
+  trackEditFieldAction,
+  trackSelectedDayAction,
+  trackSelectedProgramAction,
+  trackSelectedWorkoutAction,
+} from '../../actions/track';
 import track from '../track';
 
 
@@ -109,12 +115,36 @@ describe( 'Track reducer unit tests', () => {
           { set: 3, weight: '', reps: '', previous: '' },
         ],
       ],
+      exercises: [
+        {
+          'weight': '50',
+          'sets': '3',
+          'reps': '10',
+          'compound': false,
+          'isolation': true,
+          'rpe': '',
+          'type': 'standard',
+          'muscleGroup': 'Biceps',
+          'name': 'Barbell Curl',
+        },
+        {
+          'weight': '25',
+          'sets': '3',
+          'reps': '12',
+          'compound': false,
+          'isolation': true,
+          'rpe': '',
+          'type': 'standard',
+          'muscleGroup': 'Biceps',
+          'name': 'Dumbbell Hammer Curl',
+        },
+      ],
     };
 
     expect( track( {}, action ) ).toEqual( expectedState );
   } );
 
-  it( 'trackSelectedDayAction() should dispatch TRACK_SELECTED_PROGRAM_DAY with the selected program information to compute the trackable sets to begin using on the tracker page', () => {
+  it( 'trackSelectedDayAction() should dispatch TRACK_SELECTED_PROGRAM_DAY and compute the trackable sets and store an array of exercises for the given day chosen', () => {
     const data = {
       week: 'week1',
       dayIndex: 0,
@@ -202,10 +232,152 @@ describe( 'Track reducer unit tests', () => {
           { set: 3, weight: '', reps: '', previous: '' },
         ],
       ],
+      exercises: [
+        {
+          'exercise': 'Barbell Bench Press',
+          'weight': '225',
+          'sets': '4',
+          'reps': '5',
+          'compound': true,
+          'isolation': false,
+          'muscleGroup': 'Chest',
+        },
+        {
+          'exercise': 'Barbell Curl',
+          'weight': '60',
+          'sets': '3',
+          'reps': '10',
+          'compound': false,
+          'isolation': true,
+          'muscleGroup': 'Biceps',
+        },
+      ],
     };
 
 
     expect( track( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'trackEditFieldAction() should dispatch TRACK_EDIT_FIELD with an update for a particular set which we should be storing', () => {
+    const data = {
+      'field': 'reps',
+      'value': '100',
+      'set': 2,
+      'index': 0,
+    };
+    const action = trackEditFieldAction( data );
+    const previousState = {
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+    const expectedState = {
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '100',
+          },
+        ],
+
+      ],
+    };
+
+    expect( track( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'modifySetsAction() should dispatch MODIFY_SETS and either signal to add or remove a sets in the payload', () => {
+    const data = {
+      index: 0,
+      option: 'remove',
+    };
+    const action = modifySetsAction( data );
+    const previousState = {
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+    const expectedState = {
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+
+    expect( track( previousState, action ) ).toEqual( expectedState );
+
+
+    const data1 = {
+      index: 0,
+      option: 'add',
+    };
+    const action1 = modifySetsAction( data1 );
+    const expectedState1 = {
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 3,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+
+    expect( track( previousState, action1 ) ).toEqual( expectedState1 );
   } );
 
 } );

@@ -15,7 +15,7 @@ import {
   QUICK_TRACK,
   MODIFY_SETS,
   STORE_ADD_EXERCISE_INDEX,
-  ADD_EXERCISES, TRACK_SELECTED_PROGRAM, TRACK_SELECTED_WORKOUT, TRACK_SELECTED_PROGRAM_DAY,
+  ADD_EXERCISES, TRACK_SELECTED_PROGRAM, TRACK_SELECTED_WORKOUT, TRACK_SELECTED_PROGRAM_DAY, TRACK_EDIT_FIELD,
 } from '../constants/track';
 import firebaseService from '../utilities/firebase';
 import {  Alert } from 'react-native';
@@ -74,12 +74,6 @@ export function markProgramCompletedFlags(selectedData, completedExercises) {
   };
 }
 
-export function modifySets(exerciseSets, exerciseIndex, modification) {
-  return {
-    type: MODIFY_SETS,
-    payload: { exerciseSets, exerciseIndex, modification }
-  };
-}
 
 export function resetProgram() {
   return { type: RESET_PROGRAM }
@@ -143,6 +137,18 @@ export function updateProgramAttempts(attemptInfo) {
 }
 
 // V2
+
+
+export const modifySetsAction = data => ( {
+  type: MODIFY_SETS,
+  payload: data,
+} );
+
+export const trackEditFieldAction = data => ( {
+  type: TRACK_EDIT_FIELD,
+  payload: data,
+} );
+
 export const trackSelectedDayAction = data => ( {
   type: TRACK_SELECTED_PROGRAM_DAY,
   payload: data,

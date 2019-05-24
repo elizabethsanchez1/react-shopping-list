@@ -126,6 +126,62 @@ const state = {
         { set: 3, weight: '', reps: '', previous: '' },
       ],
     ],
+    exercises: [
+      {
+        'exercise': 'Barbell Bench Press',
+        'weight': '225',
+        'sets': '4',
+        'reps': '5',
+        'compound': true,
+        'isolation': false,
+        'muscleGroup': 'Chest',
+      },
+      {
+        'exercise': 'Barbell Curl',
+        'weight': '60',
+        'sets': '3',
+        'reps': '10',
+        'compound': false,
+        'isolation': true,
+        'muscleGroup': 'Biceps',
+      },
+      {
+        'exercise': 'Cable Overhead Tricep Extension',
+        'weight': '120',
+        'sets': '3',
+        'reps': '10',
+        'compound': false,
+        'isolation': true,
+        'muscleGroup': 'Triceps',
+      },
+      {
+        'exercise': 'Pull ups',
+        'weight': '175',
+        'sets': '3',
+        'reps': '7',
+        'compound': true,
+        'isolation': false,
+        'muscleGroup': 'Back',
+      },
+      {
+        'exercise': 'Side Laterals',
+        'weight': '20',
+        'sets': '3',
+        'reps': '12',
+        'compound': false,
+        'isolation': true,
+        'muscleGroup': 'Shoulders',
+      },
+      {
+        'exercise': 'Machine Bicep Curl',
+        'weight': '90',
+        'sets': '3',
+        'reps': '8',
+        'compound': false,
+        'isolation': true,
+        'muscleGroup': 'Biceps',
+      },
+    ],
   },
   completedExercises,
   savedWorkouts,
@@ -135,6 +191,30 @@ const workoutState = {
   track: {
     type: 'workout',
     trackObject: workout,
+    exercises: [
+      {
+        'weight': '50',
+        'sets': '3',
+        'reps': '10',
+        'compound': false,
+        'isolation': true,
+        'rpe': '',
+        'type': 'standard',
+        'muscleGroup': 'Biceps',
+        'name': 'Barbell Curl',
+      },
+      {
+        'weight': '25',
+        'sets': '3',
+        'reps': '12',
+        'compound': false,
+        'isolation': true,
+        'rpe': '',
+        'type': 'standard',
+        'muscleGroup': 'Biceps',
+        'name': 'Dumbbell Hammer Curl',
+      },
+    ],
   },
   completedExercises,
   savedWorkouts,
@@ -634,12 +714,11 @@ describe( 'Track selectors', () => {
   } );
 
   it( 'getTrackExercisesByDay() should return an array of exercises for the selected day for either a program or workout', () => {
-    const { week, day } = state.track.selected;
-    const expectedValue = state.track.trackObject.program[ week ][ day ].exercises;
+    const expectedValue = state.track.exercises;
     expect( getTrackExercisesByDay( state ) ).toEqual( expectedValue );
 
 
-    const expectedValue1 = workoutState.track.trackObject.workout.exercises;
+    const expectedValue1 = workoutState.track.exercises;
     expect( getTrackExercisesByDay( workoutState ) ).toEqual( expectedValue1 );
   } );
 

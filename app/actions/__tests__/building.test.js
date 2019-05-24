@@ -1,7 +1,7 @@
 import {
   addProgramAction, addWorkoutAction, buildChangeWeekAction,
   buildDeleteExerciseAction,
-  buildEditFieldAction, buildSaveWorkoutAction,
+  buildEditFieldAction, buildSaveWorkoutAction, buildSelectDayAction,
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
   createBuildObjectAction,
@@ -21,7 +21,7 @@ import {
   BUILD_DELETE_EXERCISE,
   COPY_BUILD_OBJECT,
   BUILD_CHANGE_WEEK,
-  BUILD_SAVE_WORKOUT, ADD_WORKOUT, BUILD_EDIT_WORKOUT
+  BUILD_SAVE_WORKOUT, ADD_WORKOUT, BUILD_EDIT_WORKOUT, BUILD_SELECT_DAY
 } from '../../constants/building';
 import { BUILD_UPDATE_EXERCISE_ORDER } from '../../constants/exercises';
 
@@ -155,4 +155,12 @@ describe( 'Building action creators', () => {
     expect( editWorkoutAction( 1 ) ).toEqual( expectedAction );
   } );
 
+  it( 'buildSelectDayAction() should dispatch BUILD_SELECT_DAY event', () => {
+    const expectedAction = {
+      type: BUILD_SELECT_DAY,
+      payload: 1,
+    };
+
+    expect( buildSelectDayAction( 1 ) ).toEqual( expectedAction );
+  } );
 } );

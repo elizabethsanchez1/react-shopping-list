@@ -5,14 +5,8 @@ import { Dropdown } from 'react-native-material-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Container from '../../components/Container/index';
 import { Loading } from '../../components/Loading/index';
-import * as program from '../../actions/program';
-import * as workout from '../../actions/workout';
-import * as exercises from '../../actions/exercises';
-import * as workoutApi from '../../actions/workoutsApi';
-import { saveWorkout } from '../../actions/workoutsApi';
 import theme from '../../styles/theme.style';
 import {
   getWorkout,
@@ -232,7 +226,6 @@ class Build extends Component {
 Build.propTypes = {
   navigation: PropTypes.object,
   actions: PropTypes.object,
-  uid: PropTypes.string,
   loading: PropTypes.bool,
   redirect: PropTypes.bool,
 
@@ -259,12 +252,6 @@ const mapStateToProps = state => ( {
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  actions: {
-    program: bindActionCreators( program, dispatch ),
-    workout: bindActionCreators( workout, dispatch ),
-    exercises: bindActionCreators( exercises, dispatch ),
-    workoutApi: bindActionCreators( workoutApi, dispatch ),
-  },
   saveWorkout: () => dispatch( buildSaveWorkoutAction() ),
   updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
   changeWeek: data => dispatch( buildChangeWeekAction( data ) ),

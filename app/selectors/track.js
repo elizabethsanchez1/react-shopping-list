@@ -221,23 +221,28 @@ export const getTrackDay = createSelector(
   }
 );
 
+// export const getTrackExercisesByDay = createSelector(
+//   state => getTrackObject( state ),
+//   state => getTrackType( state ),
+//   state => getTrackSelectedInfo( state ),
+//   ( trackObject, type, selected ) => {
+//     if ( type === 'program' ) {
+//       const { week, day } = selected;
+//
+//       return trackObject.program[ week ][ day ].exercises;
+//     }
+//
+//     if ( type === 'workout' ) {
+//       return trackObject.workout.exercises;
+//     }
+//
+//     return [];
+//   }
+// );
+
 export const getTrackExercisesByDay = createSelector(
-  state => getTrackObject( state ),
-  state => getTrackType( state ),
-  state => getTrackSelectedInfo( state ),
-  ( trackObject, type, selected ) => {
-    if ( type === 'program' ) {
-      const { week, day } = selected;
-
-      return trackObject.program[ week ][ day ].exercises;
-    }
-
-    if ( type === 'workout' ) {
-      return trackObject.workout.exercises;
-    }
-
-    return [];
-  }
+  state => getTrack( state ),
+  reducer => reducer.exercises,
 );
 
 export const getTrackObject = createSelector(

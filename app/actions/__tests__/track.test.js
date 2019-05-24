@@ -6,6 +6,10 @@ import { TRACK_SELECTED_WORKOUT } from '../../constants/track';
 import { trackSelectedWorkoutAction } from '../../actions/track';
 import { TRACK_SELECTED_PROGRAM_DAY } from '../../constants/track';
 import { trackSelectedDayAction } from '../../actions/track';
+import { TRACK_EDIT_FIELD } from '../../constants/track';
+import { trackEditFieldAction } from '../../actions/track';
+import { MODIFY_SETS } from '../../constants/track';
+import { modifySetsAction } from '../../actions/track';
 
 
 describe( 'Track action creators', () => {
@@ -35,6 +39,24 @@ describe( 'Track action creators', () => {
     };
 
     expect( trackSelectedDayAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'trackEditFieldAction() should dispatch TRACK_EDIT_FIELD', () => {
+    const expectedAction = {
+      type: TRACK_EDIT_FIELD,
+      payload: 1,
+    };
+
+    expect( trackEditFieldAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'modifySetsAction() should dispatch MODIFY_SETS', () => {
+    const expectedAction = {
+      type: MODIFY_SETS,
+      payload: 1,
+    };
+
+    expect( modifySetsAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

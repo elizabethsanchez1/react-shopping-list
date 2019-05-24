@@ -33,6 +33,8 @@ import {
 import { getDocumentIds, getSaveTrackedWorkoutLoading } from '../../selectors/workoutsApi';
 import { getUid } from '../../selectors/authentication';
 import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
+import { trackEditFieldAction } from '../../actions/track';
+import ButtonBar from '../../containers/Track/ButtonBar';
 
 const styles = StyleSheet.create( {
   buttonStyle: {
@@ -56,8 +58,20 @@ const styles = StyleSheet.create( {
     fontSize: 16,
     color: 'gray',
   },
-} );
 
+  scrollView: { overflow: 'scroll' },
+  card: { padding: 20 },
+  cardContainer: { padding:0 },
+  innerCardContainer: { padding: 10 },
+  exerciseContainer: { marginTop: 20, marginBottom: 20 },
+  linkContainer: { justifyContent: 'space-between', flexDirection: 'row' },
+  targetWeight: { marginTop: 5 },
+  pagination: {
+    backgroundColor: theme.PRIMARY_BACKGROUND,
+    height: 70,
+    marginTop: 20,
+  },
+} );
 
 class Tracker extends Component {
   constructor( props ) {
@@ -106,36 +120,6 @@ class Tracker extends Component {
     }
 
     this.props.saveTrackedWorkout();
-  };
-
-  updateField = update => {
-    const { set, value, field } = update;
-    this.props.trackActions.updateField(
-      this.props.exerciseSets,
-      this.state.currentIndex,
-      set - 1, // change set to set index
-      field,
-      value,
-    );
-  };
-
-  editSets = () => {
-    const { exerciseSets } = this.props;
-    const { currentIndex } = this.state;
-    ActionSheetIOS.showActionSheetWithOptions( {
-      options: [ 'Cancel', 'Remove Set', 'Add Set' ],
-      destructiveButtonIndex: 1,
-      cancelButtonIndex: 0,
-    },
-    buttonIndex => {
-      if ( buttonIndex === 1 ) {
-        this.props.trackActions.modifySets( exerciseSets, currentIndex, 'remove' );
-      }
-
-      if ( buttonIndex === 2 ) {
-        this.props.trackActions.modifySets( exerciseSets, currentIndex, 'add' );
-      }
-    } );
   };
 
   editExercises = () => {
@@ -216,10 +200,13 @@ class Tracker extends Component {
     console.log( 'Tracker.js props', this.props );
     console.log( 'Tracker.js state', this.state );
     const { currentIndex } = this.state;
-    const { sets, day, exercises } = this.props;
+    const { sets, day, exercises, editField } = this.props;
     const targetWeight = exercises[ currentIndex ].weight;
     const targetReps = exercises[ currentIndex ].reps;
-    const { exercise } = this.props.exercises[ currentIndex ];
+    const name = ( exercises[ currentIndex ].name )
+      ? exercises[ currentIndex ].name
+      : exercises[ currentIndex ].exercise;
+
 
     if ( this.props.trackerSetupLoading ) {
       return <Loading />;
@@ -232,27 +219,27 @@ class Tracker extends Component {
     return (
       <Container>
         <KeyboardAwareScrollView
-          containerStyling={ { overflow: 'scroll' } }
+          containerStyling={ styles.scrollView }
           extraScrollHeight={ 30 }
         >
           <Card
-            style={ { padding: 20 } }
-            containerStyling={ { padding: 0 } }
+            style={ styles.card }
+            containerStyling={ styles.cardContainer }
           >
-            <View style={ { padding: 10 } }>
-              <View style={ { marginTop: 20, marginBottom: 20 } }>
+            <View style={ styles.innerCardContainer }>
+              <View style={ styles.exerciseContainer }>
                 <StyledText>{ day }</StyledText>
               </View>
 
 
-              <View style={ { justifyContent: 'space-between', flexDirection: 'row' } }>
+              <View style={ styles.linkContainer }>
                 <Link
-                  title={ exercises[ currentIndex ].exercise }
+                  title={ name }
                   onPress={ () => this.goToHistory( exercises[ currentIndex ] ) }
                 />
               </View>
 
-              <View style={ { marginTop: 5 } }>
+              <View style={ styles.targetWeight }>
                 {
                   ( targetWeight !== '' && targetReps !== '' )
                   && (
@@ -265,47 +252,17 @@ class Tracker extends Component {
 
               <ExerciseInputTable
                 items={ sets[ currentIndex ] || [] }
-                updateField={ update => this.updateField( update ) }
+                updateField={ update => editField( {
+                  ...update,
+                  index: currentIndex,
+                } ) }
               />
             </View>
 
-            <View style={ { flexDirection: 'row' } }>
-              <TouchableOpacity
-                style={ styles.buttonStyle }
-                onPress={ () => this.editSets() }
-              >
-                <Text style={ styles.buttonText }>Edit sets</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={ styles.buttonStyle }
-                onPress={ () => this.editExercises() }
-              >
-                <Text style={ styles.buttonText }>Edit exercises</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={ [ styles.buttonStyle, { borderRightWidth: 0 } ] }
-                disabled={ ( !( targetWeight && targetReps ) ) }
-                onPress={ () => this.quickTrack() }
-              >
-                <Text
-                  style={
-                    ( targetWeight && targetReps ) ? styles.buttonText : styles.disabledStyle
-                  }
-                >
-                  Quick track
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <ButtonBar currentIndex={ currentIndex } />
           </Card>
 
-          <View style={ {
-            backgroundColor: theme.PRIMARY_BACKGROUND,
-            height: 70,
-            marginTop: 20,
-          } }
-          >
+          <View style={ styles.pagination }>
             <Pagination
               current={ currentIndex + 1 }
               total={ this.props.exercises.length }
@@ -323,6 +280,7 @@ Tracker.propTypes = {
   sets: PropTypes.array,
   day: PropTypes.string,
   exercises: PropTypes.array,
+  editField: PropTypes.func,
 
 
   trackActions: PropTypes.object,
@@ -369,6 +327,8 @@ const mapDispatchToProps = dispatch => ( {
   calculateProgramAttempt: ( data, ids ) => dispatch( calculateProgramAttempt( data, ids ) ),
   formatExercises: exercises => dispatch( formatExercises( exercises ) ),
   updateProgramAttempts: attempt => dispatch( updateProgramAttempts( attempt ) ),
+
+  editField: data => dispatch( trackEditFieldAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Tracker );
