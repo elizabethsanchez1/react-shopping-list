@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { ButtonBar, Link } from '../../components/Button';
-import { openExerciseListAction } from '../../actions/exercises';
+import { buildingAddExercisesAction, setUpExerciseListAction } from '../../actions/exercises';
 import NavigationService from '../../utilities/navigationService';
-import { openDeleteScreenAction } from '../../actions/building';
+import { buildSelectDayAction, openDeleteScreenAction } from '../../actions/building';
+import { getExerciseList } from '../../selectors/exerciseList';
 
 const styles = StyleSheet.create( {
   linkContainer: {
@@ -21,8 +22,12 @@ class CardFooter extends Component {
   }
 
   addExercises = selectedDay => {
-    this.props.openExerciseList( selectedDay );
-    NavigationService.navigate( 'MuscleGroupList' );
+    this.props.selectDay( { selectedDay } );
+    this.props.setUpExerciseList( this.props.exerciseList );
+    NavigationService.navigate( 'MuscleGroupList', {
+      add: data => buildingAddExercisesAction( data ),
+      initialPage: 'Build',
+    } );
   };
 
   deleteExercises = selectedDay => {
@@ -60,16 +65,22 @@ class CardFooter extends Component {
 
 CardFooter.propTypes = {
   exercises: PropTypes.array,
+  exerciseList: PropTypes.object,
   dayIndex: PropTypes.number,
-  openExerciseList: PropTypes.func,
   openDeleteScreen: PropTypes.func,
+  selectDay: PropTypes.func,
+  setUpExerciseList: PropTypes.func,
 };
 
-const mapStateToProps = state => ( {} );
+const mapStateToProps = state => ( {
+  exerciseList: getExerciseList( state ),
+} );
 
 const mapDispatchToProps = dispatch => ( {
-  openExerciseList: data => dispatch( openExerciseListAction( data ) ),
+  selectDay: data => dispatch( buildSelectDayAction( data ) ),
+  setUpExerciseList: data => dispatch( setUpExerciseListAction( data ) ),
   openDeleteScreen: data => dispatch( openDeleteScreenAction( data ) ),
+  addExercises: data => dispatch( buid )
 } );
 
 

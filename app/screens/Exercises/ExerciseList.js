@@ -6,7 +6,7 @@ import { Button, List, ListItem } from 'react-native-elements';
 import Container from '../../components/Container';
 import theme from '../../styles/theme.style';
 import { PrimaryButton } from '../../components/Button';
-import { buildingAddExercisesAction, selectExerciseAction } from '../../actions/exercises';
+import { selectExerciseAction } from '../../actions/exercises';
 import { getSelectedExercises, getSelectedExercisesByMuscleGroup } from '../../selectors/exercises';
 
 const styles = StyleSheet.create( {
@@ -87,8 +87,11 @@ class ExerciseList extends Component {
   }
 
   addExercises = () => {
-    this.props.addExercises( this.props.selectedExercises );
-    this.props.navigation.navigate( 'Build' );
+    const { navigation, addExercises, selectedExercises } = this.props;
+    const page = navigation.state.params.initialPage;
+
+    addExercises( selectedExercises );
+    navigation.navigate( page );
   };
 
   render() {
@@ -149,9 +152,9 @@ const mapStateToProps = state => ( {
   selectedExercises: getSelectedExercises( state ),
 } );
 
-const mapDispatchToProps = dispatch => ( {
+const mapDispatchToProps = ( dispatch, ownProps ) => ( {
   selectExercise: exercise => dispatch( selectExerciseAction( exercise ) ),
-  addExercises: data => dispatch( buildingAddExercisesAction( data ) ),
+  addExercises: data => dispatch( ownProps.navigation.state.params.add( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( ExerciseList );

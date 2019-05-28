@@ -15,7 +15,12 @@ import {
   QUICK_TRACK,
   MODIFY_SETS,
   STORE_ADD_EXERCISE_INDEX,
-  ADD_EXERCISES, TRACK_SELECTED_PROGRAM, TRACK_SELECTED_WORKOUT, TRACK_SELECTED_PROGRAM_DAY, TRACK_EDIT_FIELD,
+  ADD_EXERCISES,
+  TRACK_SELECTED_PROGRAM,
+  TRACK_SELECTED_WORKOUT,
+  TRACK_SELECTED_PROGRAM_DAY,
+  TRACK_EDIT_FIELD,
+  TRACK_ADD_EXERCISE_INDEX, TRACK_ADD_EXERCISES, TRACK_REMOVE_EXERCISE,
 } from '../constants/track';
 import firebaseService from '../utilities/firebase';
 import {  Alert } from 'react-native';
@@ -144,8 +149,23 @@ export const modifySetsAction = data => ( {
   payload: data,
 } );
 
+export const trackAddExercisesAction = data => ( {
+  type: TRACK_ADD_EXERCISES,
+  payload: data,
+} );
+
+export const trackAddExerciseIndexAction = data => ( {
+  type: TRACK_ADD_EXERCISE_INDEX,
+  payload: data,
+} );
+
 export const trackEditFieldAction = data => ( {
   type: TRACK_EDIT_FIELD,
+  payload: data,
+} );
+
+export const trackRemoveExerciseAction = data => ( {
+  type: TRACK_REMOVE_EXERCISE,
   payload: data,
 } );
 

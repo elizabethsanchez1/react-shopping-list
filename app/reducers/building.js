@@ -9,7 +9,7 @@ import {
   BUILD_DELETE_EXERCISE,
   COPY_BUILD_OBJECT,
   BUILD_CHANGE_WEEK,
-  ADD_WORKOUT, BUILD_EDIT_WORKOUT,
+  ADD_WORKOUT, BUILD_EDIT_WORKOUT, BUILD_SELECT_DAY,
 } from '../constants/building';
 import {
   BUILD_UPDATE_EXERCISE_ORDER,
@@ -340,6 +340,12 @@ const building = ( state = {}, action ) => {
         documentId: action.payload.documentId,
       };
 
+    case BUILD_SELECT_DAY:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case BUILD_UPDATE_EXERCISE_ORDER:
       return handleExerciseReOrder( state, action );
 
@@ -356,12 +362,6 @@ const building = ( state = {}, action ) => {
       return {
         ...state,
         ...action.payload,
-      };
-
-    case OPEN_EXERCISE_LIST:
-      return {
-        ...state,
-        selectedDay: action.payload,
       };
 
     case SAVE_CUSTOM_SET:

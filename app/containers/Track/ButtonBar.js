@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StyleSheet, ActionSheetIOS } from 'react-native';
 import { connect } from 'react-redux';
 import theme from '../../styles/theme.style';
-import { modifySetsAction } from '../../actions/track';
-import { getTrackSets } from '../../selectors/track';
+import {
+  modifySetsAction,
+  trackAddExerciseIndexAction,
+  trackAddExercisesAction,
+  trackRemoveExerciseAction
+} from '../../actions/track';
 import NavigationService from '../../utilities/navigationService';
-import { openExerciseListAction } from '../../actions/exercises';
+import { setUpExerciseListAction } from '../../actions/exercises';
+import { getExerciseList } from '../../selectors/exerciseList';
 
 const styles = StyleSheet.create( {
   container: { flexDirection: 'row' },
@@ -62,55 +67,32 @@ class ButtonBar extends Component {
   };
 
   editExercises = () => {
-    const { sets, currentIndex, openExerciseList } = this.props;
-    const showRemoveOption = ( sets.length > 1 );
+    const { currentIndex, setUpExerciseList, exerciseList, addExerciseIndex, updateIndex, removeExercise } = this.props;
     const options = {
       options: [ 'Cancel', 'Remove This Exercise', 'Add Exercise' ],
       destructiveButtonIndex: 1,
       cancelButtonIndex: 0,
     };
-    const reducedOptions = {
-      options: [ 'Cancel', 'Add Exercise' ],
-      cancelButtonIndex: 0,
-    };
 
     ActionSheetIOS.showActionSheetWithOptions(
-      ( showRemoveOption ) ? options : reducedOptions,
+      options,
       buttonIndex => {
 
-        if ( showRemoveOption ) {
-          if ( buttonIndex === 1 ) {
-            // this.setState( {
-            //   currentIndex: ( currentIndex !== 0 )
-            //     ? currentIndex - 1
-            //     : currentIndex,
-            // } );
-
-            // this.props.trackActions.removeExercise(
-            //   selectedData,
-            //   type,
-            //   selectedWeek,
-            //   selectedDay,
-            //   currentIndex,
-            //   exerciseSets,
-            // );
-          }
-
-          if ( buttonIndex === 2 ) {
-            openExerciseList();
-            NavigationService.navigate( 'MuscleGroupList' );
-            // this.props.trackActions.storeAddExerciseIndex( currentIndex + 1 );
-            // this.props.navigation.navigate( 'TrackMuscleGroupList' );
-          }
+        if ( buttonIndex === 1 ) {
+          removeExercise( currentIndex );
         }
 
-        if ( !showRemoveOption ) {
-          if ( buttonIndex === 1 ) {
-            // this.props.trackActions.storeAddExerciseIndex( currentIndex + 1 );
-            // this.props.navigation.navigate( 'TrackMuscleGroupList' );
-          }
+        if ( buttonIndex === 2 ) {
+          setUpExerciseList( exerciseList );
+          addExerciseIndex( { exercise: currentIndex } );
+          NavigationService.navigate( 'MuscleGroupList', {
+            add: data => {
+              updateIndex( currentIndex + 1 );
+              return trackAddExercisesAction( data );
+            },
+            initialPage: 'Tracker',
+          } );
         }
-
       },
     );
   };
@@ -156,17 +138,22 @@ class ButtonBar extends Component {
 ButtonBar.propTypes = {
   currentIndex: PropTypes.number,
   modifySets: PropTypes.func,
-  sets: PropTypes.array,
-  openExerciseList: PropTypes.func,
+  exerciseList: PropTypes.object,
+  setUpExerciseList: PropTypes.func,
+  addExerciseIndex: PropTypes.func,
+  updateIndex: PropTypes.func,
+  removeExercise: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
-  sets: getTrackSets( state ),
+  exerciseList: getExerciseList( state ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
   modifySets: data => dispatch( modifySetsAction( data ) ),
-  openExerciseList: () => dispatch( openExerciseListAction() ),
+  setUpExerciseList: data => dispatch( setUpExerciseListAction( data ) ),
+  addExerciseIndex: data => dispatch( trackAddExerciseIndexAction( data ) ),
+  removeExercise: data => dispatch( trackRemoveExerciseAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( ButtonBar );

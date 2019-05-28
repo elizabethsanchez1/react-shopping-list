@@ -2,7 +2,7 @@ import {
   ADD_CUSTOM_EXERCISE_SUCCESS,
   SELECT_EXERCISE,
   SELECT_MUSCLE_GROUP,
-  SETUP_ADDING_EXERCISES,
+  SETUP_EXERCISE_LIST,
 } from '../constants/exercises';
 import { sortAlphabetically } from './exerciseList';
 
@@ -79,7 +79,7 @@ const exercisesNEW = ( state = {}, action ) => {
     case ADD_CUSTOM_EXERCISE_SUCCESS:
       return handleCustomExercise( state, action );
 
-    case SETUP_ADDING_EXERCISES:
+    case SETUP_EXERCISE_LIST:
       return {
         selectedExercises: [],
         exerciseList: action.payload,

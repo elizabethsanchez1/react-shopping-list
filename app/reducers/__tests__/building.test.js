@@ -2,7 +2,7 @@ import building from '../building';
 import {
   addProgramAction, addWorkoutAction, buildChangeWeekAction,
   buildDeleteExerciseAction,
-  buildEditFieldAction,
+  buildEditFieldAction, buildSelectDayAction,
   buildUpdateExerciseOrderAction,
   copyBuildObjectAction,
   createBuildObjectAction,
@@ -634,7 +634,8 @@ describe( 'Building reducer logic', () => {
 
   } );
 
-  it( 'openExerciseListAction should pass the day selected so we can store that information so that when we add exercises, we know what day to add them to in response to OPEN_EXERCISE_LIST event', () => {
+  it( 'buildSelectDayAction should store the value selected day value in state', () => {
+
     const previousState = {
       'type': 'program',
       'selectedWeek': 'week1',
@@ -643,9 +644,8 @@ describe( 'Building reducer logic', () => {
       'daysPerWeek': '2',
       'program': {},
     };
-
-    const data = 1;
-    const action = openExerciseListAction( data );
+    const data = { selectedDay: 1 };
+    const action = buildSelectDayAction( data );
     const expectedState = {
       'type': 'program',
       'selectedWeek': 'week1',
@@ -654,21 +654,8 @@ describe( 'Building reducer logic', () => {
       'daysPerWeek': '2',
       'program': {},
     };
-
     expect( building( previousState, action ) ).toEqual( expectedState );
 
-
-    const previousState1 = {
-      type: 'workout',
-      template: '',
-      workout: {
-        completed: false,
-        day: 'test',
-        exercises: [],
-      },
-    };
-    const action1 = openExerciseListAction();
-    expect( building( previousState1, action1 ) ).toEqual( previousState1 );
   } );
 
   it( 'openCustomSetAction() should pass us day selected index and exercises location index so that when we finish adding a custom set we know where to store it in response to OPEN_CUSTOM_SET event', () => {

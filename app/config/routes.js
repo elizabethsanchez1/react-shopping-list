@@ -156,16 +156,16 @@ export const TrackStack = createStackNavigator( {
       title: 'Program Settings',
     },
   },
-  TrackExerciseList: {
-    screen: TrackExerciseList,
-    navigationOptions: {
-      title: 'Exercises',
-    },
-  },
   MuscleGroupList: {
     screen: MuscleGroups,
     navigationOptions: {
       title: 'Muscle Groups',
+    },
+  },
+  ExerciseList: {
+    screen: ExerciseList,
+    navigationOptions: {
+      title: 'Exercises',
     },
   },
 }, {

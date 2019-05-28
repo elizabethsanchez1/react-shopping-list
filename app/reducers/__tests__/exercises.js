@@ -6,7 +6,7 @@ import {
   filterExerciseListAction,
   selectExerciseAction,
   selectMuscleGroupAction,
-  setUpAddingExercisesAction,
+  setUpExerciseListAction,
 } from '../../actions/exercises';
 import exerciseList from '../exerciseList';
 
@@ -180,9 +180,9 @@ describe( 'exercises-NEW reducer unit tests', () => {
 
   } );
 
-  it( 'setUpAddingExercisesAction() should store the cloned copy of the exerciseList into the reducer', () => {
+  it( 'setUpExerciseListAction() should store the cloned copy of the exerciseList into the reducer', () => {
     const data = { 'Abs': [ 1 ] };
-    const action = setUpAddingExercisesAction( data );
+    const action = setUpExerciseListAction( data );
     const expectedState = {
       selectedExercises: [],
       exerciseList: { 'Abs': [ 1 ] },
@@ -192,9 +192,9 @@ describe( 'exercises-NEW reducer unit tests', () => {
   } );
 
 
-  it( 'setUpAddingExercisesAction() should store the cloned copy of the exerciseList into the reducer', () => {
+  it( 'setUpExerciseListAction() should store the cloned copy of the exerciseList into the reducer', () => {
     const data = { 'Abs': [ 1 ] };
-    const action = setUpAddingExercisesAction( data );
+    const action = setUpExerciseListAction( data );
     const expectedState = {
       selectedExercises: [],
       exerciseList: { 'Abs': [ 1 ] },

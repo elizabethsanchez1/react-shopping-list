@@ -13,7 +13,7 @@ import {
   UPDATE_PROFILE_EXERCISES_SUCCESS,
   UPDATE_SELECTIONS,
   FILTER_EXERCISE_LIST,
-  SETUP_ADDING_EXERCISES,
+  SETUP_EXERCISE_LIST,
   BUILDING_ADD_EXERCISES,
   OPEN_CUSTOM_SET,
   SAVE_CUSTOM_SET,
@@ -117,13 +117,8 @@ export const selectExerciseAction = data => ( {
   payload: data,
 } );
 
-export const openExerciseListAction = data => ( {
-  type: OPEN_EXERCISE_LIST,
-  payload: data,
-} );
-
-export const setUpAddingExercisesAction = data => ( {
-  type: SETUP_ADDING_EXERCISES,
+export const setUpExerciseListAction = data => ( {
+  type: SETUP_EXERCISE_LIST,
   payload: data,
 } );
 

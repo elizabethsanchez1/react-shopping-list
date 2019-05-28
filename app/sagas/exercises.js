@@ -1,12 +1,10 @@
 import { takeEvery, select, put, call } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 import firebase from 'react-native-firebase';
-import { ADD_CUSTOM_EXERCISE_REQUEST, OPEN_EXERCISE_LIST } from '../constants/exercises';
-import { getExerciseList } from '../selectors/exerciseList';
+import { ADD_CUSTOM_EXERCISE_REQUEST } from '../constants/exercises';
 import {
   addCustomExerciseFailedAction,
   addCustomExerciseSuccessAction,
-  setUpAddingExercisesAction
 } from '../actions/exercises';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { EXERCISE_LIST } from '../constants/reducerObjects';
@@ -14,14 +12,6 @@ import { handleErrorAction } from '../actions/errors';
 import { getCustomExercises, getUid } from '../selectors/user';
 import NavigationService from '../utilities/navigationService';
 
-export function* handleOpenExerciseList() {
-  const exerciseList = yield select( getExerciseList );
-  yield put( setUpAddingExercisesAction( exerciseList ) );
-}
-
-export function* watchOpenExerciseList() {
-  yield takeEvery( OPEN_EXERCISE_LIST, handleOpenExerciseList );
-}
 
 export function* addCustomExerciseREST( uid, exercises ) {
   const collection = firebase.firestore().collection( 'users' ).doc( uid );

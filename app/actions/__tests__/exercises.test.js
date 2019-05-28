@@ -5,7 +5,7 @@ import {
   FILTER_EXERCISE_LIST, OPEN_CUSTOM_SET,
   OPEN_EXERCISE_LIST, SAVE_CUSTOM_SET,
   SELECT_EXERCISE,
-  SELECT_MUSCLE_GROUP, SETUP_ADDING_EXERCISES
+  SELECT_MUSCLE_GROUP, SETUP_EXERCISE_LIST
 } from '../../constants/exercises';
 import {
   addCustomExerciseFailedAction,
@@ -14,7 +14,7 @@ import {
   filterExerciseListAction, openCustomSetAction,
   openExerciseListAction, saveCustomSetAction,
   selectExerciseAction,
-  selectMuscleGroupAction, setUpAddingExercisesAction
+  selectMuscleGroupAction, setUpExerciseListAction
 } from '../exercises';
 
 
@@ -38,22 +38,13 @@ describe( 'exercises action creators', () => {
     expect( selectExerciseAction( 1 ) ).toEqual( expectedAction );
   } );
 
-  it( 'openExerciseListAction() should dispatch OPEN_EXERCISE_LIST event', () => {
+  it( 'setUpExerciseListAction() should dispatch SETUP_EXERCISE_LIST event', () => {
     const expectedAction = {
-      type: OPEN_EXERCISE_LIST,
+      type: SETUP_EXERCISE_LIST,
       payload: 1,
     };
 
-    expect( openExerciseListAction( 1 ) ).toEqual( expectedAction );
-  } );
-
-  it( 'setUpAddingExercisesAction() should dispatch SETUP_ADDING_EXERCISES event', () => {
-    const expectedAction = {
-      type: SETUP_ADDING_EXERCISES,
-      payload: 1,
-    };
-
-    expect( setUpAddingExercisesAction( 1 ) ).toEqual( expectedAction );
+    expect( setUpExerciseListAction( 1 ) ).toEqual( expectedAction );
   } );
 
   it( 'buildingAddExercisesAction() should dispatch BUILDING_ADD_EXERCISES event', () => {

@@ -69,7 +69,7 @@ class MuscleGroupList extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams( {
-      addExercises: this.addExercises.bind( this ),
+      addExercises: this.addExercises,
       showButton: false,
     } );
   }
@@ -84,16 +84,25 @@ class MuscleGroupList extends Component {
   }
 
   addExercises = () => {
-    this.props.addExercises( this.props.selectedExercises );
-    this.props.navigation.navigate( 'Build' );
+    const { navigation, addExercises, selectedExercises } = this.props;
+    const page = navigation.state.params.initialPage;
+
+    addExercises( selectedExercises );
+    navigation.navigate( page );
   };
 
   selectMuscleGroup = muscleGroup => {
-    this.props.selectMuscleGroup( muscleGroup );
-    this.props.navigation.navigate( 'ExerciseList' );
+    const { selectMuscleGroup, navigation } = this.props;
+
+    selectMuscleGroup( muscleGroup );
+    navigation.navigate( 'ExerciseList', {
+      add: data => navigation.state.params.add( data ),
+      initialPage: navigation.state.params.initialPage,
+    } );
   };
 
   render() {
+    console.log( 'Muscle group list ', this.props );
     const { upperBodyMuscles, lowerBodyMuscles } = muscleGroupSeparatedExercises;
 
     return (
@@ -175,13 +184,14 @@ MuscleGroupList.propTypes = {
   addExercises: PropTypes.func,
 };
 
-const mapStateToProps = state => ( {
+const mapStateToProps = ( state, ownProps ) => ( {
   selectedExercises: getSelectedExercises( state ),
+  ownProps,
 } );
 
-const mapDispatchToProps = dispatch => ( {
+const mapDispatchToProps = ( dispatch, ownProps ) => ( {
   selectMuscleGroup: muscle => dispatch( selectMuscleGroupAction( muscle ) ),
-  addExercises: data => dispatch( buildingAddExercisesAction( data ) ),
+  addExercises: data => dispatch( ownProps.navigation.state.params.add( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( MuscleGroupList );

@@ -1,6 +1,6 @@
 import {
-  modifySetsAction,
-  trackEditFieldAction,
+  modifySetsAction, trackAddExerciseIndexAction, trackAddExercisesAction,
+  trackEditFieldAction, trackRemoveExerciseAction,
   trackSelectedDayAction,
   trackSelectedProgramAction,
   trackSelectedWorkoutAction,
@@ -378,6 +378,240 @@ describe( 'Track reducer unit tests', () => {
     };
 
     expect( track( previousState, action1 ) ).toEqual( expectedState1 );
+  } );
+
+  it( 'trackAddExerciseIndexAction() should dispatch TRACK_ADD_EXERCISES_INDEX with a payload of a number that will be the index location that any added exercises will be inserted into', () => {
+    const data = {
+      exercise: 2,
+    };
+    const action = trackAddExerciseIndexAction( data );
+    const previousState = {
+      selected: { week: 'week1', day: 0 },
+    };
+    const expectedState = {
+      selected: { week: 'week1', day: 0, exercise: 2 },
+    };
+    expect( track( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'trackAddExercisesAction() should dispatch TRACK_ADD_EXERCISES with a payload of exercise(s) to add to the session that is currently being tracked', () => {
+    const data = [
+      {
+        'compound': true,
+        'name': 'Cable Bicep Curl',
+        'muscleGroup': 'Biceps',
+        'isolation': true,
+        'selected': false,
+      },
+      {
+        'compound': false,
+        'exercise': 'Dumbbell Hammer Curl',
+        'muscleGroup': 'Biceps',
+        'isolation': true,
+        'selected': false,
+      },
+    ];
+
+    const action = trackAddExercisesAction( data );
+    const previousState = {
+      selected: { week: 'week1', day: 0, exercise: 0 },
+      exercises: [
+        { exercise: 'Barbell Bench Press', sets: 2 },
+        { exercise: 'Barbell Curl', sets: 2 },
+      ],
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+        ],
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+    const expectedState = {
+      selected: { week: 'week1', day: 0, exercise: 0 },
+      exercises: [
+        { exercise: 'Barbell Bench Press', sets: 2 },
+        {
+          'exercise': 'Cable Bicep Curl',
+          weight: '',
+          reps: '',
+          sets: '3',
+          'isolation': true,
+          'compound': true,
+          'muscleGroup': 'Biceps',
+        },
+        {
+          'compound': false,
+          'exercise': 'Dumbbell Hammer Curl',
+          'muscleGroup': 'Biceps',
+          'isolation': true,
+          reps: '',
+          sets: '3',
+          weight: '',
+        },
+        { exercise: 'Barbell Curl', sets: 2 },
+      ],
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+        ],
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 3,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+          {
+            'set': 3,
+            'previous': '',
+            'weight': '',
+            'reps': '',
+          },
+        ],
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+
+
+    expect( track( previousState, action ) ).toEqual( expectedState );
+  } );
+
+  it( 'trackRemoveExerciseAction() should dispatch TRACK_REMOVE_EXERCISE with a payload of an index value to remove that exercise', () => {
+    const data = 1;
+    const action = trackRemoveExerciseAction( data );
+    const previousState = {
+      exercises: [
+        { exercise: 'Barbell Bench Press', sets: 2 },
+        { exercise: 'Barbell Curl', sets: 2 },
+      ],
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+        ],
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '150',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+    const expectedState = {
+      exercises: [
+        { exercise: 'Barbell Bench Press', sets: 2 },
+      ],
+      sets: [
+        [
+          {
+            'set': 1,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+          {
+            'set': 2,
+            'previous': '',
+            'weight': '100',
+            'reps': '',
+          },
+        ],
+      ],
+    };
+
+    expect( track( previousState, action ) ).toEqual( expectedState );
   } );
 
 } );

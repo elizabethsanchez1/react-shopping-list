@@ -163,4 +163,5 @@ describe( 'Building action creators', () => {
 
     expect( buildSelectDayAction( 1 ) ).toEqual( expectedAction );
   } );
+
 } );

@@ -259,7 +259,10 @@ class Tracker extends Component {
               />
             </View>
 
-            <ButtonBar currentIndex={ currentIndex } />
+            <ButtonBar
+              currentIndex={ currentIndex }
+              updateIndex={ index => this.setState( { currentIndex: index } ) }
+            />
           </Card>
 
           <View style={ styles.pagination }>
