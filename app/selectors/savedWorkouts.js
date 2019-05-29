@@ -8,6 +8,11 @@ export const getPrograms = createSelector(
   savedWorkouts => savedWorkouts.programs,
 );
 
+export const getProgramByDocumentId = ( state, documentId ) => {
+  const { programs, workouts } = getSavedWorkouts( state )
+  return [ ...programs, ...workouts ].find( workout => workout.documentId === documentId );
+};
+
 export const getWorkouts = createSelector(
   state => getSavedWorkouts( state ),
   savedWorkouts => savedWorkouts.workouts,

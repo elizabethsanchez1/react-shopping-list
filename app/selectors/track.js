@@ -2,126 +2,35 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import { getCompletedExercises, getCompletedExercisesByAttempt, getDaysCompletedByAttempt } from './completedExercises';
 import { getPrograms } from './savedWorkouts';
+import MathService from '../utilities/mathFunctions';
 import { completedExercises as complete } from './mockData/exampleData';
 
-export const getAttemptInfo = state => state.track.attemptInfo;
 
-export const getBuildHistoryFlag = createSelector(
-  state => state.track,
-  (state) => {
-    // debugger;
-    // const { completedExercises, selectedData } = state;
-    // const name = selectedData.name;
-    // let flag = false;
-    //
-    // completedExercises.forEach(item => {
-    //   if (item.program === name) {
-    //     flag = true;
-    //   }
-    // });
-    //
-    // return flag;
+export const calculateActiveAttempt = createSelector(
+  state => getTrackObject( state ),
+  state => getActiveAttempt( state ),
+  state => getTrackType( state ),
+  ( trackObject, activeAttempt, type ) => {
 
-    return true;
-  }
-);
+    let attemptString = '';
 
-// export const getCompletedExercises = state => state.track.completedExercises;
+    if ( type === 'program' ) {
+      attemptString = trackObject.name
+        .split( ' ' )
+        .map( item => item.toLowerCase() )
+        .join( '_' );
 
-
-export const getAvailableExerciseList = createSelector(
-  state => state.track.completedExercises,
-  exercises => {
-     // return a order list of exercises with no duplicates
-    const uniqueExercises = [...new Set(exercises.map(exercise => exercise.exercise).sort())];
-    const formattedExercises = uniqueExercises.map(exercise => {
-      return { value: exercise };
-    });
-    return formattedExercises;
-  }
-);
-
-
-export const getExerciseHistory = state => state.track.exerciseHistory;
-
-export const getExerciseIndexLocation = state => state.track.addExerciseIndexLocation;
-
-export const getProgramPercentages = createSelector(
-  state => state.program.savedPrograms,
-  state => state.track.completedExercises,
-  (programs, completedExercises) => {
-
-    const completedPercentages = {};
-    programs.forEach(program => {
-      let totalDays = 0;
-      Object.keys(program.program).forEach(key => {
-        program.program[key].forEach(day => {
-          totalDays += day.exercises.length;
-        });
-      });
-
-      const completed = completedExercises.filter(exercise => exercise.belongsTo === program.activeAttempt).length;
-
-      const percentage = Math.round((completed / totalDays) * 100);
-
-      completedPercentages[program.name] = percentage;
-    });
-
-
-    return completedPercentages;
-  }
-);
-
-
-export const getTrackDayName = createSelector(
-  state => state.track,
-  (state) => {
-    const { selectedWeek, selectedDay, selectedData, type } = state;
-
-    if (type === 'program') {
-      return selectedData.program[selectedWeek][selectedDay].day;
+      if ( activeAttempt !== '' ) {
+        attemptString = activeAttempt;
+      }
+      else {
+        attemptString = `${ attemptString }_attempt_1`;
+      }
     }
 
-    if (type === 'workout') {
-      return selectedData.workout.week1[0].day;
-    }
-  }
+    return attemptString;
+  },
 );
-
-export const getTrackRedirect = state => state.track.redirectToSummary;
-
-export const getProgram = state => state.track.selectedData.program;
-
-export const getSelectedData = state => state.track.selectedData;
-
-export const getTrackableExerciseSets = state => state.track.trackableExerciseSets;
-
-export const getTracksSelectedWeek = state => state.track.selectedWeek;
-
-export const getTracksSelectedDay = state => state.track.selectedDay;
-
-// export const getWeeksFromProgram = state => state.track.completedWeeks;
-
-export const getTrackExercises = createSelector(
-  state => state.track,
-  (trackState) => {
-    const { selectedData, selectedDay, selectedWeek, type } = trackState;
-
-    if (type === 'program') {
-      return selectedData.program[selectedWeek][selectedDay].exercises;
-    }
-    else if (type === 'workout') {
-      return selectedData.workout.week1[0].exercises;
-    }
-  }
-);
-
-export const getTrackedExercises = state => state.track.trackedExercises;
-
-export const getTrackerSetupLoadingState = state => state.track.trackerSetupLoading;
-
-
-// V2 UNIT TESTED SELECTORS
 
 export const getActiveAttempt = createSelector(
   state => getTrackObject( state ),
@@ -200,6 +109,11 @@ export const getDaysForEachWeek = state => {
 
   return daysByWeek;
 };
+
+export const getTrackDocumentId = createSelector(
+  state => getTrackObject( state ),
+  trackObject => trackObject.documentId,
+);
 
 export const getPreviousExercisesByCount = ( state, options ) => {
   const { exercise, count } = options;
@@ -290,6 +204,103 @@ export const getTrackProgramWeeks = createSelector(
   programWeeks => programWeeks,
 );
 
+export const getEstimatedMaxes = ( exercises ) => {};
+
+export const calculateTrackedExerciseNumbers = createSelector(
+  state => getTrackExercisesByDay( state ),
+  state => getTrackSets( state ),
+  ( exercises, trackedSets ) => {
+    debugger;
+    return exercises.map( ( exercise, index ) => {
+      const name = ( exercise.exercise ) ? exercise.exercise : exercise.name;
+      const trackedReps = [];
+      const trackedWeights = [];
+      const volume = [];
+
+      trackedSets[ index ].forEach( set => {
+        let reps = parseInt( ( set.reps !== '' ) ? set.reps : 0, 10 );
+        let weight = parseInt( ( set.weight !== '' ) ? set.weight : 0, 10 );
+
+        trackedReps.push( reps );
+        trackedWeights.push( weight );
+        volume.push( reps * weight );
+      } );
+
+      const addUpNumbers = data => data.reduce( ( initalValue, current )  => initalValue + current );
+
+      const totalVolume = addUpNumbers( volume );
+      const toalReps = addUpNumbers( trackedReps );
+
+      const temp = {
+        ...exercise,
+        weight: parseInt( exercise.weight, 10 ),
+        exercise: name,
+        trackedWeights,
+        trackedReps,
+        totalVolume,
+      };
+
+      delete temp.name;
+      delete temp.reps;
+      delete temp.sets;
+
+      return temp;
+    } );
+  }
+);
+
+// TODO not unit tested due to mocking date issues
+export const calculateTrackedExerciseProgramInfo = createSelector(
+  state => getTrackObject( state ),
+  state => getTrackType( state ),
+  state => getTrackSelectedInfo( state ),
+  state => getTrackDay( state ),
+  state => calculateActiveAttempt( state ),
+  state => calculateTrackedExerciseNumbers( state ),
+  ( trackObject, type, selected, day, activeAttempt, exercises ) => {
+
+    return exercises.map( exercise => {
+
+      const temp = {
+        ...exercise,
+        type,
+        userId: trackObject.userId,
+        dayName: day,
+        trackedOn: new Date(),
+        belongsTo: activeAttempt,
+      };
+
+      if ( type === 'program' ) {
+        temp.name = trackObject.name;
+        temp.day = selected.day;
+        temp.week = selected.week;
+      }
+
+      if ( type === 'workout' ) {
+        temp.name = trackObject.workout.day;
+      }
+
+      return temp;
+    } );
+  },
+);
+
+// TODO not unit tested due to mocking date issues
+export const getTrackSaveInfo = ( state ) => {
+  const exercises = calculateTrackedExerciseProgramInfo( state );
+  return exercises.map( exercise => {
+    const { trackedWeights, trackedReps } = exercise;
+    const heaviestWeight = Math.max( ...trackedWeights );
+    const heaviestWeightReps = trackedReps[ trackedWeights.indexOf( heaviestWeight ) ];
+    const maxObject = MathService.calculateMaxes( heaviestWeight, heaviestWeightReps );
+
+    return {
+      ...exercise,
+      ...maxObject,
+    }
+  } );
+};
+
 export const getTrackSelectedInfo = createSelector(
   state => getTrack( state ),
   reducer => reducer.selected,
@@ -309,7 +320,14 @@ export const getTrackType = createSelector(
 // Currently not accounting for multiple attempts
 export const getStartedTrackingByProgram = createSelector(
   state => getTrackObject( state ),
-  trackObject => trackObject.attempts[ 0 ].startedTracking.seconds,
+  trackObject => {
+
+    if ( trackObject.attempts.length > 0 ) {
+      return trackObject.attempts[ 0 ].startedTracking.seconds;
+    }
+
+    return moment().unix();
+  },
 );
 
 export const getWeeksFromProgram = trackObject => {

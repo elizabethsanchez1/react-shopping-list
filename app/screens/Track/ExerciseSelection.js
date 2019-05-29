@@ -72,8 +72,6 @@ class ExerciseSelection extends Component {
   };
 
   changeData = ( item, index ) => {
-    console.log( item, index );
-
     if ( this.state.weeks ) {
       this.setState( {
         weeks: false,
@@ -81,7 +79,6 @@ class ExerciseSelection extends Component {
       } );
     }
     else {
-      console.log( 'route user to tracker' );
       this.props.selectDay( {
         week: this.state.selectedWeek,
         dayIndex: index,
@@ -94,8 +91,6 @@ class ExerciseSelection extends Component {
   render() {
     const { weeks, selectedWeek } = this.state;
     const { programWeeks, daysByWeek } = this.props;
-    console.log( 'exercise selection props', this.props );
-    console.log( 'exercise selection state', this.state );
 
     return (
       <Container>
@@ -133,7 +128,6 @@ const mapStateToProps = state => ( {
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  // actions: bindActionCreators( actions, dispatch ),
   selectDay: data => dispatch( trackSelectedDayAction( data ) ),
 } );
 

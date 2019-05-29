@@ -6,7 +6,7 @@ import {
   MODIFY_SETS,
   TRACK_ADD_EXERCISE_INDEX,
   TRACK_ADD_EXERCISES,
-  TRACK_REMOVE_EXERCISE
+  TRACK_REMOVE_EXERCISE, TRACK_SAVE_EXERCISES
 } from '../../constants/track';
 import {
   trackSelectedProgramAction,
@@ -16,7 +16,7 @@ import {
   modifySetsAction,
   trackAddExerciseIndexAction,
   trackAddExercisesAction,
-  trackRemoveExerciseAction
+  trackRemoveExerciseAction, trackSaveExercisesAction
 } from '../track';
 
 
@@ -94,4 +94,12 @@ describe( 'Track action creators', () => {
     expect( trackRemoveExerciseAction( 1 ) ).toEqual( expectedAction );
   } );
 
+  it( 'trackSaveExercisesAction() should dispatch TRACK_SAVE_EXERCISES', () => {
+    const expectedAction = {
+      type: TRACK_SAVE_EXERCISES,
+      payload: 1,
+    };
+
+    expect( trackSaveExercisesAction( 1 ) ).toEqual( expectedAction );
+  } );
 } );

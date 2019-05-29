@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ActionSheetIOS, Alert, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { KeyboardAwareScrollView, KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import { View, Button, StyleSheet } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { StyledText } from '../../components/Text';
 import Container from '../../components/Container/index';
 import { Pagination } from '../../components/Pagination';
-import { PrimaryButton, Link } from '../../components/Button';
+import { Link } from '../../components/Button';
 import Card from '../../components/Card/Card';
-import * as actions from '../../actions/track';
-import { calculateProgramAttempt, formatExercises, updateProgramAttempts } from '../../actions/track';
-import * as apiActions from '../../actions/workoutsApi';
-import { saveTrackedWorkout } from '../../actions/workoutsApi';
 import theme from '../../styles/theme.style';
 import { Loading } from '../../components/Loading';
 import {
-  getAttemptInfo,
-  getSelectedData,
-  getTrackableExerciseSets,
   getTrackDay,
-  getTrackDayName,
-  getTrackerSetupLoadingState,
-  getTrackExercises,
   getTrackExercisesByDay,
-  getTrackRedirect,
   getTrackSets,
-  getTracksSelectedDay,
-  getTracksSelectedWeek,
-  getTrackType,
 } from '../../selectors/track';
-import { getDocumentIds, getSaveTrackedWorkoutLoading } from '../../selectors/workoutsApi';
-import { getUid } from '../../selectors/authentication';
 import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
-import { trackEditFieldAction } from '../../actions/track';
 import ButtonBar from '../../containers/Track/ButtonBar';
+import { trackSaveExercisesAction, trackEditFieldAction } from '../../actions/track';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { TRACK } from '../../constants/reducerObjects';
 
 const styles = StyleSheet.create( {
   buttonStyle: {
@@ -99,28 +84,19 @@ class Tracker extends Component {
     this.props.navigation.setParams( { saveWorkout: this.saveWorkout } );
   }
 
-  componentDidUpdate() {
-    if ( this.props.redirect ) {
-      this.props.navigation.navigate( 'TrackSummary' );
-    }
-  }
-
   saveWorkout = () => {
-    const { selectedData, selectedWeek, selectedDay, type, attemptInfo, uid } = this.props;
-
-    if ( type === 'program' && attemptInfo.updateDatabase ) {
-      this.props.updateProgramAttempts( attemptInfo );
-    }
-
-    this.props.saveTrackedWorkout();
+    this.props.saveTrackedExercises();
   };
 
   handleNavigation = direction => {
     const { currentIndex } = this.state;
+    const isNotLastItem = currentIndex + 1 < this.props.exercises.length;
+    const isNotFirstItem = currentIndex !== 0;
 
-    if ( direction === 'next' && currentIndex + 1 < this.props.exercises.length ) {
+    if ( direction === 'next' && isNotLastItem ) {
       this.setState( { currentIndex: currentIndex + 1 } );
-    } else if ( direction === 'previous' && currentIndex !== 0 ) {
+    }
+    else if ( direction === 'previous' && isNotFirstItem ) {
       this.setState( { currentIndex: currentIndex - 1 } );
     }
   };
@@ -129,19 +105,14 @@ class Tracker extends Component {
     console.log( 'Tracker.js props', this.props );
     console.log( 'Tracker.js state', this.state );
     const { currentIndex } = this.state;
-    const { sets, day, exercises, navigation, editField } = this.props;
+    const { sets, day, exercises, navigation, editField, loading } = this.props;
     const targetWeight = exercises[ currentIndex ].weight;
     const targetReps = exercises[ currentIndex ].reps;
     const name = ( exercises[ currentIndex ].name )
       ? exercises[ currentIndex ].name
       : exercises[ currentIndex ].exercise;
 
-
-    if ( this.props.trackerSetupLoading ) {
-      return <Loading />;
-    }
-
-    if ( this.props.saveTrackedWorkoutLoading ) {
+    if ( loading ) {
       return <Loading />;
     }
 
@@ -166,9 +137,8 @@ class Tracker extends Component {
                   title={ name }
                   onPress={
                     () => {
-                      console.log( 'build exercise history', exercises[ currentIndex ].exercise );
                       navigation.navigate( 'ExerciseHistory', {
-                        exercise: exercises[ currentIndex ].exercise,
+                        exercise: name,
                       } );
                     }
                   }
@@ -220,54 +190,20 @@ Tracker.propTypes = {
   day: PropTypes.string,
   exercises: PropTypes.array,
   editField: PropTypes.func,
-
-
-  trackActions: PropTypes.object,
-  workoutsApi: PropTypes.object,
-  type: PropTypes.string,
-  dayName: PropTypes.string,
-  exerciseSets: PropTypes.array,
-  selectedData: PropTypes.object,
-  documentIds: PropTypes.array,
-  attemptInfo: PropTypes.object,
-  selectedWeek: PropTypes.string,
-  selectedDay: PropTypes.number,
-  uid: PropTypes.string,
-  redirect: PropTypes.bool,
-  // isLoading: PropTypes.bool,
-  trackerSetupLoading: PropTypes.bool,
-  saveTrackedWorkoutLoading: PropTypes.bool,
+  saveTrackedExercises: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => ( {
   sets: getTrackSets( state ),
   day: getTrackDay( state ),
   exercises: getTrackExercisesByDay( state ),
-
-
-  // type: getTrackType( state ),
-  // exerciseSets: getTrackableExerciseSets( state ),
-  // documentIds: getDocumentIds( state ),
-  // selectedData: getSelectedData( state ),
-  // dayName: getTrackDayName( state ),
-  // attemptInfo: getAttemptInfo( state ),
-  // selectedWeek: getTracksSelectedWeek( state ),
-  // selectedDay: getTracksSelectedDay( state ),
-  // uid: getUid( state ),
-  // redirect: getTrackRedirect( state ),
-  // trackerSetupLoading: getTrackerSetupLoadingState( state ),
-  // saveTrackedWorkoutLoading: getSaveTrackedWorkoutLoading( state ),
+  loading: getLoadingByDomain( state, TRACK ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  trackActions: bindActionCreators( actions, dispatch ),
-  workoutsApi: bindActionCreators( apiActions, dispatch ),
-  saveTrackedWorkout: () => dispatch( saveTrackedWorkout() ),
-  calculateProgramAttempt: ( data, ids ) => dispatch( calculateProgramAttempt( data, ids ) ),
-  formatExercises: exercises => dispatch( formatExercises( exercises ) ),
-  updateProgramAttempts: attempt => dispatch( updateProgramAttempts( attempt ) ),
-
   editField: data => dispatch( trackEditFieldAction( data ) ),
+  saveTrackedExercises: data => dispatch( trackSaveExercisesAction( data ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Tracker );

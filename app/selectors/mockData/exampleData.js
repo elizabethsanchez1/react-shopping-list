@@ -2085,6 +2085,83 @@ export const program = {
   'documentId': 'r1YwPJm87oVHFVdPfk9G',
 };
 
+export const newProgram = {
+  'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+  'attempts': [],
+  'program': {
+    'week1': [
+      {
+        'completed': false,
+        'day': 'Day 1',
+        'exercises': [
+          {
+            'weight': '225',
+            'compound': true,
+            'reps': '10',
+            'sets': '2',
+            'rpe': '',
+            'isolation': false,
+            'type': 'standard',
+            'name': 'Barbell Bench Press',
+            'muscleGroup': 'Chest',
+          },
+          {
+            'weight': '55',
+            'compound': false,
+            'reps': '12',
+            'sets': '2',
+            'rpe': '',
+            'isolation': true,
+            'type': 'standard',
+            'name': 'Barbell Curl',
+            'muscleGroup': 'Biceps',
+          },
+        ],
+      },
+    ],
+    'week2': [
+      {
+        'completed': false,
+        'day': 'Day 1',
+        'exercises': [
+          {
+            'weight': '225',
+            'compound': true,
+            'reps': '10',
+            'sets': '2',
+            'rpe': '',
+            'isolation': false,
+            'type': 'standard',
+            'name': 'Barbell Bench Press',
+            'muscleGroup': 'Chest',
+          },
+          {
+            'weight': '55',
+            'compound': false,
+            'reps': '12',
+            'sets': '2',
+            'rpe': '',
+            'isolation': true,
+            'type': 'standard',
+            'name': 'Barbell Curl',
+            'muscleGroup': 'Biceps',
+          },
+        ],
+      },
+    ],
+  },
+  'created': {
+    'seconds': 1559139649,
+    'nanoseconds': 71000000,
+    'formatted': '05/29/2019',
+  },
+  'activeAttempt': '',
+  'type': 'program',
+  'documentId': 'D1lGILCFQ3nnqIDeNsI0',
+  'name': 'Test Program',
+  'editing': false,
+};
+
 export const workout = {
   'editing': false,
   'documentId': 'LGb5866MpxZne4fSz9Hc',

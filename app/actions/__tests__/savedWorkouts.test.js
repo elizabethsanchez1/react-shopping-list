@@ -1,5 +1,12 @@
-import { LISTEN_FOR_SAVED_WORKOUTS, RECEIVED_SAVED_WORKOUTS } from '../../constants/savedWorkouts';
-import { listenForSavedWorkoutsAction, receivedSavedWorkoutsAction } from '../savedWorkouts';
+import {
+  LISTEN_FOR_SAVED_WORKOUTS,
+  RECEIVED_SAVED_WORKOUTS,
+} from '../../constants/savedWorkouts';
+import {
+  listenForSavedWorkoutsAction,
+  receivedSavedWorkoutsAction,
+  updateProgramAttemptAction
+} from '../savedWorkouts';
 
 
 describe( 'Program action creators', () => {

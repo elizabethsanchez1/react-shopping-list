@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import moment from 'moment';
 import Container from '../../components/Container/index';
 import { StyledText } from '../../components/Text';
-import * as actions from '../../actions/track';
 import theme from '../../styles/theme.style';
-// import  Tooltip  from 'react-native-walkthrough-tooltip';
 import Tooltip from '../../components/Tooltip/Tooltip';
 import TrackExerciseHistoryTable from '../../components/Table/TrackExerciseHistoryTable';
 import { getMaxesInfoByExercise, getPreviousExercisesByCount } from '../../selectors/track';
@@ -68,16 +64,10 @@ class ExerciseHistory extends Component {
     this.keyCount = 0;
   }
 
-  /**
-   * Generate a predictable unique key for react to keep track of elements
-   * @return {number}
-   */
-  getKey() {
-    return ( this.keyCount += 1 );
-  }
+  getKey = () => ( this.keyCount += 1 );
 
   render() {
-    console.log( 'exercise Hisoty props: ', this.props );
+    console.log( 'ExerciseHistory props', this.props );
     const { exercise } = this.props.navigation.state.params;
     const { previousExercises, exerciseMaxes } = this.props;
 

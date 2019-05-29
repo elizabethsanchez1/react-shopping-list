@@ -14,10 +14,14 @@ import {
   getTrackType,
   getTrackDay,
   getTrackExercisesByDay,
-  getPreviousExercisesByCount, getMaxesInfoByExercise,
+  getPreviousExercisesByCount,
+  getMaxesInfoByExercise,
+  getTrackSaveInfo,
+  calculateActiveAttempt,
+  calculateTrackedExerciseNumbers, calculateTrackedExerciseProgramInfo, getTrackDocumentId,
 } from '../track';
 
-import { program, completedExercises, savedWorkouts, workout } from '../mockData/exampleData';
+import { program, completedExercises, savedWorkouts, workout, newProgram } from '../mockData/exampleData';
 
 // const savedWorkouts = {
 //   programs: [
@@ -448,10 +452,43 @@ describe( 'Track selectors', () => {
       },
     ];
     expect( getTrackProgramWeeks( state ) ).toEqual( expectedValue );
+
+    // scenario where its a new program
+    const state1 = {
+      track: {
+        type: 'program',
+        selected: {
+          week: 'week1',
+          day: 0,
+        },
+        trackObject: newProgram,
+      },
+      completedExercises,
+      savedWorkouts,
+    };
+    const expectedValue2 = [
+      { label: 'Week 1 --- Current Week', week: 'week1', completed: false, currentWeek: true },
+      { label: 'Week 2', week: 'week2', completed: false, currentWeek: false },
+    ];
+
+    expect( getTrackProgramWeeks( state1 ) ).toEqual( expectedValue2 );
+
   } );
 
   it( 'getStartedTrackingByProgram() should return the started tracking date/timestamp for the selected program', () => {
-    expect( getStartedTrackingByProgram( state ) ).toEqual( state.track.trackObject.attempts[ 0 ].startedTracking.seconds );
+
+    expect( getStartedTrackingByProgram( state ) )
+      .toEqual( state.track.trackObject.attempts[ 0 ].startedTracking.seconds );
+
+    // TODO need to mock scenario where I return unix timestamp for today
+    // TODO need to be able to mock Moment.js for just this test
+
+    // let state1 = { ...state };
+    // state1.track.trackObject = newProgram;
+
+    // expect( getStartedTrackingByProgram( state1 ) )
+    //   .toEqual(  );
+
   } );
 
   it( 'getDaysForEachWeek() should return an object of weeks for a program that has all the day names as an array for each week', () => {
@@ -834,5 +871,353 @@ describe( 'Track selectors', () => {
 
     expect( getMaxesInfoByExercise( state, options ) ).toEqual( expectedValues );
   } );
+
+  // it( 'getTrackSaveInfo() should return exercises that are tracked inside the track reducer in a formatted array so we can save that information', () => {
+  //   const expectedValues = [
+  //
+  //   ];
+  //
+  //   expect( getTrackSaveInfo( state ) ).toEqual( expectedValues );
+  // } );
+
+
+  describe( 'Saving Tracked Exercises related functions', () => {
+    const trackedSets = [
+      [
+        { set: 1, weight: 100, reps: 8, previous: '' },
+        { set: 2, weight: 100, reps: 8, previous: '' },
+        { set: 3, weight: 100, reps: 8, previous: '' },
+      ],
+      [
+        { set: 1, weight: 120, reps: 6, previous: '' },
+        { set: 2, weight: 120, reps: 6, previous: '' },
+        { set: 3, weight: 120, reps: 6, previous: '' },
+      ],
+      [
+        { set: 1, weight: 140, reps: 7, previous: '' },
+        { set: 2, weight: 140, reps: 7, previous: '' },
+        { set: 3, weight: 140, reps: 7, previous: '' },
+      ],
+      [
+        { set: 1, weight: 150, reps: 5, previous: '' },
+        { set: 2, weight: 150, reps: 5, previous: '' },
+        { set: 3, weight: 150, reps: 5, previous: '' },
+      ],
+      [
+        { set: 1, weight: 200, reps: 3, previous: '' },
+        { set: 2, weight: 200, reps: 3, previous: '' },
+        { set: 3, weight: 200, reps: 3, previous: '' },
+      ],
+      [
+        { set: 1, weight: 150, reps: 6, previous: '' },
+        { set: 2, weight: 150, reps: 6, previous: '' },
+        { set: 3, weight: 150, reps: 6, previous: '' },
+      ],
+    ];
+    const state1 = {
+      ...state,
+      track: {
+        ...state.track,
+        trackObject: newProgram,
+        sets: trackedSets,
+      },
+    };
+
+    it( 'calculateActiveAttempt() should return an attempt string', () => {
+
+      const expectedValue = 'test_program_attempt_1';
+      expect( calculateActiveAttempt( state1 ) ).toEqual( expectedValue );
+
+
+      const expectedValue1 = 'cutting_04_-_06_attempt_1';
+      expect( calculateActiveAttempt( state ) ).toEqual( expectedValue1 );
+    } );
+
+    it( 'calcuateTrackedExercisesNumbers() should return an array of exercises with all math based properties it needs in order to save the tracked exercises', () => {
+      const expectedValues = [
+        {
+          'exercise': 'Barbell Bench Press',
+          'weight': 225,
+          'compound': true,
+          'isolation': false,
+          'muscleGroup': 'Chest',
+          'trackedWeights': [
+            100,
+            100,
+            100,
+          ],
+          'trackedReps': [
+            8,
+            8,
+            8,
+          ],
+          'totalVolume': 2400,
+        },
+        {
+          'exercise': 'Barbell Curl',
+          'weight': 60,
+          'compound': false,
+          'isolation': true,
+          'muscleGroup': 'Biceps',
+          'trackedWeights': [
+            120,
+            120,
+            120,
+          ],
+          'trackedReps': [
+            6,
+            6,
+            6,
+          ],
+          'totalVolume': 2160,
+        },
+        {
+          'exercise': 'Cable Overhead Tricep Extension',
+          'weight': 120,
+          'compound': false,
+          'isolation': true,
+          'muscleGroup': 'Triceps',
+          'trackedWeights': [
+            140,
+            140,
+            140,
+          ],
+          'trackedReps': [
+            7,
+            7,
+            7,
+          ],
+          'totalVolume': 2940,
+        },
+        {
+          'exercise': 'Pull ups',
+          'weight': 175,
+          'compound': true,
+          'isolation': false,
+          'muscleGroup': 'Back',
+          'trackedWeights': [
+            150,
+            150,
+            150,
+          ],
+          'trackedReps': [
+            5,
+            5,
+            5,
+          ],
+          'totalVolume': 2250,
+        },
+        {
+          'exercise': 'Side Laterals',
+          'weight': 20,
+          'compound': false,
+          'isolation': true,
+          'muscleGroup': 'Shoulders',
+          'trackedWeights': [
+            200,
+            200,
+            200,
+          ],
+          'trackedReps': [
+            3,
+            3,
+            3,
+          ],
+          'totalVolume': 1800,
+        },
+        {
+          'exercise': 'Machine Bicep Curl',
+          'weight': 90,
+          'compound': false,
+          'isolation': true,
+          'muscleGroup': 'Biceps',
+          'trackedWeights': [
+            150,
+            150,
+            150,
+          ],
+          'trackedReps': [
+            6,
+            6,
+            6,
+          ],
+          'totalVolume': 2700,
+        },
+      ];
+      expect( calculateTrackedExerciseNumbers( state1 ) ).toEqual( expectedValues );
+    } );
+
+
+    // it( 'calculateTrackedExerciseProgramInfo() should return an array of exercises with all the program/workout related info in each exercise in order to save the tracked exercises', () => {
+    //   const expectedValues = [
+    //     {
+    //       'exercise': 'Barbell Bench Press',
+    //       'weight': 225,
+    //       'compound': true,
+    //       'isolation': false,
+    //       'muscleGroup': 'Chest',
+    //       'trackedWeights': [
+    //         100,
+    //         100,
+    //         100,
+    //       ],
+    //       'trackedReps': [
+    //         8,
+    //         8,
+    //         8,
+    //       ],
+    //       'totalVolume': 2400,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //     {
+    //       'exercise': 'Barbell Curl',
+    //       'weight': 60,
+    //       'compound': false,
+    //       'isolation': true,
+    //       'muscleGroup': 'Biceps',
+    //       'trackedWeights': [
+    //         120,
+    //         120,
+    //         120,
+    //       ],
+    //       'trackedReps': [
+    //         6,
+    //         6,
+    //         6,
+    //       ],
+    //       'totalVolume': 2160,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //     {
+    //       'exercise': 'Cable Overhead Tricep Extension',
+    //       'weight': 120,
+    //       'compound': false,
+    //       'isolation': true,
+    //       'muscleGroup': 'Triceps',
+    //       'trackedWeights': [
+    //         140,
+    //         140,
+    //         140,
+    //       ],
+    //       'trackedReps': [
+    //         7,
+    //         7,
+    //         7,
+    //       ],
+    //       'totalVolume': 2940,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //     {
+    //       'exercise': 'Pull ups',
+    //       'weight': 175,
+    //       'compound': true,
+    //       'isolation': false,
+    //       'muscleGroup': 'Back',
+    //       'trackedWeights': [
+    //         150,
+    //         150,
+    //         150,
+    //       ],
+    //       'trackedReps': [
+    //         5,
+    //         5,
+    //         5,
+    //       ],
+    //       'totalVolume': 2250,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //     {
+    //       'exercise': 'Side Laterals',
+    //       'weight': 20,
+    //       'compound': false,
+    //       'isolation': true,
+    //       'muscleGroup': 'Shoulders',
+    //       'trackedWeights': [
+    //         200,
+    //         200,
+    //         200,
+    //       ],
+    //       'trackedReps': [
+    //         3,
+    //         3,
+    //         3,
+    //       ],
+    //       'totalVolume': 1800,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //     {
+    //       'exercise': 'Machine Bicep Curl',
+    //       'weight': 90,
+    //       'compound': false,
+    //       'isolation': true,
+    //       'muscleGroup': 'Biceps',
+    //       'trackedWeights': [
+    //         150,
+    //         150,
+    //         150,
+    //       ],
+    //       'trackedReps': [
+    //         6,
+    //         6,
+    //         6,
+    //       ],
+    //       'totalVolume': 2700,
+    //       'type': 'program',
+    //       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+    //       'dayName': 'Day 1',
+    //       'trackedOn': '2019-05-29T19:57:34.386Z',
+    //       'belongsTo': 'test_program_attempt_1',
+    //       'name': 'Test Program',
+    //       'day': 0,
+    //       'week': 'week1',
+    //     },
+    //   ];
+    //   expect( calculateTrackedExerciseProgramInfo( state1 ) )
+    //     .toEqual( expectedValues );
+    // } );
+
+    it( 'getTrackDocumentId() should return firebase document id for the program whose exercises were just tracked', () => {
+      const expectedValue = 'r1YwPJm87oVHFVdPfk9G';
+
+      expect( getTrackDocumentId( state ) ).toEqual( expectedValue );
+    } );
+
+  } );
+
 
 } );

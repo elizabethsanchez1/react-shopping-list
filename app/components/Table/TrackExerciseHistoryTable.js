@@ -54,7 +54,6 @@ let keyCount = 1000;
 const getKey = () => keyCount += 1;
 
 const TrackExerciseHistoryTable = ( { header, data, containerStyling } ) => {
-  console.log( 'what is in data: ', data );
   const width = { width: `${ 100 / header.length }%` };
   const lastItem = header.length - 1;
 
