@@ -115,20 +115,20 @@ class ButtonBar extends Component {
           <Text style={ styles.buttonText }>Edit exercises</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={ [ styles.buttonStyle, { borderRightWidth: 0 } ] }
-          // disabled={ ( !( targetWeight && targetReps ) ) }
-          onPress={ () => this.quickTrack() }
-        >
-          <Text
-            style={ styles.buttonText }
-            // style={
-            //   ( targetWeight && targetReps ) ? styles.buttonText : styles.disabledStyle
-            // }
-          >
-            Quick track
-          </Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*  style={ [ styles.buttonStyle, { borderRightWidth: 0 } ] }*/}
+        {/*  // disabled={ ( !( targetWeight && targetReps ) ) }*/}
+        {/*  onPress={ () => this.quickTrack() }*/}
+        {/*>*/}
+        {/*  <Text*/}
+        {/*    style={ styles.buttonText }*/}
+        {/*    // style={*/}
+        {/*    //   ( targetWeight && targetReps ) ? styles.buttonText : styles.disabledStyle*/}
+        {/*    // }*/}
+        {/*  >*/}
+        {/*    Quick track*/}
+        {/*  </Text>*/}
+        {/*</TouchableOpacity>*/}
 
       </View>
     );

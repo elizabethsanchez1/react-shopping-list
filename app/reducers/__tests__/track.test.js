@@ -411,7 +411,6 @@ describe( 'Track reducer unit tests', () => {
         'selected': false,
       },
     ];
-
     const action = trackAddExercisesAction( data );
     const previousState = {
       selected: { week: 'week1', day: 0, exercise: 0 },
@@ -545,7 +544,6 @@ describe( 'Track reducer unit tests', () => {
         ],
       ],
     };
-
 
     expect( track( previousState, action ) ).toEqual( expectedState );
   } );

@@ -8,7 +8,13 @@ import {
   getTrackProgramWeeks,
   getStartedTrackingByProgram,
   markCompletedFlagsByDate,
-  getDaysForEachWeek, getTrackSets, getTrackSelectedInfo, getTrackType, getTrackDay, getTrackExercisesByDay,
+  getDaysForEachWeek,
+  getTrackSets,
+  getTrackSelectedInfo,
+  getTrackType,
+  getTrackDay,
+  getTrackExercisesByDay,
+  getPreviousExercisesByCount, getMaxesInfoByExercise,
 } from '../track';
 
 import { program, completedExercises, savedWorkouts, workout } from '../mockData/exampleData';
@@ -220,6 +226,7 @@ const workoutState = {
   savedWorkouts,
 };
 
+
 describe( 'Track selectors', () => {
 
   it( 'getTrack() should return the track reducer', () => {
@@ -362,78 +369,22 @@ describe( 'Track selectors', () => {
     expect( markCompletedFlagsByDaysCompleted( state ) ).toEqual( expectedValue );
   } );
 
-  it( 'markCompletedFlagsByDate() should mark a week completed if the start-end date of the week is less then the most recent monday', () => {
-    const expectedValue = [
-      {
-        'label': 'Week 1 Completed',
-        'week': 'week1',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 2 Completed',
-        'week': 'week2',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 3 Completed',
-        'week': 'week3',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 4 Completed',
-        'week': 'week4',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 5 Completed',
-        'week': 'week5',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 6 Completed',
-        'week': 'week6',
-        'completed': true,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 7 --- Current Week',
-        'week': 'week7',
-        'completed': false,
-        'currentWeek': true,
-      },
-      {
-        'label': 'Week 8',
-        'week': 'week8',
-        'completed': false,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 9',
-        'week': 'week9',
-        'completed': false,
-        'currentWeek': false,
-      },
-      {
-        'label': 'Week 10',
-        'week': 'week10',
-        'completed': false,
-        'currentWeek': false,
-      },
-    ];
-    expect( markCompletedFlagsByDate( state ) ).toEqual( expectedValue );
-  } );
-
   it( 'getActiveAttempt() should return the active attempt of the selected program', () => {
     expect( getActiveAttempt( state ) )
       .toEqual( state.track.trackObject.activeAttempt );
   } );
 
+  // TODO need to figure out how to mock out Moment correctly
   it( 'getTrackProgramWeeks() should get an array of week object to display to the user so they can pick a week to track', () => {
+
+    // this is not working
+    jest.mock( 'moment', () => () => (
+      {
+        format: () => '2019-05-21T19:46:09-05:00',
+        unix: () => '2019-04-09T20:52:09-05:00',
+      } ) );
+
+
     const expectedValue = [
       {
         'label': 'Week 1 Completed',
@@ -472,16 +423,16 @@ describe( 'Track selectors', () => {
         'currentWeek': false,
       },
       {
-        'label': 'Week 7 --- Current Week',
+        'label': 'Week 7 Completed',
         'week': 'week7',
-        'completed': false,
-        'currentWeek': true,
+        'completed': true,
+        'currentWeek': false,
       },
       {
-        'label': 'Week 8',
+        'label': 'Week 8 --- Current Week',
         'week': 'week8',
         'completed': false,
-        'currentWeek': false,
+        'currentWeek': true,
       },
       {
         'label': 'Week 9',
@@ -720,6 +671,168 @@ describe( 'Track selectors', () => {
 
     const expectedValue1 = workoutState.track.exercises;
     expect( getTrackExercisesByDay( workoutState ) ).toEqual( expectedValue1 );
+  } );
+
+  it( 'getPreviousExercisesByCount() should return the previous exercises by the count specified', () => {
+    const options = { exercise: 'Barbell Bench Press', count: 5 };
+    const expectedValue = [
+      {
+        'sets': 3,
+        'weight': 225,
+        'reps': 3,
+        'trackedReps': [
+          6,
+          4,
+          5,
+        ],
+        'trackedWeights': [
+          235,
+          235,
+          230,
+        ],
+        'estimated1RM': 279,
+        'estimated3RM': 255,
+        'estimated5RM': 242,
+        'estimated8RM': 224,
+        'estimated10RM': 213,
+        'trackedOn': '05/21/19',
+      },
+      {
+        'sets': 7,
+        'weight': 205,
+        'reps': 7,
+        'trackedReps': [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+        ],
+        'trackedWeights': [
+          170,
+          170,
+          170,
+          170,
+          170,
+          170,
+          170,
+        ],
+        'estimated1RM': 186,
+        'estimated3RM': 170,
+        'estimated5RM': 161,
+        'estimated8RM': 149,
+        'estimated10RM': 142,
+        'trackedOn': '05/18/19',
+      },
+      {
+        'sets': 3,
+        'weight': 225,
+        'reps': 3,
+        'trackedReps': [
+          8,
+          8,
+          8,
+        ],
+        'trackedWeights': [
+          195,
+          195,
+          195,
+        ],
+        'estimated1RM': 243,
+        'estimated3RM': 222,
+        'estimated5RM': 210,
+        'estimated8RM': 195,
+        'estimated10RM': 186,
+        'trackedOn': '05/14/19',
+      },
+      {
+        'sets': 2,
+        'weight': 205,
+        'reps': 2,
+        'trackedReps': [
+          6,
+          6,
+        ],
+        'trackedWeights': [
+          185,
+          185,
+        ],
+        'estimated1RM': 219,
+        'estimated3RM': 200,
+        'estimated5RM': 190,
+        'estimated8RM': 176,
+        'estimated10RM': 167,
+        'trackedOn': '05/11/19',
+      },
+      {
+        'sets': 2,
+        'weight': 225,
+        'reps': 2,
+        'trackedReps': [
+          6,
+          6,
+        ],
+        'trackedWeights': [
+          185,
+          185,
+        ],
+        'estimated1RM': 219,
+        'estimated3RM': 200,
+        'estimated5RM': 190,
+        'estimated8RM': 176,
+        'estimated10RM': 167,
+        'trackedOn': '05/07/19',
+      },
+      {
+        'sets': 3,
+        'weight': 205,
+        'reps': 3,
+        'trackedReps': [
+          4,
+          4,
+          4,
+        ],
+        'trackedWeights': [
+          235,
+          235,
+          235,
+        ],
+        'estimated1RM': 264,
+        'estimated3RM': 242,
+        'estimated5RM': 229,
+        'estimated8RM': 212,
+        'estimated10RM': 202,
+        'trackedOn': '05/04/19',
+      },
+    ];
+    expect( getPreviousExercisesByCount( state, options ) )
+      .toEqual( expectedValue );
+  } );
+
+  it( 'getMaxesInfoByExercise() should return max/PR related information for a given exercise', () => {
+    const options = { exercise: 'Barbell Bench Press', count: 5 };
+    const expectedValues = {
+      'allTimeMaxes': {
+        'estimated1RM': 279,
+        'estimated3RM': 255,
+        'estimated5RM': 242,
+        'estimated8RM': 224,
+        'estimated10RM': 213,
+      },
+      'allTimeMaxesDate': '05/21/19',
+      'latestMaxes': {
+        'estimated1RM': 279,
+        'estimated3RM': 255,
+        'estimated5RM': 242,
+        'estimated8RM': 224,
+        'estimated10RM': 213,
+      },
+      'latestMaxesDate': '05/21/19',
+    };
+
+    expect( getMaxesInfoByExercise( state, options ) ).toEqual( expectedValues );
   } );
 
 } );

@@ -74,13 +74,6 @@ const styles = StyleSheet.create( {
 } );
 
 class Tracker extends Component {
-  constructor( props ) {
-    super( props );
-    this.state = {
-      currentIndex: 0,
-    };
-  }
-
   static navigationOptions = ( { navigation } ) => {
     return {
       headerRight: (
@@ -95,15 +88,15 @@ class Tracker extends Component {
     };
   };
 
-  componentDidMount() {
-    const { selectedData, exercises, documentIds } = this.props;
-    this.props.navigation.setParams( { saveWorkout: this.saveWorkout } );
+  constructor( props ) {
+    super( props );
+    this.state = {
+      currentIndex: 0,
+    };
+  }
 
-    // if ( this.props.type === 'program' ) {
-    //   this.props.calculateProgramAttempt( selectedData, documentIds );
-    // }
-    //
-    // this.props.formatExercises( exercises );
+  componentDidMount() {
+    this.props.navigation.setParams( { saveWorkout: this.saveWorkout } );
   }
 
   componentDidUpdate() {
@@ -122,66 +115,6 @@ class Tracker extends Component {
     this.props.saveTrackedWorkout();
   };
 
-  editExercises = () => {
-    const { selectedData, type, selectedWeek, selectedDay, exercises, exerciseSets } = this.props;
-    const { currentIndex } = this.state;
-    const showRemoveOption = ( exercises.length > 1 );
-    const options = {
-      options: [ 'Cancel', 'Remove This Exercise', 'Add Exercise' ],
-      destructiveButtonIndex: 1,
-      cancelButtonIndex: 0,
-    };
-    const reducedOptions = {
-      options: [ 'Cancel', 'Add Exercise' ],
-      cancelButtonIndex: 0,
-    };
-
-    ActionSheetIOS.showActionSheetWithOptions(
-      ( showRemoveOption ) ? options : reducedOptions,
-      buttonIndex => {
-
-        if ( showRemoveOption ) {
-          if ( buttonIndex === 1 ) {
-            this.setState( {
-              currentIndex: ( currentIndex !== 0 ) ? currentIndex - 1 : currentIndex,
-            } );
-
-            this.props.trackActions.removeExercise(
-              selectedData,
-              type,
-              selectedWeek,
-              selectedDay,
-              currentIndex,
-              exerciseSets,
-            );
-          }
-
-          if ( buttonIndex === 2 ) {
-            this.props.trackActions.storeAddExerciseIndex( currentIndex + 1 );
-            this.props.navigation.navigate( 'TrackMuscleGroupList' );
-          }
-        }
-
-        if ( !showRemoveOption ) {
-          if ( buttonIndex === 1 ) {
-            this.props.trackActions.storeAddExerciseIndex( currentIndex + 1 );
-            this.props.navigation.navigate( 'TrackMuscleGroupList' );
-          }
-        }
-      }, 
-    );
-  };
-
-  quickTrack = () => {
-    const { exerciseSets, exercises } = this.props;
-
-    this.props.trackActions.quickTrack(
-      exercises,
-      exerciseSets,
-      this.state.currentIndex,
-    );
-  };
-
   handleNavigation = direction => {
     const { currentIndex } = this.state;
 
@@ -192,15 +125,11 @@ class Tracker extends Component {
     }
   };
 
-  goToHistory = exercise => {
-    this.props.navigation.navigate( 'ExerciseHistory', { exercise } );
-  };
-
   render() {
     console.log( 'Tracker.js props', this.props );
     console.log( 'Tracker.js state', this.state );
     const { currentIndex } = this.state;
-    const { sets, day, exercises, editField } = this.props;
+    const { sets, day, exercises, navigation, editField } = this.props;
     const targetWeight = exercises[ currentIndex ].weight;
     const targetReps = exercises[ currentIndex ].reps;
     const name = ( exercises[ currentIndex ].name )
@@ -235,7 +164,14 @@ class Tracker extends Component {
               <View style={ styles.linkContainer }>
                 <Link
                   title={ name }
-                  onPress={ () => this.goToHistory( exercises[ currentIndex ] ) }
+                  onPress={
+                    () => {
+                      console.log( 'build exercise history', exercises[ currentIndex ].exercise );
+                      navigation.navigate( 'ExerciseHistory', {
+                        exercise: exercises[ currentIndex ].exercise,
+                      } );
+                    }
+                  }
                 />
               </View>
 

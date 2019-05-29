@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import { getCompletedExercises, getCompletedExercisesByAttempt, getDaysCompletedByAttempt } from './completedExercises';
 import { getPrograms } from './savedWorkouts';
+import { completedExercises as complete } from './mockData/exampleData';
 
 export const getAttemptInfo = state => state.track.attemptInfo;
 
@@ -200,6 +201,59 @@ export const getDaysForEachWeek = state => {
   return daysByWeek;
 };
 
+export const getPreviousExercisesByCount = ( state, options ) => {
+  const { exercise, count } = options;
+  const completedExercises = getCompletedExercises( state );
+
+  return completedExercises.filter( item => item.exercise === exercise )
+    .sort( ( a, b ) =>  b.trackedOn.seconds - a.trackedOn.seconds )
+    .slice( 0, count + 1 )
+    .map( item => {
+      return {
+        sets: item.trackedReps.length,
+        weight: item.weight,
+        reps: item.trackedReps.length,
+        trackedReps: item.trackedReps,
+        trackedWeights: item.trackedWeights,
+        estimated1RM: item.estimated1RM,
+        estimated3RM: item.estimated3RM,
+        estimated5RM: item.estimated5RM,
+        estimated8RM: item.estimated8RM,
+        estimated10RM: item.estimated10RM,
+        trackedOn: moment( moment.unix( item.trackedOn.seconds ) ).format( 'MM/DD/YY' ),
+      };
+    } )
+};
+
+export const getMaxesInfoByExercise = ( state, options ) => {
+  // The fist item is the most recent
+  const recentExercises = getPreviousExercisesByCount( state, options );
+  const personalBest1RM = Math.max( ...recentExercises.map( item => {
+    return item.estimated1RM;
+  } ), 0 );
+  const personalBest = recentExercises.find( item => item.estimated1RM === personalBest1RM );
+
+  return {
+    allTimeMaxes: {
+      estimated1RM: personalBest.estimated1RM,
+      estimated3RM: personalBest.estimated3RM,
+      estimated5RM: personalBest.estimated5RM,
+      estimated8RM: personalBest.estimated8RM,
+      estimated10RM: personalBest.estimated10RM,
+    },
+    allTimeMaxesDate: personalBest.trackedOn,
+    latestMaxes: {
+      estimated1RM: recentExercises[ 0 ].estimated1RM,
+      estimated3RM: recentExercises[ 0 ].estimated3RM,
+      estimated5RM: recentExercises[ 0 ].estimated5RM,
+      estimated8RM: recentExercises[ 0 ].estimated8RM,
+      estimated10RM: recentExercises[ 0 ].estimated10RM,
+    },
+    latestMaxesDate: recentExercises[ 0 ].trackedOn,
+  };
+};
+
+
 export const getTrack = state => state.track;
 
 export const getTrackDay = createSelector(
@@ -220,25 +274,6 @@ export const getTrackDay = createSelector(
     return '';
   }
 );
-
-// export const getTrackExercisesByDay = createSelector(
-//   state => getTrackObject( state ),
-//   state => getTrackType( state ),
-//   state => getTrackSelectedInfo( state ),
-//   ( trackObject, type, selected ) => {
-//     if ( type === 'program' ) {
-//       const { week, day } = selected;
-//
-//       return trackObject.program[ week ][ day ].exercises;
-//     }
-//
-//     if ( type === 'workout' ) {
-//       return trackObject.workout.exercises;
-//     }
-//
-//     return [];
-//   }
-// );
 
 export const getTrackExercisesByDay = createSelector(
   state => getTrack( state ),

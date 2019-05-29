@@ -22,8 +22,6 @@ import TrackSummary from '../screens/Track/TrackSummary';
 import ProgramSettings from '../screens/Track/ProgramSettings';
 import ExerciseHistory from '../screens/Track/ExerciseHistory';
 import Login from '../screens/Authentication/Login';
-import TrackExerciseList from '../screens/Track/TrackExerciseList';
-import TrackMuscleGroupList from '../screens/Track/TrackMuscleGroupList';
 import Calendar from '../screens/Logs/Calendar';
 import MuscleGroups from '../screens/Exercises/MuscleGroupList';
 import ExerciseList from '../screens/Exercises/ExerciseList';
