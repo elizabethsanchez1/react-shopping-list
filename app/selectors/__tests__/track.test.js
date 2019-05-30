@@ -18,7 +18,7 @@ import {
   getMaxesInfoByExercise,
   getTrackSaveInfo,
   calculateActiveAttempt,
-  calculateTrackedExerciseNumbers, calculateTrackedExerciseProgramInfo, getTrackDocumentId,
+  calculateTrackedExerciseNumbers, calculateTrackedExerciseProgramInfo, getTrackDocumentId, getTrackSummaryData,
 } from '../track';
 
 import { program, completedExercises, savedWorkouts, workout, newProgram } from '../mockData/exampleData';
@@ -244,6 +244,7 @@ describe( 'Track selectors', () => {
   it( 'getCompletedPercentage() should return a percentage of how close the user is to completing that workout', () => {
     const expectedValue = {
       'Cutting 04 - 06': 51,
+      'Test Program': 0,
     };
 
     expect( getCompletedPercentages( state ) ).toEqual( expectedValue );
@@ -1217,7 +1218,82 @@ describe( 'Track selectors', () => {
       expect( getTrackDocumentId( state ) ).toEqual( expectedValue );
     } );
 
+    it( 'getTrackSummaryData() should return the sets per exercises needed to show what was lifted on the track summary page', () => {
+      const expectedValue = {
+        exercises: [
+          {
+            exercise: 'Barbell Bench Press',
+            sets: [
+              { set: 1, weight: 100, reps: 8, previous: '' },
+              { set: 2, weight: 100, reps: 8, previous: '' },
+              { set: 3, weight: 100, reps: 8, previous: '' },
+            ],
+            totalReps: 24,
+            totalVolume: 2400,
+          },
+          {
+            exercise: 'Barbell Curl',
+            sets: [
+              { set: 1, weight: 120, reps: 6, previous: '' },
+              { set: 2, weight: 120, reps: 6, previous: '' },
+              { set: 3, weight: 120, reps: 6, previous: '' },
+            ],
+            totalReps: 18,
+            totalVolume: 2160,
+          },
+          {
+            exercise: 'Cable Overhead Tricep Extension',
+            sets: [
+              { set: 1, weight: 140, reps: 7, previous: '' },
+              { set: 2, weight: 140, reps: 7, previous: '' },
+              { set: 3, weight: 140, reps: 7, previous: '' },
+            ],
+            totalReps: 21,
+            totalVolume: 2940,
+          },
+          {
+            exercise: 'Pull ups',
+            sets: [
+              { set: 1, weight: 150, reps: 5, previous: '' },
+              { set: 2, weight: 150, reps: 5, previous: '' },
+              { set: 3, weight: 150, reps: 5, previous: '' },
+            ],
+            totalReps: 15,
+            totalVolume: 2250,
+          },
+          {
+            exercise: 'Side Laterals',
+            sets: [
+              { set: 1, weight: 200, reps: 3, previous: '' },
+              { set: 2, weight: 200, reps: 3, previous: '' },
+              { set: 3, weight: 200, reps: 3, previous: '' },
+            ],
+            totalReps: 9,
+            totalVolume: 1800,
+          },
+          {
+            exercise: 'Machine Bicep Curl',
+            sets: [
+              { set: 1, weight: 150, reps: 6, previous: '' },
+              { set: 2, weight: 150, reps: 6, previous: '' },
+              { set: 3, weight: 150, reps: 6, previous: '' },
+            ],
+            totalReps: 18,
+            totalVolume: 2700,
+          },
+        ],
+        workoutRepsTotal: 105,
+        workoutVolumeTotal: 14250,
+      };
+
+      expect( getTrackSummaryData( state1 ) )
+        .toEqual( expectedValue );
+    } );
+
   } );
+
+
+
 
 
 } );

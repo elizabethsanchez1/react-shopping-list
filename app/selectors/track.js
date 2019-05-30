@@ -38,9 +38,10 @@ export const getActiveAttempt = createSelector(
 );
 
 export const getCompletedPercentages = createSelector(
-  state => getCompletedExercises( state ),
+  state => state,
   state => getPrograms( state ),
-  ( exercises, programs ) => {
+  ( state, programs ) => {
+    const exercises = getCompletedExercises( state );
 
     if ( programs.length > 0 ) {
       const percentages = {};
@@ -210,7 +211,6 @@ export const calculateTrackedExerciseNumbers = createSelector(
   state => getTrackExercisesByDay( state ),
   state => getTrackSets( state ),
   ( exercises, trackedSets ) => {
-    debugger;
     return exercises.map( ( exercise, index ) => {
       const name = ( exercise.exercise ) ? exercise.exercise : exercise.name;
       const trackedReps = [];
@@ -309,6 +309,40 @@ export const getTrackSelectedInfo = createSelector(
 export const getTrackSets = createSelector(
   state => getTrack( state ),
   reducer => reducer.sets,
+);
+
+export const getTrackSummaryData = createSelector(
+  state => calculateTrackedExerciseNumbers( state ),
+  state => getTrackSets( state ),
+  ( exercises, sets ) => {
+
+    const computedExercises = exercises.map( ( exercise, index ) => {
+      const totalReps = sets[ index ].reduce( ( acc, current ) => {
+        return acc + parseInt( current.reps, 10 );
+      }, 0 );
+
+      return {
+        exercise: exercise.exercise,
+        sets: sets[ index ],
+        totalReps,
+        totalVolume: exercise.totalVolume,
+      }
+    } );
+
+    const initialValue = { repsTotal: 0, volumeTotal: 0 };
+    const workoutTotals = computedExercises.reduce( ( acc, current ) => {
+      return {
+        repsTotal: acc.repsTotal + current.totalReps,
+        volumeTotal: acc.volumeTotal + current.totalVolume,
+      };
+    }, initialValue );
+
+    return {
+      exercises: computedExercises,
+      workoutRepsTotal: workoutTotals.repsTotal,
+      workoutVolumeTotal: workoutTotals.volumeTotal,
+    };
+  },
 );
 
 export const getTrackType = createSelector(

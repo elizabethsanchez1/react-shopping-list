@@ -3,18 +3,16 @@ import React from 'react';
 import { Card as CardComponent } from 'react-native-elements';
 import styles from './styles';
 
-const Card = (props) => {
-  return (
-    <CardComponent
-      titleStyle={styles.titleStyle}
-      dividerStyle={{ display: 'none' }}
-      containerStyle={[styles.basicCard, props.containerStyling]}
-      {...props}
-    >
-      {props.children}
-    </CardComponent>
-  );
-};
+const Card = ( { children, containerStyling, ...props } ) => (
+  <CardComponent
+    titleStyle={ styles.titleStyle }
+    dividerStyle={ { display: 'none' } }
+    containerStyle={ [ styles.basicCard, containerStyling ] }
+    { ...props }
+  >
+    { children }
+  </CardComponent>
+);
 
 Card.propTypes = {
   children: PropTypes.any,

@@ -33,17 +33,14 @@ const styles = StyleSheet.create( {
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   buttonText: {
     fontSize: 16,
     color: theme.ACTIVE_TAB_COLOR,
   },
-
   disabledStyle: {
     fontSize: 16,
     color: 'gray',
   },
-
   scrollView: { overflow: 'scroll' },
   card: { padding: 20 },
   cardContainer: { padding:0 },
@@ -84,9 +81,7 @@ class Tracker extends Component {
     this.props.navigation.setParams( { saveWorkout: this.saveWorkout } );
   }
 
-  saveWorkout = () => {
-    this.props.saveTrackedExercises();
-  };
+  saveWorkout = () => this.props.saveTrackedExercises();
 
   handleNavigation = direction => {
     const { currentIndex } = this.state;
@@ -102,8 +97,6 @@ class Tracker extends Component {
   };
 
   render() {
-    console.log( 'Tracker.js props', this.props );
-    console.log( 'Tracker.js state', this.state );
     const { currentIndex } = this.state;
     const { sets, day, exercises, navigation, editField, loading } = this.props;
     const targetWeight = exercises[ currentIndex ].weight;

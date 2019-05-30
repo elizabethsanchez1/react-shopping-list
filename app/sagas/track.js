@@ -7,7 +7,7 @@ import { TRACK } from '../constants/reducerObjects';
 import { calculateActiveAttempt, getTrackDocumentId, getTrackSaveInfo } from '../selectors/track';
 import { handleErrorAction } from '../actions/errors';
 import NavigationService from '../utilities/navigationService';
-import { getProgramByDocumentId } from '../selectors/savedWorkouts';
+import { calculateProgramAttemptInfo, getProgramByDocumentId } from '../selectors/savedWorkouts';
 
 export const saveTrackedExercisesREST = exercises => {
   const exercisesCollection = firebase.firestore().collection( 'completedExercises' );
@@ -21,31 +21,16 @@ export const saveTrackedExercises = exercises => async () => {
 };
 
 export function* updateProgramAttemptInfo() {
-  const documentId = yield select( getTrackDocumentId );
-  const program = yield select( getProgramByDocumentId, documentId );
-  const activeAttempt = yield select( calculateActiveAttempt );
-  let updatedProgram = {};
+  const { update, program, documentId } = yield select( calculateProgramAttemptInfo );
 
-  if ( !program.attempts.includes( activeAttempt ) ) {
-    const attempt = {
-      attempt: activeAttempt,
-      startedTracking: new Date(),
-      finishedTracking: '',
-    };
-
-    updatedProgram = {
-      ...program,
-      activeAttempt,
-      attempts: [ ...program.attempts, attempt ],
-    };
-
+  if ( update ) {
     const collection = firebase.firestore()
       .collection( 'savedWorkouts' )
       .doc( documentId );
 
     return yield call(
       [ collection, collection.set ],
-      updatedProgram,
+      program,
       { merge: true },
     );
   }
