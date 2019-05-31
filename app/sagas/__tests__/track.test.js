@@ -1,10 +1,9 @@
 import { cloneableGenerator } from '@redux-saga/testing-utils';
-import { takeEvery, fork, put, select, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, select } from 'redux-saga/effects';
 import {
   trackSaveExercises,
   watchTrackSaveExercisesRequest,
-  saveTrackedExercises,
-  updateProgramAttemptInfo,
+  updateProgramAttemptInfo, saveTrackedExercisesREST,
 } from '../track';
 import { TRACK_SAVE_EXERCISES } from '../../constants/track';
 import { hideLoadingAction, showLoadingAction } from '../../actions/loading';
@@ -37,7 +36,7 @@ describe( 'Track saga functionality', () => {
     // for some reason since this not a normal action ( thunk ) it needs
     // to be stringified in order for this to work
     expect( JSON.stringify( gen.next().value ) )
-      .toEqual( JSON.stringify( put( saveTrackedExercises() ) ) );
+      .toEqual( JSON.stringify( put( saveTrackedExercisesREST() ) ) );
 
     expect( gen.next().value )
       .toEqual( fork( updateProgramAttemptInfo ) );

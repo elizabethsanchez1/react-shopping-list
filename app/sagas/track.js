@@ -4,21 +4,17 @@ import { Alert } from 'react-native';
 import { TRACK_SAVE_EXERCISES } from '../constants/track';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
 import { TRACK } from '../constants/reducerObjects';
-import { calculateActiveAttempt, getTrackDocumentId, getTrackSaveInfo } from '../selectors/track';
+import { getTrackSaveInfo } from '../selectors/track';
 import { handleErrorAction } from '../actions/errors';
 import NavigationService from '../utilities/navigationService';
-import { calculateProgramAttemptInfo, getProgramByDocumentId } from '../selectors/savedWorkouts';
+import { calculateProgramAttemptInfo } from '../selectors/savedWorkouts';
 
-// TODO merge these two thunk related functions into one
-export const saveTrackedExercisesREST = exercises => {
+// REDUX THUNK, NOT SUPPORTED EASILY IN REDUX SAGAS
+export const saveTrackedExercisesREST = exercises => () => {
   const exercisesCollection = firebase.firestore().collection( 'completedExercises' );
   const batch = firebase.firestore().batch();
   exercises.forEach( exercise => batch.set( exercisesCollection.doc(), exercise ) );
   return batch.commit();
-};
-
-export const saveTrackedExercises = exercises => async () => {
-  await saveTrackedExercisesREST( exercises );
 };
 
 export function* updateProgramAttemptInfo() {
@@ -44,7 +40,7 @@ export function* trackSaveExercises() {
   const trackExercises = yield select( getTrackSaveInfo );
 
   try {
-    yield put( saveTrackedExercises( trackExercises ) );
+    yield put( saveTrackedExercisesREST( trackExercises ) );
     yield fork( updateProgramAttemptInfo );
   }
   catch ( error ) {

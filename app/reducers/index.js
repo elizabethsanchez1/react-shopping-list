@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import authentication from './authentication';
 import profile from './profile';
-import trackOLD from './track-OLD';
 import workoutsApi from './workoutsApi';
 import workout from './workout';
 import program from './program';
@@ -40,7 +39,6 @@ const appReducer = combineReducers( {
   // program,
   // analytics,
   // logs,
-  // trackOLD,
 } );
 
 

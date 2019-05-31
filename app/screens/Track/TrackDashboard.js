@@ -70,7 +70,6 @@ class TrackDashboard extends Component {
             />
           ) }
           keyExtractor={ item => item.name }
-          // extraData={ this.state.updateProgramPercentages }
         />
       </View>
     );
