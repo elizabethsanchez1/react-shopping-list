@@ -159,7 +159,7 @@ export function* watchAuthchanges() {
       * */
 
       yield fork( exerciseListListener, uid );
-      // yield fork( bodyLogsListener, uid );
+      yield fork( bodyLogsListener, uid );
       yield fork( completedExerciseListener, uid );
       yield fork( savedWorkoutsListener, uid );
       yield fork( userDocumentListener, uid );

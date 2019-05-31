@@ -21,12 +21,14 @@ import track from './track';
 const appReducer = combineReducers( {
   // migrated over
   authentication,
+  bodyLogs,
   building,
   completedExercises,
   errors,
   exerciseList,
   exercises,
   loading,
+  logs,
   profile,
   savedWorkouts,
   track,
@@ -38,7 +40,7 @@ const appReducer = combineReducers( {
   // workout,
   // program,
   // analytics,
-  // logs,
+
 } );
 
 

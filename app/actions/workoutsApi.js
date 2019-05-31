@@ -34,7 +34,6 @@ import {
   getFormattedBodyLog, getLogOverwriteFlag, getLogOverwriteUid,
   getSaveFormattedBodyLogs, getSelectedDay, getSelectedLogDay
 } from "../selectors/logs";
-import { markDatesAction } from "./logs";
 
 export function buildSaveRedirectDone() {
   return { type: BUILD_SAVE_REDIRECT_DONE };
@@ -329,7 +328,6 @@ export const getSavedLogs = uid => ( dispatch, getState ) => {
     dispatch( { type: GET_BODY_LOGS_SUCCESS, payload: savedBodyLogs } );
 
     // updates date markings in calendar inside of logs
-    dispatch( markDatesAction( getCompletedExercises( getState() ), savedBodyLogs ) );
   });
 };
 

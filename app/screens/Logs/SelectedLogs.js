@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { FlatList, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import theme from '../../styles/theme.style';
 import Container from '../../components/Container';
 import { LogsSelectedLogsCard } from '../../components/Card';
 import Loading from '../../components/Loading';
 import Tabs from '../../components/Tabs/Tabs';
-import { getChangedExercises, getFormattedBodyLog, getFormattedExercises } from "../../selectors/logs";
-import { updateBodyLogAction, updateWorkoutLogAction } from "../../actions/logs";
-import { saveLogEdit } from "../../actions/workoutsApi";
-import { getUid } from "../../selectors/authentication";
-import ExerciseInputTable from "../../components/Table/Shared/ExerciseInputTable";
+import { getChangedExercises, getFormattedBodyLog, getFormattedExercises } from '../../selectors/logs';
+import { updateBodyLogAction, updateWorkoutLogAction } from '../../actions/logs';
+import { saveLogEdit } from '../../actions/workoutsApi';
+import { getUid } from '../../selectors/authentication';
+import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
 import Text from '../../components/Text/Text';
 
 
 class SelectedLogs extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
     this.state = {
       loading: false,
     };
@@ -27,18 +27,18 @@ class SelectedLogs extends Component {
     this.keyCount = 0;
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ( { navigation } ) => {
     const { date } = navigation.state.params;
 
     return {
       title: date,
       headerRight: (
         <Button
-          buttonStyle={{ backgroundColor: 'transparent' }}
-          color={theme.ACTIVE_TAB_COLOR}
-          textStyle={{ fontSize: 18 }}
+          buttonStyle={ { backgroundColor: 'transparent' } }
+          color={ theme.ACTIVE_TAB_COLOR }
+          textStyle={ { fontSize: 18 } }
           title='Save'
-          onPress={navigation.state.params.save}
+          onPress={ navigation.state.params.save }
         />
       ),
       // styling to make tabs look like part of header
@@ -46,14 +46,14 @@ class SelectedLogs extends Component {
         backgroundColor: theme.SECONDARY_BACKGROUND,
         shadowOffset: { width: 0, height: 2 },
         borderBottomWidth: 0,
-      }
-    }
+      },
+    };
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({
-      save: this.props.save.bind(this),
-    });
+    this.props.navigation.setParams( {
+      save: this.props.save.bind( this ),
+    } );
   }
 
   /**
@@ -61,7 +61,7 @@ class SelectedLogs extends Component {
    * @return {number}
    */
   getKey = () => {
-    return (this.keyCount += 1);
+    return ( this.keyCount += 1 );
   };
 
   /**
@@ -70,7 +70,7 @@ class SelectedLogs extends Component {
    */
   bodyLogs = () => (
     <KeyboardAwareScrollView
-      extraHeight={200}
+      extraHeight={ 200 }
     >
       <FlatList
         data={ this.props.formattedBodyLog }
@@ -80,7 +80,7 @@ class SelectedLogs extends Component {
             label={ item.measurement }
             value={ item.value }
             inputChanged={ text => this.props.updateBodyLog(
-              { field: item.title, measurement: item.measurement, value: text }
+              { field: item.title, measurement: item.measurement, value: text },
             )
             }
           />
@@ -103,18 +103,18 @@ class SelectedLogs extends Component {
    * @returns {*}
    */
   workoutLogs = () => (
-    <Container scroll containerStyling={{ padding: 20 }}>
+    <Container scroll containerStyling={ { padding: 20 } }>
       <KeyboardAwareScrollView>
         <Text size='medium'>
           {
-            (this.props.formattedExercises.length > 0)
+            ( this.props.formattedExercises.length > 0 )
               ? 'Workout log Page'
               : 'No tracked workouts'
           }
         </Text>
         <FlatList
-          data={this.props.formattedExercises}
-          renderItem={({item, index}) => (
+          data={ this.props.formattedExercises }
+          renderItem={ ( { item, index } ) => (
             <React.Fragment>
               <Text size="medium">{item.name}</Text>
               <ExerciseInputTable
@@ -123,8 +123,8 @@ class SelectedLogs extends Component {
                 disableAutoJump
               />
             </React.Fragment>
-          )}
-          keyExtractor={item => `${item.name} ${this.getKey()}`}
+          ) }
+          keyExtractor={ item => `${item.name} ${this.getKey()}` }
         />
       </KeyboardAwareScrollView>
     </Container>
@@ -134,26 +134,26 @@ class SelectedLogs extends Component {
   render() {
     const { loading } = this.props.profile;
 
-    if (loading) {
+    if ( loading ) {
       return (
         <Loading />
-      )
+      );
     }
 
     return (
       <Container>
         <Tabs
-          routes={[
+          routes={ [
             { key: 'first', title: 'Workout Logs' },
             { key: 'second', title: 'Body Logs' },
-          ]}
-          subViews={{
+          ] }
+          subViews={ {
             first: this.workoutLogs,
             second: this.bodyLogs,
-          }}
+          } }
         />
       </Container>
-    )
+    );
   }
 }
 
@@ -182,4 +182,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectedLogs);
+export default connect( mapStateToProps, mapDispatchToProps )( SelectedLogs );

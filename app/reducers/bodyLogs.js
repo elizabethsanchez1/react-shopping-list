@@ -3,16 +3,15 @@ import dateHelpers from '../utilities/dateHelpers';
 
 export const handleLogs = ( state, action ) => {
 
-  return action.payload
-    .map( log => {
-      return {
-        ...log,
-        trackedOn: {
-          ...log.trackedOn,
-          formatted: dateHelpers.formatUnix( log.trackedOn.seconds ),
-        },
-      };
-    } );
+  return action.payload.map( log => {
+    return {
+      ...log,
+      trackedOn: {
+        ...log.trackedOn,
+        formatted: dateHelpers.formatUnix( log.trackedOn.seconds ),
+      },
+    };
+  } );
 };
 
 const bodyLogsReducer = ( state = [], action ) => {

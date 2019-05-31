@@ -6,7 +6,7 @@ import {
   MODIFY_SETS,
   TRACK_ADD_EXERCISE_INDEX,
   TRACK_ADD_EXERCISES,
-  TRACK_REMOVE_EXERCISE, TRACK_SAVE_EXERCISES
+  TRACK_REMOVE_EXERCISE, TRACK_SAVE_EXERCISES,
 } from '../../constants/track';
 import {
   trackSelectedProgramAction,
@@ -16,7 +16,7 @@ import {
   modifySetsAction,
   trackAddExerciseIndexAction,
   trackAddExercisesAction,
-  trackRemoveExerciseAction, trackSaveExercisesAction
+  trackRemoveExerciseAction, trackSaveExercisesAction,
 } from '../track';
 
 

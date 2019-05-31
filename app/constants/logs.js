@@ -1,8 +1,5 @@
 
-
-export const MARK_DATES = 'MARK_DATES';
-
-export const SELECTED_CALENDAR_DAY = 'SELECTED_CALENDAR_DAY';
+export const LOG_SELECTED_DAY = 'LOG_SELECTED_DAY';
 
 export const UPDATE_WORKOUT_LOG = 'UPDATE_WORKOUT_LOG';
 

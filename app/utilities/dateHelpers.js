@@ -18,8 +18,9 @@ const dateHelpers = {
 
   },
 
-  formatUnix: unixSeconds => {
-    return moment( moment.unix( unixSeconds ) ).format( 'MM/DD/YYYY' );
+  formatUnix: ( unixSeconds, format = 'MM/DD/YYYY' ) => {
+    return moment( moment.unix( unixSeconds ) )
+      .format( format );
   },
 
 };

@@ -59,10 +59,12 @@ describe( 'dataHelpers utility', () => {
 
   } );
 
-  it( 'formatDate() should format the date into MM/DD/YYYY format', () => {
+  it( 'formatDate() should format the date into MM/DD/YYYY format or whatever format you pass in', () => {
 
-    expect( dateHelpers.formatUnix(1556686800 ) )
+    expect( dateHelpers.formatUnix( 1556686800 ) )
       .toEqual( '05/01/2019' );
+
+    expect( dateHelpers.formatUnix( 1556686800, 'YYYY/DD/MM' ) ).toEqual( '2019/01/05' );
 
   } );
 
