@@ -1,4 +1,4 @@
-import exercisesNEW from '../exercises-NEW';
+import exercises from '../exercises';
 import { listenForExerciseListAction } from '../../actions/exerciseList';
 import {
   addCustomExerciseSuccessAction,
@@ -10,10 +10,10 @@ import {
 } from '../../actions/exercises';
 import exerciseList from '../exerciseList';
 
-describe( 'exercises-NEW reducer unit tests', () => {
+describe( 'exercises reducer unit tests', () => {
 
   it( 'should return initial state', () => {
-    expect( exercisesNEW( {}, {} ) ).toEqual( {} );
+    expect( exercises( {}, {} ) ).toEqual( {} );
   } );
 
   it( 'selectMusclegroupAction()  should store selected muscle group in response to SELECT_MUSCLE_GROUP event', () => {
@@ -23,7 +23,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       selectedMuscleGroup: 'Abs',
     };
 
-    expect( exercisesNEW( {}, action ) ).toEqual( expectedState );
+    expect( exercises( {}, action ) ).toEqual( expectedState );
   } );
 
   it( 'selectExerciseAction() should store selected exercise', () => {
@@ -105,7 +105,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       },
     };
 
-    expect( exercisesNEW( previousState, action ) ).toEqual( expectedState );
+    expect( exercises( previousState, action ) ).toEqual( expectedState );
 
     const previousState2 = {
       selectedExercises: [ {
@@ -176,7 +176,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       },
     };
 
-    expect( exercisesNEW( previousState2, action ) ).toEqual( expectedState2 );
+    expect( exercises( previousState2, action ) ).toEqual( expectedState2 );
 
   } );
 
@@ -188,7 +188,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       exerciseList: { 'Abs': [ 1 ] },
     };
 
-    expect( exercisesNEW( {}, action ) ).toEqual( expectedState );
+    expect( exercises( {}, action ) ).toEqual( expectedState );
   } );
 
 
@@ -200,7 +200,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       exerciseList: { 'Abs': [ 1 ] },
     };
 
-    expect( exercisesNEW( {}, action ) ).toEqual( expectedState );
+    expect( exercises( {}, action ) ).toEqual( expectedState );
   } );
 
   it( 'should handle storing the custom exercise and adding it to the selectedExercises list in response ADD_CUSTOM_EXERCISE_SUCCESS event', () => {
@@ -269,7 +269,7 @@ describe( 'exercises-NEW reducer unit tests', () => {
       ],
     };
 
-    expect( exercisesNEW( previousState, action ) ).toEqual( expectedState );
+    expect( exercises( previousState, action ) ).toEqual( expectedState );
   } );
 
 } );

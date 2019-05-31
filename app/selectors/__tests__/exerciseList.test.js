@@ -1,7 +1,7 @@
 import { getExerciseList, getExercisesByMuscleGroup } from '../exerciseList';
 
 const state = {
-  exercisesNEW: {
+  exercises: {
     selectedMuscleGroup: 'Abs',
   },
   exerciseList: {

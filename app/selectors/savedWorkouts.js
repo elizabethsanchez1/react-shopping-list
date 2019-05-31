@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { calculateActiveAttempt, getTrackDocumentId } from './track';
+import { calculateActiveAttempt, getCompletedPercentages, getTrackDocumentId } from './track';
 
 
 
@@ -51,6 +51,20 @@ export const getPrograms = createSelector(
   state => getSavedWorkouts( state ),
   savedWorkouts => savedWorkouts.programs || [],
 );
+
+export const getProgramsWithCompletedPercentages = createSelector(
+  state => getPrograms( state ),
+  state => getCompletedPercentages( state ),
+  ( programs, completedPercentages ) => {
+    return programs.map( program => {
+      return {
+        ...program,
+        completed: completedPercentages[ program.name ],
+      };
+    } );
+  },
+);
+
 
 export const getProgramByDocumentId = ( state, documentId ) => {
   const programs = getPrograms( state );

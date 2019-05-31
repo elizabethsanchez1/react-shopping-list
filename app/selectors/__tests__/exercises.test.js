@@ -57,7 +57,7 @@ const state = {
       ],
     },
   },
-  exercisesNEW: {
+  exercises: {
     selectedMuscleGroup: 'Abs',
     selectedExercises: [
       { name: 'Situps' },
@@ -79,26 +79,26 @@ const state = {
 describe( 'exercises selectors', () => {
 
   it( 'getExercises() should return exercises reducer', () => {
-    expect( getExercises( state ) ).toEqual( state.exercisesNEW );
+    expect( getExercises( state ) ).toEqual( state.exercises );
   } );
 
   it( 'getSelectedMuscleGroup() should return selected muscle group', () => {
     expect( getSelectedMuscleGroup( state ) )
-      .toEqual( state.exercisesNEW.selectedMuscleGroup );
+      .toEqual( state.exercises.selectedMuscleGroup );
   } );
 
   it( 'getSelectedExercises() should return the exercises that have already been added by the user', () => {
     expect( getSelectedExercises( state ) )
-      .toEqual( state.exercisesNEW.selectedExercises );
+      .toEqual( state.exercises.selectedExercises );
   } );
 
   it( 'getClonedExerciseList() should return the exerciselist inside of the exercises reducer', () => {
-    expect( getClonedExerciseList( state ) ).toEqual( state.exercisesNEW.exerciseList );
+    expect( getClonedExerciseList( state ) ).toEqual( state.exercises.exerciseList );
   } );
 
   it( 'getExercisesByMuscleGroup() should return the subset of exercises based on what muscle group the user selected', () => {
     expect( getSelectedExercisesByMuscleGroup( state ) )
-      .toEqual( state.exercisesNEW.exerciseList.Abs );
+      .toEqual( state.exercises.exerciseList.Abs );
   } );
 
   it( 'haveCustomSetsBeenAdded() should return true if user is does not have a single number for the weight or reps of a exercise and false if it a normal exercises', () => {

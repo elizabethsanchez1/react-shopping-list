@@ -9,6 +9,7 @@ import { handleErrorAction } from '../actions/errors';
 import NavigationService from '../utilities/navigationService';
 import { calculateProgramAttemptInfo, getProgramByDocumentId } from '../selectors/savedWorkouts';
 
+// TODO merge these two thunk related functions into one
 export const saveTrackedExercisesREST = exercises => {
   const exercisesCollection = firebase.firestore().collection( 'completedExercises' );
   const batch = firebase.firestore().batch();

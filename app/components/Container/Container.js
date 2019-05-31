@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import theme from "../../styles/theme.style";
+import theme from '../../styles/theme.style';
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
   view: {
     flex: 1,
     backgroundColor: theme.PRIMARY_BACKGROUND,
@@ -20,13 +20,13 @@ const styles = StyleSheet.create({
   altView: {
     backgroundColor: theme.SECONDARY_BACKGROUND,
   },
-});
+} );
 
-const Container = ({ scroll, children, alt, containerStyling }) => {
-  if (alt === true && scroll === true) {
+const Container = ( { scroll, children, alt, containerStyling } ) => {
+  if ( alt === true && scroll === true ) {
     return (
       <ScrollView
-        contentContainerStyle={[styles.altScrollView, containerStyling]}
+        contentContainerStyle={ [ styles.altScrollView, containerStyling ] }
         // {...props}
       >
         {children}
@@ -34,10 +34,10 @@ const Container = ({ scroll, children, alt, containerStyling }) => {
     );
   }
 
-  if (scroll === true) {
+  if ( scroll === true ) {
     return (
       <ScrollView
-        contentContainerStyle={[styles.scrollView, containerStyling]}
+        contentContainerStyle={ [ styles.scrollView, containerStyling ] }
         // {...props}
       >
         {children}
@@ -46,10 +46,10 @@ const Container = ({ scroll, children, alt, containerStyling }) => {
   }
 
 
-  if (alt === true) {
+  if ( alt === true ) {
     return (
       <View
-        style={[styles.altView, containerStyling]}
+        style={ [ styles.altView, containerStyling ] }
         // {...props}
       >
         {children}
@@ -60,7 +60,7 @@ const Container = ({ scroll, children, alt, containerStyling }) => {
 
   return (
     <View
-      style={[styles.view, containerStyling]}
+      style={ [ styles.view, containerStyling ] }
       // {...props}
     >
       {children}
@@ -73,7 +73,6 @@ Container.propTypes = {
   containerStyling: PropTypes.object,
   scroll: PropTypes.bool,
   children: PropTypes.any,
-  style: PropTypes.object,
 };
 
 export default Container;

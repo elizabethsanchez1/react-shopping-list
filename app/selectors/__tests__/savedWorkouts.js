@@ -1,4 +1,10 @@
-import { calculateProgramAttemptInfo, getProgramByDocumentId, getPrograms, getWorkouts } from '../savedWorkouts';
+import {
+  calculateProgramAttemptInfo,
+  getProgramByDocumentId,
+  getPrograms,
+  getProgramsWithCompletedPercentages,
+  getWorkouts
+} from '../savedWorkouts';
 import { program, completedExercises, savedWorkouts, newProgram } from '../mockData/exampleData';
 
 
@@ -213,5 +219,36 @@ describe( 'savedWorkouts selectors', () => {
     } );
 
   } );
+
+  it( 'getProgramsWithCompletedPercentages() should return an array of programs that have program percentages in each program as an additional property', () => {
+    const state1 = {
+      track: {},
+      completedExercises,
+      savedWorkouts,
+    };
+    const expectedValues = [
+      {
+        /*
+        * Pulling in program object for 'Cutting 04 - 06'
+        * from our savedWorkout reducer state
+        * */
+        ...savedWorkouts.programs[ 0 ],
+        completed: 51,
+      },
+      {
+        /*
+        * Pulling in program object for 'Test Program'
+        * from our savedWorkout reducer state
+        * */
+        ...savedWorkouts.programs[ 1 ],
+        completed: 0,
+      },
+    ];
+
+    expect( getProgramsWithCompletedPercentages( state1 ) )
+      .toEqual( expectedValues );
+
+  } );
+
 
 } );

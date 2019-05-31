@@ -6,7 +6,6 @@ import Container from '../../components/Container/index';
 import { SavedWorkoutCard } from '../../components/Card/index';
 import theme from '../../styles/theme.style';
 import { Loading } from '../../components/Loading/index';
-import { getCompletedPercentages } from '../../selectors/track';
 import Tabs from '../../components/Tabs/Tabs';
 import {
   trackSelectedProgramAction,
@@ -14,7 +13,7 @@ import {
 } from '../../actions/track';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { SAVED_WORKOUTS } from '../../constants/reducerObjects';
-import { getPrograms, getWorkouts } from '../../selectors/savedWorkouts';
+import { getProgramsWithCompletedPercentages, getWorkouts } from '../../selectors/savedWorkouts';
 
 
 const styles = StyleSheet.create( {
@@ -67,7 +66,7 @@ class TrackDashboard extends Component {
               createdDate={ `${ item.created.formatted }` }
               onClick={ () => this.selectTrack( index, 'program' ) }
               secondaryClick={ () => this.selectOptions( index, 'program' ) }
-              showPercentage={ this.props.programPercentages[ item.name ] }
+              showPercentage={ item.completed }
             />
           ) }
           keyExtractor={ item => item.name }
@@ -98,8 +97,6 @@ class TrackDashboard extends Component {
   };
 
   render() {
-    console.log( 'track dashboard props: ', this.props );
-
     if ( this.props.isLoading ) {
       return <Loading />;
     }
@@ -123,7 +120,6 @@ class TrackDashboard extends Component {
 
 TrackDashboard.propTypes = {
   navigation: PropTypes.object,
-  programPercentages: PropTypes.object,
   isLoading: PropTypes.bool,
   programs: PropTypes.array,
   workouts: PropTypes.array,
@@ -133,8 +129,7 @@ TrackDashboard.propTypes = {
 
 const mapStateToProps = state => ( {
   isLoading: getLoadingByDomain( state, SAVED_WORKOUTS ),
-  programPercentages: getCompletedPercentages( state ),
-  programs: getPrograms( state ),
+  programs: getProgramsWithCompletedPercentages( state ),
   workouts: getWorkouts( state ),
 } );
 

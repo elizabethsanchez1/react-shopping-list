@@ -8,7 +8,7 @@ import {
 import { baseExerciseList } from '../config/baseExerciseList';
 
 
-export const getExercises = state => state.exercisesNEW;
+export const getExercises = state => state.exercises;
 
 export const getSelectedMuscleGroup = createSelector(
   state => getExercises( state ),
