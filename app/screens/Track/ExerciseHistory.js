@@ -67,7 +67,6 @@ class ExerciseHistory extends Component {
   getKey = () => ( this.keyCount += 1 );
 
   render() {
-    console.log( 'ExerciseHistory props', this.props );
     const { exercise } = this.props.navigation.state.params;
     const { previousExercises, exerciseMaxes } = this.props;
 

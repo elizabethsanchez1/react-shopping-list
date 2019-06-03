@@ -1,5 +1,4 @@
 
-
 export const getCompletedExercises = state => state.completedExercises;
 
 export const getCompletedExercisesByAttempt = ( state, attempt ) => {

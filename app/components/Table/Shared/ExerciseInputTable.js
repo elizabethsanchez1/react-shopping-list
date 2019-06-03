@@ -45,7 +45,7 @@ ExerciseInputTable.propTypes = {
         PropTypes.string,
         PropTypes.number,
       ] ),
-    } )
+    } ),
   ),
   titles: PropTypes.array,
   updateField: PropTypes.func,

@@ -1,5 +1,5 @@
-import { LOG_SELECTED_DAY } from '../../constants/logs';
-import { logSelectDayAction } from '../logs';
+import { LOG_SELECTED_DAY, LOG_UPDATE_WORKOUT } from '../../constants/logs';
+import { logSelectDayAction, logUpdateWorkoutAction } from '../logs';
 
 
 describe( 'Log action creators', () => {
@@ -11,6 +11,15 @@ describe( 'Log action creators', () => {
     };
 
     expect( logSelectDayAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'logUpdateWorkoutAction() should dispatch LOG_UPDATE_WORKOUT', () => {
+    const expectedAction = {
+      type: LOG_UPDATE_WORKOUT,
+      payload: 1,
+    };
+
+    expect( logUpdateWorkoutAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

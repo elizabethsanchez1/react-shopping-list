@@ -64,6 +64,11 @@ export const getLogOverwriteUid = state => state.logs.overwriteUid;
 
 export const getLogs = state => state.logs;
 
+export const getLogSelectedDay = createSelector(
+  state => getLogs( state ),
+  logs => logs.selectedDay,
+);
+
 export const getMarkedDates = state => {
   const completedExercises = getCompletedExercises( state );
   const savedBodyLogs = getBodyLogs( state );
@@ -108,3 +113,8 @@ export const getMarkedDates = state => {
 
   return markedDates;
 };
+
+export const getExercisesBySelectedLogDay = createSelector(
+  state => getLogs( state ),
+  logs => logs.exercises,
+);

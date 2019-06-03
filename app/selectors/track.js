@@ -140,33 +140,40 @@ export const getPreviousExercisesByCount = ( state, options ) => {
     } )
 };
 
-export const getMaxesInfoByExercise = ( state, options ) => {
-  // The fist item is the most recent
-  const recentExercises = getPreviousExercisesByCount( state, options );
-  const personalBest1RM = Math.max( ...recentExercises.map( item => {
-    return item.estimated1RM;
-  } ), 0 );
-  const personalBest = recentExercises.find( item => item.estimated1RM === personalBest1RM );
+export const getMaxesInfoByExercise = createSelector(
+  ( state, options ) => getPreviousExercisesByCount( state, options ),
+  recentExercises => {
 
-  return {
-    allTimeMaxes: {
-      estimated1RM: personalBest.estimated1RM,
-      estimated3RM: personalBest.estimated3RM,
-      estimated5RM: personalBest.estimated5RM,
-      estimated8RM: personalBest.estimated8RM,
-      estimated10RM: personalBest.estimated10RM,
-    },
-    allTimeMaxesDate: personalBest.trackedOn,
-    latestMaxes: {
-      estimated1RM: recentExercises[ 0 ].estimated1RM,
-      estimated3RM: recentExercises[ 0 ].estimated3RM,
-      estimated5RM: recentExercises[ 0 ].estimated5RM,
-      estimated8RM: recentExercises[ 0 ].estimated8RM,
-      estimated10RM: recentExercises[ 0 ].estimated10RM,
-    },
-    latestMaxesDate: recentExercises[ 0 ].trackedOn,
-  };
-};
+    if ( recentExercises.length > 1 ) {
+      // The fist item is the most recent
+      const personalBest1RM = Math.max( ...recentExercises.map( item => {
+        return item.estimated1RM;
+      } ), 0 );
+      const personalBest = recentExercises.find( item => item.estimated1RM === personalBest1RM );
+
+      return {
+        allTimeMaxes: {
+          estimated1RM: personalBest.estimated1RM,
+          estimated3RM: personalBest.estimated3RM,
+          estimated5RM: personalBest.estimated5RM,
+          estimated8RM: personalBest.estimated8RM,
+          estimated10RM: personalBest.estimated10RM,
+        },
+        allTimeMaxesDate: personalBest.trackedOn,
+        latestMaxes: {
+          estimated1RM: recentExercises[ 0 ].estimated1RM,
+          estimated3RM: recentExercises[ 0 ].estimated3RM,
+          estimated5RM: recentExercises[ 0 ].estimated5RM,
+          estimated8RM: recentExercises[ 0 ].estimated8RM,
+          estimated10RM: recentExercises[ 0 ].estimated10RM,
+        },
+        latestMaxesDate: recentExercises[ 0 ].trackedOn,
+      };
+    }
+
+    return {};
+  },
+) ;
 
 
 export const getTrack = state => state.track;

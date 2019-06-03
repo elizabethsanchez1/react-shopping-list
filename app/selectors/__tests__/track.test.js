@@ -871,6 +871,15 @@ describe( 'Track selectors', () => {
     };
 
     expect( getMaxesInfoByExercise( state, options ) ).toEqual( expectedValues );
+
+
+    // simulate what happens when we have no completed exercises
+    const state1 = {
+      ...state,
+      completedExercises: [],
+    };
+
+    expect( getMaxesInfoByExercise( state1, options ) ).toEqual( {} );
   } );
 
   // it( 'getTrackSaveInfo() should return exercises that are tracked inside the track reducer in a formatted array so we can save that information', () => {

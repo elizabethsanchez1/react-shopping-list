@@ -1,11 +1,11 @@
 import moment from 'moment';
-import { LOG_SELECTED_DAY, UPDATE_BODY_LOG, UPDATE_WORKOUT_LOG } from '../constants/logs';
+import { LOG_SELECTED_DAY, UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT } from '../constants/logs';
 import {
-  GET_BODY_LOGS_SUCCESS,
   SAVE_BODY_LOG_FAILED,
   SAVE_BODY_LOG_REQUEST,
   SAVE_BODY_LOG_SUCCESS,
 } from '../constants/workoutsApi';
+import dateHelpers from '../utilities/dateHelpers';
 
 // const initialState = {
 //   selectedDay: '',
@@ -67,7 +67,7 @@ export const _formatBodyLog = ( log, bodyMeasurements ) => {
   return baseBodyLogs;
 };
 
-export const calculateLogData = ( state, action ) => {
+export const _calculateLogData = ( state, action ) => {
   const { bodyMeasurements, savedBodyLogs } = state;
   const { dateObject, completedExercises } = action.payload;
 
@@ -108,32 +108,97 @@ export const calculateLogData = ( state, action ) => {
   };
 };
 
-export const updateWorkoutLog = ( state, action ) => {
-  const { selectedExercises, changedExercises } = state;
-  const { exerciseLocation, field, setLocation, value } = action.payload;
+export const calculateLogData = ( state, action ) => {
+  const { selectedDay, exercises } = action.payload;
 
-  const mappedField = ( field === 'reps' ) ? 'trackedReps' : 'trackedWeights';
-  const updatedValues = [ ...selectedExercises[ exerciseLocation ][ mappedField ] ];
+  const selectedExercises = exercises.filter( exercise => {
+    const date = dateHelpers
+      .formatUnix( exercise.trackedOn.seconds )
+      .split( '/' )
+      .map( part => {
+        return part.replace( /^0+/, '' );
+      } )
+      .join( '/' );
 
-  updatedValues[ setLocation ] = parseInt( value );
-
-  const updatedExercise = {
-    ...selectedExercises[ exerciseLocation ],
-    [ mappedField ]: updatedValues,
-  };
-
-  // replace value in array in an immutable way
-  const newExercises = Object.assign( [], selectedExercises, {
-    [ exerciseLocation ]: updatedExercise,
+    if ( date === selectedDay ) {
+      return exercise;
+    }
   } );
 
-  const changedList = [ ...new Set( [ ...changedExercises, exerciseLocation ] ) ];
+  if ( selectedExercises.length > 0 ) {
+
+    const createSets = ( trackedReps, trackedWeights ) => {
+      const sets = [];
+
+      for ( let i = 0; i < trackedReps.length; i += 1 ) {
+        sets.push( {
+          set: i + 1,
+          reps: `${ trackedReps[ i ] }`,
+          weight: `${ trackedWeights[ i ] }`,
+        } );
+      }
+
+      return sets;
+    };
+    const formattedExercises = selectedExercises.map( exercise => {
+      return {
+        name: exercise.exercise,
+        sets: createSets( exercise.trackedReps, exercise.trackedWeights ),
+      };
+    } );
+
+    return {
+      selectedDay,
+      exercises: formattedExercises,
+      changedExercises: false,
+    };
+  }
+
+  return {
+    selectedDay,
+    exercises: [],
+    changedExercises: false,
+  };
+};
+
+export const updateWorkoutLog = ( state, action ) => {
+  const { exercises } = state;
+  const { exerciseLocation, field, setLocation, value } = action.payload;
+
+
+  const updatedExercises = JSON.parse( JSON.stringify( exercises ) );
+
+  updatedExercises[ exerciseLocation ].sets[ setLocation - 1 ][ field ] = value;
 
   return {
     ...state,
-    selectedExercises: newExercises,
-    changedExercises: changedList,
+    exercises: updatedExercises,
+    changedExercises: true,
   };
+
+
+  // const mappedField = ( field === 'reps' ) ? 'trackedReps' : 'trackedWeights';
+  // const updatedValues = [ ...selectedExercises[ exerciseLocation ][ mappedField ] ];
+  //
+  // updatedValues[ setLocation ] = parseInt( value, 10 );
+  //
+  // const updatedExercise = {
+  //   ...selectedExercises[ exerciseLocation ],
+  //   [ mappedField ]: updatedValues,
+  // };
+  //
+  // // replace value in array in an immutable way
+  // const newExercises = Object.assign( [], selectedExercises, {
+  //   [ exerciseLocation ]: updatedExercise,
+  // } );
+  //
+  // const changedList = [ ...new Set( [ ...changedExercises, exerciseLocation ] ) ];
+  //
+  // return {
+  //   ...state,
+  //   selectedExercises: newExercises,
+  //   changedExercises: changedList,
+  // };
 };
 
 export const updateBodyLog = ( state, action ) => {
@@ -160,11 +225,6 @@ export const updateBodyLog = ( state, action ) => {
 
 export default function logs( state = {}, action ) {
   switch ( action.type ) {
-    case GET_BODY_LOGS_SUCCESS:
-      return {
-        ...state,
-        savedBodyLogs: action.payload,
-      };
 
     case SAVE_BODY_LOG_REQUEST:
       return {
@@ -186,11 +246,12 @@ export default function logs( state = {}, action ) {
 
     case LOG_SELECTED_DAY:
       return calculateLogData( state, action );
+      // return { selectedDay: action.payload };
 
     case UPDATE_BODY_LOG:
       return updateBodyLog( state, action );
 
-    case UPDATE_WORKOUT_LOG:
+    case LOG_UPDATE_WORKOUT:
       return updateWorkoutLog( state, action );
 
     default:

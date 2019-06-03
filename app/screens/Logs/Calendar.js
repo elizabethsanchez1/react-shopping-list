@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Calendar as CalendarComponent } from 'react-native-calendars';
 import moment from 'moment';
@@ -12,6 +12,7 @@ import { Loading } from '../../components/Loading';
 import { getMarkedDates } from '../../selectors/logs';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { BODY_LOGS } from '../../constants/reducerObjects';
+import { getCompletedExercises } from '../../selectors/completedExercises';
 
 
 const styles = StyleSheet.create( {
@@ -55,23 +56,14 @@ const styles = StyleSheet.create( {
 } );
 
 class Calendar extends Component {
-  constructor( props ) {
-    super( props );
-    this.state = {
-      currentDate: moment().format( 'YYYY-MM-DD' ),
-    };
-  }
 
   onDaySelect = dateObject => {
-    console.log( 'date object: ', dateObject );
-    console.log( 'moment only: ', moment( dateObject ) );
-    console.log( 'moment only _d: ', moment( dateObject ).toDate() );
-    console.log( 'moment format: ', moment( dateObject.dateString ).format() );
-
-    this.props.selectedDay( dateObject, this.props.completedExercises );
-    this.props.navigation.navigate( 'Logs', {
-      date: `${dateObject.month}/${dateObject.day}/${dateObject.year}`,
+    const date = `${ dateObject.month }/${ dateObject.day }/${ dateObject.year }`;
+    this.props.selectedDay( {
+      selectedDay: date,
+      exercises: this.props.exercises,
     } );
+    this.props.navigation.navigate( 'Logs' );
   };
 
   render() {
@@ -102,7 +94,7 @@ class Calendar extends Component {
 
         <View style={ { flex: 2 } }>
           <CalendarComponent
-            current={ this.state.currentDate }
+            current={ moment().format( 'YYYY-MM-DD' ) }
             pastScrollRange={ 24 }
             futureScrollRange={ 24 }
             horizontal
@@ -131,21 +123,21 @@ class Calendar extends Component {
 }
 
 Calendar.propTypes = {
-  markDates: PropTypes.func,
   selectedDay: PropTypes.func,
   markedDates: PropTypes.object,
-  completedExercises: PropTypes.array,
+  exercises: PropTypes.array,
   isLoading: PropTypes.bool,
+  navigation: PropTypes.object,
 };
 
 const mapStateToProps = state => ( {
+  exercises: getCompletedExercises( state ),
   markedDates: getMarkedDates( state ),
-  // completedExercises: getCompletedExercises( state ),
   isLoading: getLoadingByDomain( state, BODY_LOGS ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  selectedDay: ( dateObject, exercises ) => dispatch( logSelectDayAction( dateObject, exercises ) ),
+  selectedDay: date => dispatch( logSelectDayAction( date ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Calendar );
