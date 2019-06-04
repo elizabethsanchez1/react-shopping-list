@@ -1,4 +1,10 @@
-import { getExercisesBySelectedLogDay, getLogs, getLogSelectedDay, getMarkedDates } from '../logs';
+import {
+  getBodyLogsBySelectedLogDay,
+  getExercisesBySelectedLogDay, getLogChanges,
+  getLogs,
+  getLogSelectedDay,
+  getMarkedDates
+} from '../logs';
 
 const state = {
   logs: {
@@ -153,6 +159,56 @@ const altState = {
         ],
       },
     ],
+    bodyLogs: [
+      {
+        'title': 'Arms',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Body Fat',
+        'measurement': '%',
+        'value': '',
+      },
+      {
+        'title': 'Calves',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Chest',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Forearms',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Hips',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Thighs',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'title': 'Waist',
+        'measurement': 'in',
+        'value': '',
+      },
+      {
+        'uid': 'MA02hmUi1o4XhZRACC25',
+        'title': 'Weight',
+        'measurement': 'lbs',
+        'value': '172.2',
+      },
+    ],
+    changedExercises: false,
+    changedBodyLogs: true,
   },
   completedExercises: [
     {
@@ -262,6 +318,7 @@ const altState = {
       'userId': 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
     },
   ],
+
 };
 
 describe( 'unit tests for logs selectors', () => {
@@ -302,10 +359,31 @@ describe( 'unit tests for logs selectors', () => {
     expect( getLogSelectedDay( state ) ).toEqual( expectedValue );
   } );
 
-  it( 'getExercisesBySelectedLogDay() should return the completed exercises for that day in a format that can be displayed to the user to show what they did per set', () => {
+  it( 'getExercisesBySelectedLogDay() should return the exercises property that is inside of the log reducer state', () => {
     const expectedValue = altState.logs.exercises;
 
-    expect( getExercisesBySelectedLogDay( altState ) ).toEqual( expectedValue );
+    expect( getExercisesBySelectedLogDay( altState ) )
+      .toEqual( expectedValue );
+  } );
+
+  it( 'getBodyLogsBySelectedLogDay() should return the bodylogs property inside the log reducer state', () => {
+    const expectedValue = altState.logs.bodyLogs;
+
+    expect( getBodyLogsBySelectedLogDay( altState ) )
+      .toEqual( expectedValue );
+  } );
+
+  it( 'getLogChanges() should return a boolean flag depending on whether the user has made any changes to the selected exercises or selected body logs', () => {
+    expect( getLogChanges( altState ) ).toEqual( true );
+
+    const state1 = {
+      logs: {
+        changedExercises: false,
+        changedBodyLogs: false,
+      },
+    };
+
+    expect( getLogChanges( state1 ) ).toEqual( false );
   } );
 
 } );

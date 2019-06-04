@@ -95,7 +95,6 @@ export function* register( action ) {
       action.payload.password,
     );
 
-    console.log('what is inside of response after register: ', response);
     const { email, uid } = response.user;
     yield put( createUserSuccessAction( { email, uid } ) );
     yield call( createUserDocumentREST, uid, email );

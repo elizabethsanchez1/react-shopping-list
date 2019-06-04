@@ -1,117 +1,10 @@
-import moment from 'moment';
-import { LOG_SELECTED_DAY, UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT } from '../constants/logs';
-import {
-  SAVE_BODY_LOG_FAILED,
-  SAVE_BODY_LOG_REQUEST,
-  SAVE_BODY_LOG_SUCCESS,
-} from '../constants/workoutsApi';
+import { LOG_SELECTED_DAY, LOG_UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT } from '../constants/logs';
 import dateHelpers from '../utilities/dateHelpers';
+import { bodyMeasurements } from '../config/baseExerciseList';
 
-// const initialState = {
-//   selectedDay: '',
-//   selectedExercises: [],
-//   changedExercises: [],
-//
-//   bodyLogChanges: false,
-//   overwriteUid: '',
-//   savedBodyLogs: [],
-//   markedDates: {},
-//   bodyMeasurements,
-//   loading: false,
-// };
+export const formatInitialWorkoutLogs = ( exercises, targetDate ) => {
 
-
-export const _formatWorkoutLogs = exercises => {
-
-  const container = [];
-
-  exercises.forEach( exercise => {
-    const workoutObject = {
-      name: exercise.exercise,
-      sets: [],
-    };
-
-
-    exercise.trackedReps.forEach( ( reps, index ) => {
-      workoutObject.sets.push( {
-        set: index + 1,
-        reps,
-        weight: exercise.trackedWeights[ index ],
-      } );
-    } );
-
-    container.push( workoutObject );
-  } );
-
-  return container;
-};
-
-export const _formatBodyLog = ( log, bodyMeasurements ) => {
-  const baseBodyLogs = [ ...JSON.parse( JSON.stringify( bodyMeasurements ) ) ];
-
-  baseBodyLogs.forEach( typeOfLog => {
-
-    if ( log ) {
-      const title = typeOfLog.title.toLowerCase();
-
-      if ( log[ title ] ) {
-        typeOfLog.value = log[ title ].value;
-        typeOfLog.measurement = log[ title ].measurement;
-      }
-    }
-    else {
-      typeOfLog.value = '';
-    }
-  } );
-
-  return baseBodyLogs;
-};
-
-export const _calculateLogData = ( state, action ) => {
-  const { bodyMeasurements, savedBodyLogs } = state;
-  const { dateObject, completedExercises } = action.payload;
-
-
-  const selectedDateExercises = completedExercises.filter( exercise => {
-    const formattedDate = moment( exercise.trackedOn ).format( 'YYYY-MM-DD' );
-
-    if ( formattedDate === dateObject.dateString ) {
-      return exercise;
-    }
-  } );
-
-  const formattedExercises = _formatWorkoutLogs( selectedDateExercises );
-
-
-  const selectedDateBodyLog = savedBodyLogs.find( log => {
-    const formattedDate = moment( log.trackedOn ).format( 'YYYY-MM-DD' );
-
-    if ( formattedDate === dateObject.dateString ) {
-      return log;
-    }
-  } );
-
-  console.log( 'selected body log: ', selectedDateBodyLog );
-
-
-  const formattedBodyLog = _formatBodyLog( selectedDateBodyLog, bodyMeasurements );
-
-  return {
-    ...state,
-    selectedDay: moment( dateObject.dateString ).toDate(),
-    selectedExercises: selectedDateExercises,
-    formattedExercises,
-    formattedBodyLog,
-    overwriteUid: ( selectedDateBodyLog )
-      ? selectedDateBodyLog.uid
-      : '',
-  };
-};
-
-export const calculateLogData = ( state, action ) => {
-  const { selectedDay, exercises } = action.payload;
-
-  const selectedExercises = exercises.filter( exercise => {
+  const filteredExercises = exercises.filter( exercise => {
     const date = dateHelpers
       .formatUnix( exercise.trackedOn.seconds )
       .split( '/' )
@@ -120,44 +13,115 @@ export const calculateLogData = ( state, action ) => {
       } )
       .join( '/' );
 
-    if ( date === selectedDay ) {
+    if ( date === targetDate ) {
       return exercise;
     }
   } );
 
-  if ( selectedExercises.length > 0 ) {
 
-    const createSets = ( trackedReps, trackedWeights ) => {
-      const sets = [];
+  const createSets = ( trackedReps, trackedWeights ) => {
+    const sets = [];
 
-      for ( let i = 0; i < trackedReps.length; i += 1 ) {
-        sets.push( {
-          set: i + 1,
-          reps: `${ trackedReps[ i ] }`,
-          weight: `${ trackedWeights[ i ] }`,
-        } );
-      }
+    for ( let i = 0; i < trackedReps.length; i += 1 ) {
+      sets.push( {
+        set: i + 1,
+        reps: `${ trackedReps[ i ] }`,
+        weight: `${ trackedWeights[ i ] }`,
+      } );
+    }
 
-      return sets;
-    };
-    const formattedExercises = selectedExercises.map( exercise => {
-      return {
-        name: exercise.exercise,
-        sets: createSets( exercise.trackedReps, exercise.trackedWeights ),
-      };
-    } );
+    return sets;
+  };
 
+  return filteredExercises.map( exercise => {
     return {
-      selectedDay,
-      exercises: formattedExercises,
-      changedExercises: false,
+      uid: exercise.uid,
+      name: exercise.exercise,
+      sets: createSets(
+        exercise.trackedReps,
+        exercise.trackedWeights,
+      ),
     };
+  } );
+
+};
+
+export const formatInitialBodyLogs = ( bodyLogs, targetDate ) => {
+
+  // find if a body log was tracked on that day
+  const filteredBodyLogs = bodyLogs.filter( log => {
+    const date = log.trackedOn.formatted
+      .split( '/' )
+      .map( part => {
+        return part.replace( /^0+/, '' );
+      } )
+      .join( '/' );
+
+    if ( date === targetDate ) {
+      return log;
+    }
+  } );
+
+
+  // create base array of measurements from config object
+  const formattedBodyMeasurements = bodyMeasurements.map( item => {
+    return {
+      title: item.title,
+      measurement: item.measurement,
+      value: '',
+    };
+  } );
+
+  // fill in the previous tracked values if there is any
+  if ( filteredBodyLogs.length > 0 ) {
+    const filteredBodyLog = { ...filteredBodyLogs[ 0 ] };
+    const { uid } = filteredBodyLog;
+
+    delete filteredBodyLog.uid;
+    delete filteredBodyLog.trackedOn;
+    delete filteredBodyLog.userId;
+    const trackedMeasurements = Object.keys( filteredBodyLog );
+
+    trackedMeasurements.forEach( measurement => {
+
+      formattedBodyMeasurements.forEach( ( item, index ) => {
+        const title = item.title.toLowerCase();
+
+        if ( measurement === title ) {
+          formattedBodyMeasurements[ index ].uid = uid;
+          formattedBodyMeasurements[ index ].value = filteredBodyLog[ title ].value;
+        }
+
+      } );
+
+    } );
   }
+
+  return formattedBodyMeasurements;
+};
+
+
+export const formatInitialLogs = ( state, action ) => {
+  const { selectedDay, exercises, bodyLogs } = action.payload;
+
+
+  const formattedExercises = formatInitialWorkoutLogs(
+    exercises,
+    selectedDay,
+  );
+
+  const formattedBodyLogs = formatInitialBodyLogs(
+    bodyLogs,
+    selectedDay,
+  );
+
 
   return {
     selectedDay,
-    exercises: [],
+    exercises: formattedExercises,
+    bodyLogs: formattedBodyLogs,
     changedExercises: false,
+    changedBodyLogs: false,
   };
 };
 
@@ -175,80 +139,30 @@ export const updateWorkoutLog = ( state, action ) => {
     exercises: updatedExercises,
     changedExercises: true,
   };
-
-
-  // const mappedField = ( field === 'reps' ) ? 'trackedReps' : 'trackedWeights';
-  // const updatedValues = [ ...selectedExercises[ exerciseLocation ][ mappedField ] ];
-  //
-  // updatedValues[ setLocation ] = parseInt( value, 10 );
-  //
-  // const updatedExercise = {
-  //   ...selectedExercises[ exerciseLocation ],
-  //   [ mappedField ]: updatedValues,
-  // };
-  //
-  // // replace value in array in an immutable way
-  // const newExercises = Object.assign( [], selectedExercises, {
-  //   [ exerciseLocation ]: updatedExercise,
-  // } );
-  //
-  // const changedList = [ ...new Set( [ ...changedExercises, exerciseLocation ] ) ];
-  //
-  // return {
-  //   ...state,
-  //   selectedExercises: newExercises,
-  //   changedExercises: changedList,
-  // };
 };
 
 export const updateBodyLog = ( state, action ) => {
-  const { field, measurement, value } = action.payload;
+  const bodyLogs = state.bodyLogs.map( log => {
+    if ( log.title === action.payload.title ) {
+      return action.payload;
+    }
 
-  const formattedBodyLog = state.formattedBodyLog.map( logItem => {
-    if ( logItem.title === field ) {
-      return {
-        ...logItem,
-        value,
-        measurement,
-      };
-    } 
-    return logItem;
-    
+    return log;
   } );
 
   return {
     ...state,
-    formattedBodyLog,
-    bodyLogChanges: true,
+    bodyLogs,
+    changedBodyLogs: true,
   };
 };
 
 export default function logs( state = {}, action ) {
   switch ( action.type ) {
-
-    case SAVE_BODY_LOG_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case SAVE_BODY_LOG_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
-
-    case SAVE_BODY_LOG_FAILED:
-      return {
-        ...state,
-        loading: false,
-      };
-
     case LOG_SELECTED_DAY:
-      return calculateLogData( state, action );
-      // return { selectedDay: action.payload };
+      return formatInitialLogs( state, action );
 
-    case UPDATE_BODY_LOG:
+    case LOG_UPDATE_BODY_LOG:
       return updateBodyLog( state, action );
 
     case LOG_UPDATE_WORKOUT:

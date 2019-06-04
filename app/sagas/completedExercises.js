@@ -20,7 +20,11 @@ export function* completedExerciseListener( uid ) {
       .onSnapshot( snapshot => {
 
         const completedExercises = [];
-        snapshot.forEach( doc => completedExercises.push( { ...doc.data() } ) );
+        snapshot.forEach( doc => completedExercises.push( {
+          ...doc.data(),
+          uid: doc.id,
+        } ) );
+
         emiter( completedExercises );
       } );
 

@@ -10,12 +10,11 @@ import { LogsSelectedLogsCard } from '../../components/Card';
 import Loading from '../../components/Loading';
 import Tabs from '../../components/Tabs/Tabs';
 import {
-  getChangedExercises, getExercisesBySelectedLogDay,
-  getFormattedBodyLog,
-  getFormattedExercises,
-  getLogSelectedDay
+  getBodyLogsBySelectedLogDay,
+  getChangedExercises, getExercisesBySelectedLogDay, getLogChanges,
+  getLogSelectedDay,
 } from '../../selectors/logs';
-import { logUpdateWorkoutAction, updateBodyLogAction, updateWorkoutLogAction } from '../../actions/logs';
+import { logUpdateWorkoutAction, logUpdateBodyLogAction } from '../../actions/logs';
 import { saveLogEdit } from '../../actions/workoutsApi';
 import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
 import Text from '../../components/Text/Text';
@@ -31,16 +30,16 @@ const styles = StyleSheet.create( {
 
 class SelectedLogs extends Component {
   static navigationOptions = ( { navigation } ) => {
-    const { date, save } = navigation.state.params || {};
+    const { date, save, changes } = navigation.state.params || {};
     return {
       title: date,
       headerRight: (
         <Button
           buttonStyle={ styles.navigationButton }
-          color={ theme.ACTIVE_TAB_COLOR }
+          color={ ( changes ) ? theme.ACTIVE_TAB_COLOR : theme.DISABLED_TEXT_COLOR }
           textStyle={ { fontSize: 18 } }
           title='Save'
-          onPress={ save }
+          onPress={ ( changes ) ? save : '' }
         />
       ),
       // styling to make tabs look like part of header
@@ -52,29 +51,35 @@ class SelectedLogs extends Component {
     this.props.navigation.setParams( {
       save: this.props.save,
       date: this.props.selectedDay,
+      changes: this.props.changes,
     } );
   }
 
-  /**
-   * Body log template used inside of tabs
-   * @returns {*}
-   */
+  componentDidUpdate( prevProps ) {
+    if ( prevProps.changes !== this.props.changes ) {
+      this.props.navigation.setParams( {
+        save: this.props.save,
+        date: this.props.selectedDay,
+        changes: this.props.changes,
+      } );
+    }
+  }
+
   bodyLogs = () => (
-    <KeyboardAwareScrollView
-      extraHeight={ 200 }
-    >
+    <KeyboardAwareScrollView extraHeight={ 200 }>
       <FlatList
-        // data={ this.props.formattedBodyLog }
-        date={ [] }
+        data={ this.props.bodyLogs }
         renderItem={ ( { item } ) => (
           <LogsSelectedLogsCard
             title={ item.title }
             label={ item.measurement }
             value={ item.value }
-            inputChanged={ text => this.props.updateBodyLog(
-              { field: item.title, measurement: item.measurement, value: text },
-            )
-            }
+            inputChanged={ text => {
+              this.props.updateBodyLog( {
+                ...item,
+                value: text,
+              } );
+            } }
           />
         ) }
         keyExtractor={ item => item.title }
@@ -82,19 +87,12 @@ class SelectedLogs extends Component {
     </KeyboardAwareScrollView>
   );
 
-  updateField = ( change, exerciseLocation ) => {
+  updateWorkoutLog = ( change, exerciseLocation ) => {
     const { set, ...otherProps } = change;
     const formattedObject = { setLocation: set, ...otherProps, exerciseLocation };
-
-    console.log( 'formatted object', formattedObject );
     this.props.updateWorkoutLog( formattedObject );
   };
 
-
-  /**
-   * Workout log template used inside of tabs
-   * @returns {*}
-   */
   workoutLogs = () => (
     <Container scroll containerStyling={ { padding: 20 } }>
       <KeyboardAwareScrollView>
@@ -112,7 +110,7 @@ class SelectedLogs extends Component {
               <Text size="medium">{ item.name }</Text>
               <ExerciseInputTable
                 items={ item.sets }
-                updateField={ change => this.updateField( change, index ) }
+                updateField={ change => this.updateWorkoutLog( change, index ) }
                 disableAutoJump
               />
             </View>
@@ -123,17 +121,8 @@ class SelectedLogs extends Component {
     </Container>
   );
 
-
   render() {
     console.log( 'selectedLogs props: ', this.props );
-    // const { loading } = this.props.profile;
-
-    // if ( loading ) {
-    //   return (
-    //     <Loading />
-    //   );
-    // }
-
     return (
       <Container>
         <Tabs
@@ -157,23 +146,21 @@ SelectedLogs.propTypes = {
   exercises: PropTypes.array,
   save: PropTypes.func,
   updateWorkoutLog: PropTypes.func,
+  bodyLogs: PropTypes.array,
+  updateBodyLog: PropTypes.func,
+  changes: PropTypes.bool,
 };
 
 const mapStateToProps = state => ( {
   selectedDay: getLogSelectedDay( state ),
   exercises: getExercisesBySelectedLogDay( state ),
-
-  // profile: state.profile,
-  // authReducer: state.authReducer,
-  // formattedExercises: getFormattedExercises( state ),
-  // formattedBodyLog: getFormattedBodyLog( state ),
-  // changedExercises: getChangedExercises( state ),
-  // uid: getUid( state ),
+  bodyLogs: getBodyLogsBySelectedLogDay( state ),
+  changes: getLogChanges( state ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
   updateWorkoutLog: change => dispatch( logUpdateWorkoutAction( change ) ),
-  updateBodyLog: change => dispatch( updateBodyLogAction( change ) ),
+  updateBodyLog: change => dispatch( logUpdateBodyLogAction( change ) ),
   save: changes => dispatch( saveLogEdit( changes ) ),
 } );
 

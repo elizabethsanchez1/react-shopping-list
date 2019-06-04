@@ -13,6 +13,7 @@ import { getMarkedDates } from '../../selectors/logs';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { BODY_LOGS } from '../../constants/reducerObjects';
 import { getCompletedExercises } from '../../selectors/completedExercises';
+import { getBodyLogs } from '../../selectors/bodyLogs';
 
 
 const styles = StyleSheet.create( {
@@ -62,6 +63,7 @@ class Calendar extends Component {
     this.props.selectedDay( {
       selectedDay: date,
       exercises: this.props.exercises,
+      bodyLogs: this.props.bodyLogs,
     } );
     this.props.navigation.navigate( 'Logs' );
   };
@@ -128,12 +130,14 @@ Calendar.propTypes = {
   exercises: PropTypes.array,
   isLoading: PropTypes.bool,
   navigation: PropTypes.object,
+  bodyLogs: PropTypes.array,
 };
 
 const mapStateToProps = state => ( {
   exercises: getCompletedExercises( state ),
   markedDates: getMarkedDates( state ),
   isLoading: getLoadingByDomain( state, BODY_LOGS ),
+  bodyLogs: getBodyLogs( state ),
 } );
 
 const mapDispatchToProps = dispatch => ( {

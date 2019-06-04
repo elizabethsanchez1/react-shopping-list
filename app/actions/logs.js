@@ -1,4 +1,4 @@
-import { LOG_SELECTED_DAY, UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT } from '../constants/logs';
+import { LOG_SELECTED_DAY, LOG_UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT, SAVE_LOG_UPDATE } from '../constants/logs';
 
 export const logSelectDayAction = data => {
   return {
@@ -14,9 +14,16 @@ export const logUpdateWorkoutAction = data => {
   };
 };
 
-export const updateBodyLogAction = change => {
+export const logUpdateBodyLogAction = data => {
   return {
-    type: UPDATE_BODY_LOG,
-    payload: change,
+    type: LOG_UPDATE_BODY_LOG,
+    payload: data,
+  };
+};
+
+export const saveUpdateLogAction = data => {
+  return {
+    type: SAVE_LOG_UPDATE,
+    payload: data,
   };
 };
