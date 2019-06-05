@@ -1,5 +1,17 @@
-import { LOG_SELECTED_DAY, LOG_UPDATE_BODY_LOG, LOG_UPDATE_WORKOUT, SAVE_LOG_UPDATE } from '../../constants/logs';
-import { logSelectDayAction, logUpdateBodyLogAction, logUpdateWorkoutAction, saveUpdateLogAction } from '../logs';
+import {
+  LOG_SELECTED_DAY,
+  LOG_UPDATE_BODY_LOG,
+  LOG_UPDATE_WORKOUT,
+  SAVE_LOGS,
+  SAVE_LOGS_FAILED,
+} from '../../constants/logs';
+import {
+  logSelectDayAction,
+  logUpdateBodyLogAction,
+  logUpdateWorkoutAction,
+  saveLogsAction,
+  saveLogsFailedAction,
+} from '../logs';
 
 
 describe( 'Log action creators', () => {
@@ -31,13 +43,22 @@ describe( 'Log action creators', () => {
     expect( logUpdateBodyLogAction( 1 ) ).toEqual( expectedAction );
   } );
 
-  it( 'saveLogUpdateAction() should dispatch SAVE_LOG_UPDATE', () => {
+  it( 'saveLogsAction() should dispatch SAVE_LOGS', () => {
     const expectedAction = {
-      type: SAVE_LOG_UPDATE,
+      type: SAVE_LOGS,
       payload: 1,
     };
 
-    expect( saveUpdateLogAction( 1 ) ).toEqual( expectedAction );
+    expect( saveLogsAction( 1 ) ).toEqual( expectedAction );
+  } );
+
+  it( 'saveLogsAction() should dispatch SAVE_LOGS_FAILED', () => {
+    const expectedAction = {
+      type: SAVE_LOGS_FAILED,
+      payload: 1,
+    };
+
+    expect( saveLogsFailedAction( 1 ) ).toEqual( expectedAction );
   } );
 
 } );

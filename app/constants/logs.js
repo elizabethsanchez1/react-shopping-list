@@ -7,4 +7,6 @@ export const LOG_UPDATE_BODY_LOG = 'LOG_UPDATE_BODY_LOG';
 
 export const UPDATE_LOGS_REQUEST = 'UPDATE_LOGS_REQUEST';
 
-export const SAVE_LOG_UPDATE = 'SAVE_LOG_UPDATE';
+export const SAVE_LOGS = 'SAVE_LOGS';
+
+export const SAVE_LOGS_FAILED = 'SAVE_LOGS_FAILED';

@@ -5,7 +5,7 @@ import { watchAddCustomExercise } from './exercises';
 import config from '../config/dev.config';
 import { watchBuildSaveWorkoutRequest } from './building';
 import { watchTrackSaveExercisesRequest } from './track';
-import { watchUpdateLogRequest } from './logs';
+import { watchSaveLogRequest } from './logs';
 
 
 export default function* rootSaga() {
@@ -19,7 +19,7 @@ export default function* rootSaga() {
       fork( watchProfileUpdate ),
       fork( watchRegisterRequest ),
       fork( watchTrackSaveExercisesRequest ),
-      fork( watchUpdateLogRequest ),
+      fork( watchSaveLogRequest ),
     ] );
   }
 }

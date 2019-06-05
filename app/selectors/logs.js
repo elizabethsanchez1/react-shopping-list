@@ -70,3 +70,33 @@ export const getLogChanges = createSelector(
   state => getLogs( state ),
   logs => logs.changedExercises || logs.changedBodyLogs,
 );
+
+export const getLogChangeFlags = createSelector(
+  state => getLogs( state ),
+  logs => {
+    return {
+      changedBodyLogs: logs.changedBodyLogs,
+      changedExercises: logs.changedExercises,
+    };
+  },
+);
+
+export const getBodyLogsinSaveFormat = state => {
+  const { bodyLogs } = getLogs( state );
+
+  const updatedLogs = bodyLogs.filter( log => {
+    if ( log.value !== '' ) {
+      return log;
+    }
+  } );
+
+  const logSaveObject = {};
+  updatedLogs.forEach( log => {
+    logSaveObject[ log.title.toLowerCase() ] = {
+      measurement: log.measurement,
+      value: log.value,
+    };
+  } );
+
+  return logSaveObject;
+};

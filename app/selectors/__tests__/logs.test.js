@@ -1,6 +1,6 @@
 import {
-  getBodyLogsBySelectedLogDay,
-  getExercisesBySelectedLogDay, getLogChanges,
+  getBodyLogsBySelectedLogDay, getBodyLogsinSaveFormat,
+  getExercisesBySelectedLogDay, getLogChangeFlags, getLogChanges,
   getLogs,
   getLogSelectedDay,
   getMarkedDates
@@ -384,6 +384,87 @@ describe( 'unit tests for logs selectors', () => {
     };
 
     expect( getLogChanges( state1 ) ).toEqual( false );
+  } );
+
+  it( 'getLogChangeFlags() should return both change flags for body logs and workout logs', () => {
+    const expectedValue = {
+      changedExercises: altState.logs.changedExercises,
+      changedBodyLogs: altState.logs.changedBodyLogs,
+    };
+
+    expect( getLogChangeFlags( altState ) ).toEqual( expectedValue );
+  } );
+
+  it( 'getBodyLogsInSaveFormat() should return only the properties that the user filled out in a format that can be saved', () => {
+    const expectedValue = {
+      // trackedOn: 'Tue Jun 04 2019 08:37:36 GMT-0500 (Central Daylight Time)',
+      // userId: 'JbdTa6ILGLRLecFAoWUB3sp9Stu1',
+      arms: {
+        'measurement': 'in',
+        'value': '17',
+      },
+      weight: {
+        'measurement': 'lbs',
+        'value': '172.2',
+      },
+    };
+
+    const state1 = {
+      logs: {
+        bodyLogs: [
+          {
+            'title': 'Arms',
+            'measurement': 'in',
+            'value': '17',
+          },
+          {
+            'title': 'Body Fat',
+            'measurement': '%',
+            'value': '',
+          },
+          {
+            'title': 'Calves',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'title': 'Chest',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'title': 'Forearms',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'title': 'Hips',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'title': 'Thighs',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'title': 'Waist',
+            'measurement': 'in',
+            'value': '',
+          },
+          {
+            'uid': 'MA02hmUi1o4XhZRACC25',
+            'title': 'Weight',
+            'measurement': 'lbs',
+            'value': '172.2',
+          },
+        ],
+      },
+    };
+
+    expect( getBodyLogsinSaveFormat( state1 ) )
+      .toEqual( expectedValue );
+
   } );
 
 } );

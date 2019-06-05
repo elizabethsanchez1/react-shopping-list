@@ -9,7 +9,7 @@ import { handleErrorAction } from '../actions/errors';
 import NavigationService from '../utilities/navigationService';
 import { calculateProgramAttemptInfo } from '../selectors/savedWorkouts';
 
-// REDUX THUNK, NOT SUPPORTED EASILY IN REDUX SAGAS
+// REDUX THUNK, BATCH WRITE NOT SUPPORTED EASILY IN REDUX SAGAS
 export const saveTrackedExercisesREST = exercises => () => {
   const exercisesCollection = firebase.firestore().collection( 'completedExercises' );
   const batch = firebase.firestore().batch();

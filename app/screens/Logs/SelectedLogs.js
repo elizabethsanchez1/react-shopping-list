@@ -7,17 +7,18 @@ import { Button } from 'react-native-elements';
 import theme from '../../styles/theme.style';
 import Container from '../../components/Container';
 import { LogsSelectedLogsCard } from '../../components/Card';
-import Loading from '../../components/Loading';
+import { Loading } from '../../components/Loading';
 import Tabs from '../../components/Tabs/Tabs';
 import {
   getBodyLogsBySelectedLogDay,
-  getChangedExercises, getExercisesBySelectedLogDay, getLogChanges,
+  getExercisesBySelectedLogDay, getLogChanges,
   getLogSelectedDay,
 } from '../../selectors/logs';
-import { logUpdateWorkoutAction, logUpdateBodyLogAction } from '../../actions/logs';
-import { saveLogEdit } from '../../actions/workoutsApi';
+import { logUpdateWorkoutAction, logUpdateBodyLogAction, saveLogsAction } from '../../actions/logs';
 import ExerciseInputTable from '../../components/Table/Shared/ExerciseInputTable';
 import Text from '../../components/Text/Text';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { LOGS } from '../../constants/reducerObjects';
 
 const styles = StyleSheet.create( {
   headerStyle: {
@@ -122,7 +123,10 @@ class SelectedLogs extends Component {
   );
 
   render() {
-    console.log( 'selectedLogs props: ', this.props );
+    if ( this.props.loading ) {
+      return <Loading />;
+    }
+
     return (
       <Container>
         <Tabs
@@ -149,9 +153,11 @@ SelectedLogs.propTypes = {
   bodyLogs: PropTypes.array,
   updateBodyLog: PropTypes.func,
   changes: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => ( {
+  loading: getLoadingByDomain( state, LOGS ),
   selectedDay: getLogSelectedDay( state ),
   exercises: getExercisesBySelectedLogDay( state ),
   bodyLogs: getBodyLogsBySelectedLogDay( state ),
@@ -161,7 +167,7 @@ const mapStateToProps = state => ( {
 const mapDispatchToProps = dispatch => ( {
   updateWorkoutLog: change => dispatch( logUpdateWorkoutAction( change ) ),
   updateBodyLog: change => dispatch( logUpdateBodyLogAction( change ) ),
-  save: changes => dispatch( saveLogEdit( changes ) ),
+  save: changes => dispatch( saveLogsAction( changes ) ),
 } );
 
 export default connect( mapStateToProps, mapDispatchToProps )( SelectedLogs );

@@ -591,5 +591,4 @@ describe( 'logs reducer unit tests', () => {
     expect( logs( previousState, action ) ).toEqual( expectedState );
   } );
 
-
 } );
