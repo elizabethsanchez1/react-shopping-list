@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux';
 import authentication from './authentication';
 import profile from './profile';
-import workoutsApi from './workoutsApi';
-import workout from './workout';
-import program from './program';
 import analytics from './analytics';
 import logs from './logs';
 import { LOG_OUT } from '../constants/authentication';
@@ -20,7 +17,7 @@ import track from './track';
 
 const appReducer = combineReducers( {
   // migrated over
-  authentication,
+  authentication,  // this needs to be cleaned up
   bodyLogs,
   building,
   completedExercises,
@@ -35,10 +32,6 @@ const appReducer = combineReducers( {
   user,
 
   // old reducers
-  // bodyLogs,
-  // workoutsApi,
-  // workout,
-  // program,
   // analytics,
 
 } );

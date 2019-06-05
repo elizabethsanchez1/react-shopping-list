@@ -14,6 +14,23 @@ import { getRegisterLoading } from '../../selectors/authentication';
 
 
 class Register extends Component {
+  static navigationOptions = ( { navigation } ) => {
+    return {
+      headerLeft: (
+        <Button
+          title="Login"
+          color={ theme.PRIMARY_FONT_COLOR }
+          fontFamily={ theme.PRIMARY_FONT_FAMILY }
+          fontSize={ theme.FONT_SIZE_HEADERBAR }
+          textStyle={ { fontWeight: theme.FONT_WEIGHT_MEDIUM } }
+          buttonStyle={ { backgroundColor: 'transparent', padding: 9 } }
+          containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
+          onPress={ () => navigation.navigate( 'Login' ) }
+        />
+      ),
+    };
+  };
+
   constructor( props ) {
     super( props );
     this.state = {
@@ -32,27 +49,6 @@ class Register extends Component {
     this.passwordInput = React.createRef();
   }
 
-  static navigationOptions = ( { navigation } ) => {
-    return {
-      headerLeft: (
-        <Button
-          title="Login"
-          color={ theme.PRIMARY_FONT_COLOR }
-          fontFamily={ theme.PRIMARY_FONT_FAMILY }
-          fontSize={ theme.FONT_SIZE_HEADERBAR }
-          textStyle={ { fontWeight: theme.FONT_WEIGHT_MEDIUM } }
-          buttonStyle={ { backgroundColor: 'transparent', padding: 9 } }
-          containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
-          onPress={ () => navigation.navigate( 'Login' ) }
-        />
-      ),
-    };
-  };
-
-  /**
-   * Validate email inputted by user
-   * @param {String} text
-   */
   validateEmail = text => {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -62,11 +58,6 @@ class Register extends Component {
     } );
   };
 
-  /**
-   * Validate password for at least 8 characters long and
-   * one number
-   * @param {String} text
-   */
   validatePassword = text => {
     this.handlePasswordHint();
     let errorMessage = '';
@@ -92,10 +83,6 @@ class Register extends Component {
     } );
   };
 
-  /**
-   * Show or hide the password hint depending on if the password
-   * text field has focus or not
-   */
   handlePasswordHint = () => {
     const style = ( this.state.passwordHint === 'none' ) ? 'flex' : 'none';
 
@@ -104,10 +91,6 @@ class Register extends Component {
     } );
   };
 
-  /**
-   * When user clicks on the eye icon on top of the password input text
-   * field toggle the masking of the password text
-   */
   togglePasswordMasking = () => {
     const passwordIcon = ( this.state.hidePassword ) ? 'eye' : 'eye-off';
     const hidePassword = !this.state.hidePassword;
@@ -119,10 +102,6 @@ class Register extends Component {
   };
 
 
-  /**
-   * Make call to firebase to register the user. If failed
-   * provide user feedback using dropdown alert component
-   */
   handleSignUp = () => {
     const { email, password } = this.state;
 
@@ -207,7 +186,6 @@ const mapStateToProps = state => ( {
 
 
 const mapDispatchToProps = dispatch => ( {
-  // createUser: ( email, password ) => dispatch( createUser( email, password ) ),
   createUser: ( email, password ) => dispatch( createUserAction( { email, password } ) ),
 } )
 

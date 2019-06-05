@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Button } from 'react-native-elements';
 import Container from '../../components/Container/index';
 import theme from '../../styles/theme.style';
 import { calculateWeeksForDropdown, getType } from '../../selectors/building';
-import * as program from '../../actions/program';
-import * as workout from '../../actions/workout';
 import { createBuildObjectAction, storeBuildObjectConfigAction } from '../../actions/building';
 
 
@@ -181,7 +178,6 @@ class BuildQuestions extends Component {
 }
 
 BuildQuestions.propTypes = {
-  actions: PropTypes.object.isRequired,
   navigation: PropTypes.object,
   type: PropTypes.string.isRequired,
   storeProgramConfig: PropTypes.func,
@@ -193,10 +189,6 @@ const mapStateToProps = state => ( {
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  actions: {
-    program: bindActionCreators( program, dispatch ),
-    workout: bindActionCreators( workout, dispatch ),
-  },
   createBuildObject: () => dispatch( createBuildObjectAction() ),
   storeProgramConfig: data => dispatch( storeBuildObjectConfigAction( data ) ),
 } );

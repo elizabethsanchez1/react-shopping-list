@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Container from '../../components/Container';
 import SortableList from '../../containers/Building/SortSortableList';
 import theme from '../../styles/theme.style';
-import { getWorkoutType } from '../../selectors/workoutsApi';
 import { getSortableExerciseList } from '../../selectors/exercises';
 import { buildUpdateExerciseOrderAction } from '../../actions/building';
 
@@ -83,7 +82,6 @@ Sort.propTypes = {
 
 
 const mapStateToProps = state => ( {
-  type: getWorkoutType( state ),
   exercises: getSortableExerciseList( state ),
 } );
 

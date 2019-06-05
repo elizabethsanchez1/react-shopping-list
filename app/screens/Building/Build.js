@@ -9,20 +9,10 @@ import Container from '../../components/Container/index';
 import { Loading } from '../../components/Loading/index';
 import theme from '../../styles/theme.style';
 import {
-  getWorkout,
-  getWeekSelected,
-  getDaySelected,
-  getBuildSaveRedirect,
-} from '../../selectors/workoutsApi';
-import {
-  computeDropdownWeeks,
   getBuildingSelectedWeek,
   getSelectedBuildObject,
   getType,
 } from '../../selectors/building';
-import { retrievedExerciseList } from '../../reducers/exercises';
-import { getUid } from '../../selectors/authentication';
-import { updateDay } from '../../actions/program';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { BUILDING } from '../../constants/reducerObjects';
 import DayHeader from '../../containers/Building/DayHeader';
@@ -125,32 +115,11 @@ class Build extends Component {
     };
   };
 
-  constructor( props ) {
-    super( props );
-    this.state = {
-      copyFrom: '',
-      copyTo: '',
-      weeksDropdown: '',
-      loading: false,
-      alertShown: false,
-    };
-  }
-
   componentDidMount() {
-    const { weeks } = this.props.navigation.state.params;
-    this.props.navigation.setParams( { saveData: this.saveData.bind( this ) } );
-
-    if ( this.props.type === 'program' ) {
-      this.props.navigation.setParams( { changeWeek: this.changeWeek.bind( this ) } );
-      this.setState( { weeksDropdown: computeDropdownWeeks( weeks ) } );
-    }
-  }
-
-  componentDidUpdate() {
-    if ( this.props.redirect ) {
-      this.props.navigation.navigate( 'BuildDashboard' );
-      this.props.actions.workoutApi.buildSaveRedirectDone();
-    }
+    this.props.navigation.setParams( {
+      saveData: this.saveData,
+      changeWeek: this.changeWeek,
+    } );
   }
 
   saveData = () => this.props.saveWorkout();
@@ -158,8 +127,6 @@ class Build extends Component {
   changeWeek = week => this.props.changeWeek( week );
 
   render() {
-    console.log( 'Build.js props: ', this.props );
-    console.log( 'Build.js state: ', this.state );
     const { buildObject, selectedWeek, navigation, type } = this.props;
 
     if ( this.props.loading ) {
@@ -225,10 +192,7 @@ class Build extends Component {
 
 Build.propTypes = {
   navigation: PropTypes.object,
-  actions: PropTypes.object,
   loading: PropTypes.bool,
-  redirect: PropTypes.bool,
-
   type: PropTypes.string.isRequired,
   buildObject: PropTypes.object,
   selectedWeek: PropTypes.string,
@@ -237,23 +201,14 @@ Build.propTypes = {
 };
 
 const mapStateToProps = state => ( {
-  uid: getUid( state ),
-  workout: getWorkout( state ),
-  weekSelected: getWeekSelected( state ),
-  daySelected: getDaySelected( state ),
-  redirect: getBuildSaveRedirect( state ),
-  retrievedExerciseList: retrievedExerciseList( state ),
-
   selectedWeek: getBuildingSelectedWeek( state ),
   buildObject: getSelectedBuildObject( state ),
   type: getType( state ),
-  // this is for when the user saves the program
   loading: getLoadingByDomain( state, BUILDING ),
 } );
 
 const mapDispatchToProps = dispatch => ( {
   saveWorkout: () => dispatch( buildSaveWorkoutAction() ),
-  updateDay: ( name, day ) => dispatch( updateDay( name, day ) ),
   changeWeek: data => dispatch( buildChangeWeekAction( data ) ),
 } );
 

@@ -15,22 +15,6 @@ import { AUTHENTICATION } from '../../constants/reducerObjects';
 
 
 class Login extends Component {
-  constructor( props ) {
-    super( props );
-    this.state = {
-      email: '',
-      password: '',
-      passwordIcon: 'eye-off',
-      disableSubmitButton: false,
-      invalidEmail: false,
-      hidePassword: true,
-      passwordHint: 'eye-off',
-    };
-
-    this.passwordInput = React.createRef();
-    this.emailInput = React.createRef();
-  }
-
   static navigationOptions = ( { navigation } ) => {
     return {
       headerLeft: (
@@ -48,16 +32,27 @@ class Login extends Component {
     };
   };
 
+  constructor( props ) {
+    super( props );
+    this.state = {
+      email: '',
+      password: '',
+      passwordIcon: 'eye-off',
+      disableSubmitButton: false,
+      invalidEmail: false,
+      hidePassword: true,
+      passwordHint: 'eye-off',
+    };
+
+    this.passwordInput = React.createRef();
+    this.emailInput = React.createRef();
+  }
+
   formatErrorMessage = message => {
     const filtered = message.substring( message.indexOf( '/' ) + 1 ).replace( /-/g, ' ' );
     return filtered.charAt( 0 ).toUpperCase() + filtered.slice( 1 );
   };
 
-
-  /**
-   * Validate email inputted by user
-   * @param {String} text
-   */
   validateEmail = text => {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -67,10 +62,6 @@ class Login extends Component {
     } );
   };
 
-  /**
-   * Show or hide the password hint depending on if the password
-   * text field has focus or not
-   */
   handlePasswordHint = () => {
     const style = ( this.state.passwordHint === 'none' ) ? 'flex' : 'none';
 
@@ -79,10 +70,6 @@ class Login extends Component {
     } );
   };
 
-  /**
-   * When user clicks on the eye icon on top of the password input text
-   * field toggle the masking of the password text
-   */
   togglePasswordMasking = () => {
     const passwordIcon = ( this.state.hidePassword ) ? 'eye' : 'eye-off';
     const hidePassword = !this.state.hidePassword;

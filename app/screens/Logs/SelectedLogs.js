@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FlatList, View, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
 import { NavButton } from '../../components/Button';
 import theme from '../../styles/theme.style';
 import Container from '../../components/Container';
