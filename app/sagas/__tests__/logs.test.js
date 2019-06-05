@@ -14,7 +14,7 @@ describe( 'Logs saga functionality', () => {
     const action = saveLogsAction( data );
 
 
-    it( 'watchSaveLogRequest() should create a saga watcher for  UPDATE_LOGS_REQUEST', () => {
+    it.skip( 'watchSaveLogRequest() should create a saga watcher for  UPDATE_LOGS_REQUEST', () => {
       const gen1 = cloneableGenerator( watchSaveLogRequest )();
 
       expect( JSON.stringify( gen1.next().value ) )

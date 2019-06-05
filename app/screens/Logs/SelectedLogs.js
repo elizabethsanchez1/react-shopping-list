@@ -4,6 +4,7 @@ import { FlatList, View, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
+import { NavButton } from '../../components/Button';
 import theme from '../../styles/theme.style';
 import Container from '../../components/Container';
 import { LogsSelectedLogsCard } from '../../components/Card';
@@ -26,7 +27,6 @@ const styles = StyleSheet.create( {
     shadowOffset: { width: 0, height: 2 },
     borderBottomWidth: 0,
   },
-  navigationButton: { backgroundColor: 'transparent' },
 } );
 
 class SelectedLogs extends Component {
@@ -35,15 +35,12 @@ class SelectedLogs extends Component {
     return {
       title: date,
       headerRight: (
-        <Button
-          buttonStyle={ styles.navigationButton }
-          color={ ( changes ) ? theme.ACTIVE_TAB_COLOR : theme.DISABLED_TEXT_COLOR }
-          textStyle={ { fontSize: 18 } }
-          title='Save'
-          onPress={ ( changes ) ? save : '' }
+        <NavButton
+          title="Save"
+          onPress={ save }
+          isDisabled={ !changes }
         />
       ),
-      // styling to make tabs look like part of header
       headerStyle: styles.headerStyle,
     };
   };

@@ -1,4 +1,4 @@
-import { takeLatest, put, select, fork, call } from 'redux-saga/effects';
+import { takeLatest, put, select, fork, call, take, delay } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 import firebase from 'react-native-firebase';
 import { SAVE_LOGS } from '../constants/logs';
@@ -25,9 +25,10 @@ export function* SaveWorkoutLogsREST( uid ) {
 
 }
 
-export function* SaveLogs( action ) {
+export function* SaveLogs() {
+  yield put( showLoadingAction( { dataType: LOGS } ) );
+
   try {
-    yield put( showLoadingAction( { dataType: LOGS } ) );
     const { changedBodyLogs, changedExercises } = yield select( getLogChangeFlags );
     const uid = yield select( getUid );
 
@@ -51,4 +52,13 @@ export function* SaveLogs( action ) {
 
 export function* watchSaveLogRequest() {
   yield takeLatest( SAVE_LOGS, SaveLogs );
+
+  // const queryState = {};
+  // while ( true ) {
+  //   const { query } = yield take( SAVE_LOGS );
+  //   const prevTask = queryState[ query ];
+  //   if ( !prevTask || !prevTask.isRunning() ) {
+  //     queryState[ query ] = yield fork( SaveLogs );
+  //   }
+  // }
 }
