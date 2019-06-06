@@ -61,8 +61,7 @@ export function* logOutREST() {
 export function* logOut() {
   try {
     yield call( logOutREST );
-    NavigationService.navigate( 'Register' );
-    yield delay( 2000 );
+    yield delay( 3000 );
     yield put( { type: CLEAR_STORE } );
   }
   catch( e ) {
@@ -142,14 +141,6 @@ export function* watchAuthchanges() {
     const user = yield select( getUser );
     if ( user.uid === undefined && uid ) {
       yield put( loginSuccessAction( { email, uid } ) );
-
-      /*
-      * If user logged in token is still there show loading for these data
-      * types since the navigation changes faster then the first loading widget
-      * can be displayed which causes a weird flicker on the main screens  */
-      // yield put( showLoadingAction( { dataType: USER } ) );
-      // yield put( showLoadingAction( { dataType: BODY_LOGS } ) );
-      // yield put( showLoadingAction( { dataType: BODY_LOGS } ) );
     }
 
     if ( uid ) {
@@ -164,14 +155,11 @@ export function* watchAuthchanges() {
       yield fork( completedExerciseListener, uid );
       yield fork( savedWorkoutsListener, uid );
       yield fork( userDocumentListener, uid );
+      NavigationService.navigate( 'Profile' );
     }
 
     if ( !uid ) {
       NavigationService.navigate( 'Register' );
     }
-    else {
-      NavigationService.navigate( 'Profile' );
-    }
-
   }
 }
