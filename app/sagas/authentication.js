@@ -1,8 +1,8 @@
 import firebase from 'react-native-firebase';
-import { takeEvery, call, put, take, select, fork, all } from 'redux-saga/effects';
+import { takeEvery, call, put, take, select, fork, delay } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 import { eventChannel } from 'redux-saga';
-import { CREATE_USER_REQUEST, LOG_OUT, LOGIN_REQUEST } from '../constants/authentication';
+import { CLEAR_STORE, CREATE_USER_REQUEST, LOG_OUT, LOGIN_REQUEST } from '../constants/authentication';
 import {
   createUserFailedAction,
   createUserSuccessAction,
@@ -10,7 +10,7 @@ import {
   loginSuccessAction,
 } from '../actions/authentication';
 import { hideLoadingAction, showLoadingAction } from '../actions/loading';
-import { AUTHENTICATION, BODY_LOGS, EXERCISES, USER } from '../constants/reducerObjects';
+import { AUTHENTICATION } from '../constants/reducerObjects';
 import { handleErrorAction } from '../actions/errors';
 import { getUser } from '../selectors/user';
 import { userDocumentListener } from './user';
@@ -53,6 +53,7 @@ export function* watchLoginRequest() {
   yield takeEvery( LOGIN_REQUEST, login );
 }
 
+
 export function* logOutREST() {
   return yield call( [ firebase.auth(), firebase.auth().signOut ] );
 }
@@ -61,7 +62,8 @@ export function* logOut() {
   try {
     yield call( logOutREST );
     NavigationService.navigate( 'Register' );
-    console.log('finished doing log out');
+    yield delay( 2000 );
+    yield put( { type: CLEAR_STORE } );
   }
   catch( e ) {
     console.log( 'error logging out', e );

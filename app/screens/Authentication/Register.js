@@ -1,31 +1,50 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native'
-import { Button } from 'react-native-elements';
+import { View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 import { Card } from '../../components/Card';
 import { Input } from '../../components/Form';
-import { PrimaryButton } from '../../components/Button';
+import { PrimaryButton, NavButton } from '../../components/Button';
 import theme from '../../styles/theme.style';
 import Container from '../../components/Container';
-import { connect } from 'react-redux';
-import { createUser, createUserAction } from '../../actions/authentication';
-import { getRegisterLoading } from '../../selectors/authentication';
+import { createUserAction } from '../../actions/authentication';
+import { getLoadingByDomain } from '../../selectors/loading';
+import { AUTHENTICATION } from '../../constants/reducerObjects';
 
+const styles = StyleSheet.create( {
+  cardContainer: {
+    marginTop: 80,
+    position: 'relative',
+    height: 310,
+  },
+  inputContainer: {
+    marginTop: 30,
+  },
+  passwordContainer: { position: 'relative' },
+  icon: {
+    position: 'absolute',
+    right: 0,
+    bottom: 35,
+    padding: 10,
+  },
+  helperFont: { color: theme.HELPER_FONT_COLOR },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: -138,
+    left: 0,
+    right: 0,
+  },
+} );
 
 class Register extends Component {
   static navigationOptions = ( { navigation } ) => {
     return {
       headerLeft: (
-        <Button
+        <NavButton
           title="Login"
-          color={ theme.PRIMARY_FONT_COLOR }
-          fontFamily={ theme.PRIMARY_FONT_FAMILY }
-          fontSize={ theme.FONT_SIZE_HEADERBAR }
-          textStyle={ { fontWeight: theme.FONT_WEIGHT_MEDIUM } }
-          buttonStyle={ { backgroundColor: 'transparent', padding: 9 } }
-          containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
           onPress={ () => navigation.navigate( 'Login' ) }
+          styling="standard"
         />
       ),
     };
@@ -85,10 +104,7 @@ class Register extends Component {
 
   handlePasswordHint = () => {
     const style = ( this.state.passwordHint === 'none' ) ? 'flex' : 'none';
-
-    this.setState( {
-      passwordHint: style,
-    } );
+    this.setState( { passwordHint: style } );
   };
 
   togglePasswordMasking = () => {
@@ -101,7 +117,6 @@ class Register extends Component {
     } );
   };
 
-
   handleSignUp = () => {
     const { email, password } = this.state;
 
@@ -111,8 +126,8 @@ class Register extends Component {
       }, () => {
         this.dropdownRef.current.alertWithType( 'error', 'Error', 'Please fill out fields' );
       } );
-    } else {
-
+    }
+    else {
       this.props.createUser( email, password );
     }
   };
@@ -122,12 +137,9 @@ class Register extends Component {
 
     return (
       <Container>
-        <Card
-          title="Register"
-          containerStyling={ { marginTop: 80, position: 'relative', height: 310 } }
-        >
+        <Card title="Register" containerStyling={ styles.cardContainer }>
           <Input
-            containerStyling={ { marginTop: 30 } }
+            containerStyling={ styles.inputContainer }
             placeholder="Email"
             keyboardType="email-address"
             onChangeText={ email => this.setState( { email } ) }
@@ -136,15 +148,17 @@ class Register extends Component {
             errorMessage={ ( invalidEmail ) ? 'Invalid Email Address' : '' }
             onSubmitEditing={ () => this.passwordInput.current.focus() }
           />
-          <View style={ { position: 'relative' } }>
+          <View style={ styles.passwordContainer }>
             <Input
-              containerStyling={ { marginTop: 30 } }
+              containerStyling={ styles.inputContainer }
               ref={ this.passwordInput }
               placeholder="Password"
               keyboardType="email-address"
               secureTextEntry={ hidePassword }
               onChangeText={ password => this.setState( { password } ) }
-              onEndEditing={ password => this.validatePassword( password.nativeEvent.text ) }
+              onEndEditing={ password => this.validatePassword(
+                password.nativeEvent.text,
+              ) }
               onFocus={ () => this.handlePasswordHint() }
               value={ this.state.password }
               errorMessage={ ( invalidPassword ) ? passwordErrorMessage : '' }
@@ -153,20 +167,24 @@ class Register extends Component {
               name={ passwordIcon }
               size={ 30 }
               color="white"
-              style={ { position: 'absolute', right: 0, bottom: 35, padding: 10 } }
+              style={ styles.icon }
               onPress={ () => this.togglePasswordMasking() }
             />
           </View>
           <View style={ { display: passwordHint } }>
-            <Text style={ { color: theme.HELPER_FONT_COLOR } }>Password must be at least 8 characters</Text>
-            <Text style={ { color: theme.HELPER_FONT_COLOR } }>Password must be contain at least 1 number</Text>
+            <Text style={ styles.helperFont }>
+              Password must be at least 8 characters
+            </Text>
+            <Text style={ styles.helperFont }>
+              Password must be contain at least 1 number
+            </Text>
           </View>
           <PrimaryButton
             title="CREATE ACCOUNT"
             disabled={ disableSubmitButton }
             onPress={ this.handleSignUp }
             loading={ this.props.isLoading }
-            containerViewStyle={ { position: 'absolute', bottom: -138, left: 0, right: 0 } }
+            containerViewStyle={ styles.buttonContainer }
           />
         </Card>
       </Container>
@@ -176,18 +194,15 @@ class Register extends Component {
 
 Register.propTypes = {
   isLoading: PropTypes.bool,
-  navigation: PropTypes.object,
   createUser: PropTypes.func,
 };
 
 const mapStateToProps = state => ( {
-  isLoading: getRegisterLoading( state ),
+  isLoading: getLoadingByDomain( state, AUTHENTICATION ),
 } );
-
 
 const mapDispatchToProps = dispatch => ( {
   createUser: ( email, password ) => dispatch( createUserAction( { email, password } ) ),
-} )
-
+} );
 
 export default connect( mapStateToProps, mapDispatchToProps )( Register );

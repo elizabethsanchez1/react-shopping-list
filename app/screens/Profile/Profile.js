@@ -218,7 +218,7 @@ class Profile extends Component {
             inputContainerStyle={ { borderBottomWidth: 2 } }
             containerStyle={ { width: '40%', marginTop: -20 } }
             data={ [ { value: 'Light' }, { value: 'Dark' } ] }
-            onChangeText={ theme => this.setState( { colorTheme: theme } ) }
+            onChangeText={ value => this.setState( { colorTheme: value } ) }
           />
         </View>
 

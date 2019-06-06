@@ -11,7 +11,7 @@ import TrackDashboard from '../screens/Track/TrackDashboard';
 import ExerciseSelection from '../screens/Track/ExerciseSelection';
 import Sort from '../screens/Exercises/Sort';
 import Profile from '../screens/Profile/Profile';
-import Summary from '../screens/Summary';
+// import Summary from '../screens/Summary';
 import Loading from '../screens/Authentication/Loading';
 import Register from '../screens/Authentication/Register';
 import Tracker from '../screens/Track/Tracker';
@@ -26,8 +26,6 @@ import Calendar from '../screens/Logs/Calendar';
 import MuscleGroups from '../screens/Exercises/MuscleGroupList';
 import ExerciseList from '../screens/Exercises/ExerciseList';
 import Debug from '../screens/Debug/debug';
-
-// import StorybookStack  from "../../oldStorybook/navigation";
 // import LineGraph from '../screens/Analytics/LineGraph';
 // import AnalyticsDashboard from '../screens/Analytics/AnalyticsDashboard';
 
@@ -214,16 +212,6 @@ export const LogsStack = createStackNavigator( {
   headerMode: 'screen',
 } );
 
-export const AuthStack = createStackNavigator( {
-  AuthLoading: {
-    screen: Loading,
-  },
-}, {
-  intialRouteKey: 'AuthLoading',
-  intialRouteName: 'AuthLoading',
-} );
-
-
 export const ProfileStack = createStackNavigator( {
   Profile: {
     screen: Profile,
@@ -238,12 +226,13 @@ export const ProfileStack = createStackNavigator( {
 
 
 export const Authentication = createStackNavigator( {
-  Register: {
-    screen: Register,
-  },
   Login: {
     screen: Login,
   },
+  Register: {
+    screen: Register,
+  },
+
 }, {
   navigationOptions: {
     headerStyle: {
@@ -353,11 +342,9 @@ export const Navigator = () => {
       AuthLoading: Loading,
       App: Tabs,
       Auth: Authentication,
-      // This is housed outside of app inside of oldStorybook folder
-      // Dev: StorybookStack,
     },
     {
-      intialRouteName: 'AuthLoading',
+      initialRouteKey: 'Login',
     },
   );
 };

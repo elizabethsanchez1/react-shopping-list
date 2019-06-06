@@ -1,32 +1,48 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { Card } from '../../components/Card';
-import { View } from 'react-native';
 import Container from '../../components/Container';
 import { Input } from '../../components/Form';
-import { PrimaryButton } from '../../components/Button';
-import { Button } from 'react-native-elements';
-import theme from '../../styles/theme.style';
+import { PrimaryButton, NavButton } from '../../components/Button';
 import { loginRequestAction } from '../../actions/authentication';
 import { getLoadingByDomain } from '../../selectors/loading';
 import { AUTHENTICATION } from '../../constants/reducerObjects';
 
+const styles = StyleSheet.create( {
+  cardContainer: {
+    marginTop: 80,
+    position: 'relative',
+    height: 310,
+  },
+  inputContainer: {
+    marginTop: 30,
+  },
+  icon: {
+    position: 'absolute',
+    right: 0,
+    bottom: 12,
+    padding: 10,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: -138,
+    left: 0,
+    right: 0,
+  },
+  passwordContainer: { position: 'relative' },
+} );
 
 class Login extends Component {
   static navigationOptions = ( { navigation } ) => {
     return {
       headerLeft: (
-        <Button
+        <NavButton
           title="Register"
-          color={ theme.PRIMARY_FONT_COLOR }
-          fontFamily={ theme.PRIMARY_FONT_FAMILY }
-          fontSize={ theme.FONT_SIZE_HEADERBAR }
-          textStyle={ { fontWeight: theme.FONT_WEIGHT_MEDIUM } }
-          buttonStyle={ { backgroundColor: 'transparent', padding: 9 } }
-          containerViewStyle={ { paddingLeft: 0, marginLeft: 0 } }
           onPress={ () => navigation.navigate( 'Register' ) }
+          styling="standard"
         />
       ),
     };
@@ -48,11 +64,6 @@ class Login extends Component {
     this.emailInput = React.createRef();
   }
 
-  formatErrorMessage = message => {
-    const filtered = message.substring( message.indexOf( '/' ) + 1 ).replace( /-/g, ' ' );
-    return filtered.charAt( 0 ).toUpperCase() + filtered.slice( 1 );
-  };
-
   validateEmail = text => {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -64,10 +75,7 @@ class Login extends Component {
 
   handlePasswordHint = () => {
     const style = ( this.state.passwordHint === 'none' ) ? 'flex' : 'none';
-
-    this.setState( {
-      passwordHint: style
-    } );
+    this.setState( { passwordHint: style } );
   };
 
   togglePasswordMasking = () => {
@@ -80,24 +88,19 @@ class Login extends Component {
     } );
   };
 
-
   handleLogin = () => {
     const { email, password } = this.state;
     this.props.login( email, password );
   };
-
 
   render() {
     const { passwordIcon, disableSubmitButton, invalidEmail, hidePassword } = this.state;
 
     return (
       <Container>
-        <Card
-          title="Login"
-          containerStyling={ { marginTop: 80, position: 'relative', height: 310 } }
-        >
+        <Card title="Login" containerStyling={ styles.cardContainer }>
           <Input
-            containerStyling={ { marginTop: 30 } }
+            containerStyling={ styles.inputContainer }
             ref={ this.emailInput }
             placeholder="Email"
             keyboardType="email-address"
@@ -107,9 +110,9 @@ class Login extends Component {
             value={ this.state.email }
             onSubmitEditing={ () => this.passwordInput.current.focus() }
           />
-          <View style={ { position: 'relative' } }>
+          <View style={ styles.passwordContainer }>
             <Input
-              containerStyling={ { marginTop: 30 } }
+              containerStyling={ styles.inputContainer }
               ref={ this.passwordInput }
               placeholder="Password"
               keyboardType="email-address"
@@ -122,7 +125,7 @@ class Login extends Component {
               name={ passwordIcon }
               size={ 30 }
               color="white"
-              style={ { position: 'absolute', right: 0, bottom: 12, padding: 10 } }
+              style={ styles.icon }
               onPress={ () => this.togglePasswordMasking() }
             />
           </View>
@@ -131,7 +134,7 @@ class Login extends Component {
             disabled={ disableSubmitButton }
             onPress={ this.handleLogin }
             loading={ this.props.isLoading }
-            containerViewStyle={ { position: 'absolute', bottom: -138, left: 0, right: 0 } }
+            containerViewStyle={ styles.buttonContainer }
           />
         </Card>
       </Container>
@@ -149,8 +152,10 @@ const mapStateToProps = state => ( {
 } );
 
 const mapDispatchToProps = dispatch => ( {
-  login: ( email, password ) => dispatch( loginRequestAction( { email, password } ) ),
+  login: ( email, password ) => dispatch( loginRequestAction( {
+    email,
+    password,
+  } ) ),
 } );
-
 
 export default connect( mapStateToProps, mapDispatchToProps )( Login );

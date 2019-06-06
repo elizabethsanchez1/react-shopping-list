@@ -38,6 +38,7 @@ class SelectedLogs extends Component {
           title="Save"
           onPress={ save }
           isDisabled={ !changes }
+          styling="link"
         />
       ),
       headerStyle: styles.headerStyle,

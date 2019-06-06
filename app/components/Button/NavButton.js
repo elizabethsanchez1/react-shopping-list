@@ -6,8 +6,20 @@ import theme from '../../styles/theme.style';
 
 const styles = StyleSheet.create( {
   navigationButton: { backgroundColor: 'transparent' },
-  text: {
+  linkText: {
     fontSize: 18,
+  },
+  standardText: {
+    fontWeight: theme.FONT_WEIGHT_BOLD,
+    fontSize: 20,
+  },
+  standardButton: {
+    backgroundColor: 'transparent',
+    padding: 9,
+  },
+  standardButtonContainer: {
+    paddingLeft: 0,
+    marginLeft: 0,
   },
 } );
 
@@ -34,15 +46,44 @@ class NavButton extends Component {
   };
 
   render() {
-    const { isDisabled, title } = this.props;
+    const { isDisabled, title, onPress, styling } = this.props;
+
+    // blue like links that usually mean saving some edits
+    if ( styling === 'link' ) {
+      return (
+        <Button
+          buttonStyle={ styles.navigationButton }
+          color={ isDisabled ? theme.DISABLED_TEXT_COLOR : theme.ACTIVE_TAB_COLOR }
+          textStyle={ styles.linkText }
+          title={ title }
+          onPress={ () => this.handleClick() }
+        />
+      );
+    }
+
+    // white header like buttons
+    if ( styling === 'standard' ) {
+      return (
+        <Button
+          containerViewStyle={ styles.standardButtonContainer }
+          buttonStyle={ styles.standardButton }
+          color={ theme.PRIMARY_FONT_COLOR }
+          fontFamily={ theme.PRIMARY_FONT_FAMILY }
+          textStyle={ styles.standardText }
+          title={ title }
+          onPress={ () => onPress() }
+        />
+      );
+    }
+
 
     return (
       <Button
         buttonStyle={ styles.navigationButton }
         color={ isDisabled ? theme.DISABLED_TEXT_COLOR : theme.ACTIVE_TAB_COLOR }
-        textStyle={ styles.text }
+        textStyle={ styles.standardText }
         title={ title }
-        onPress={ () => this.handleClick() }
+        onPress={ () => onPress() }
       />
     );
   }
@@ -52,6 +93,7 @@ NavButton.propTypes = {
   title: PropTypes.string,
   isDisabled: PropTypes.bool,
   onPress: PropTypes.func,
+  styling: PropTypes.string,
 };
 
 export default NavButton;

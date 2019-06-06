@@ -1,56 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import firebase from 'react-native-firebase';
+import React from 'react';
 import { Loading as LoadingIndicator } from '../../components/Loading/index';
-import { connect } from 'react-redux';
-import { getSavedData } from '../../actions/authentication';
 
+const Loading = () => <LoadingIndicator />;
 
-class Loading extends Component {
-  constructor( props ) {
-    super( props );
-
-    // this.storyBookMode = false;
-    // this.requested = false;
-  }
-
-  componentDidMount() {
-
-    // firebase.auth().onAuthStateChanged(user => {
-    //
-    //   if ( !user ) {
-    //     this.props.navigation.navigate( 'Register' );
-    //     this.requested = false;
-    //   } else if ( user && !this.requested ) {
-    //     // this.props.getSavedData(user);
-    //     // this.props.navigation.navigate('Profile');
-    //     // this.requested = true;
-    //   }
-    // });
-  }
-
-  // shouldComponentUpdate() {
-  //   if ( this.storyBookMode ) {
-  //     this.props.navigation.navigate('StoryBook')
-  //   }
-  //
-  // }
-
-  render() {
-
-    return (
-      <LoadingIndicator />
-    );
-  }
-}
-
-Loading.propTypes = {
-  navigation: PropTypes.object,
-  getSavedData: PropTypes.func,
-};
-
-const mapDispatchToProps = dispatch => ({
-  getSavedData: user => dispatch(getSavedData(user)),
-});
-
-export default connect(null, mapDispatchToProps)(Loading);
+export default Loading;

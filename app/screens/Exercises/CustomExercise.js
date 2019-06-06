@@ -6,7 +6,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 import { Button } from 'react-native-elements/src/index';
 import Container from '../../components/Container';
 import theme from '../../styles/theme.style';
-import { getUid } from '../../selectors/authentication';
 import { muscleGroupFormatCustomExercise } from '../../selectors/exercises';
 import { addCustomExerciseRequestAction } from '../../actions/exercises';
 
@@ -116,7 +115,6 @@ CustomExercise.propTypes = {
 };
 
 const mapStateToProps = state => ( {
-  uid: getUid( state ),
   muscleGroupOptions: muscleGroupFormatCustomExercise(),
 } );
 

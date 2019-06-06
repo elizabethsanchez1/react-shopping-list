@@ -11,3 +11,4 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 
 export const LOG_OUT = 'LOG_OUT';
+export const CLEAR_STORE = 'CLEAR_STORE';
